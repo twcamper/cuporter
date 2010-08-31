@@ -10,6 +10,7 @@ end
 
 namespace :cuporter do
 
+  # $ rake cuporter:run["-f html cucumber_tag_report.html"]
   desc "run cuporter command line with options"
   task :run, [:options] do |t, args|
     sh "ruby ./bin/cuporter.rb #{args.options}"

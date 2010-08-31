@@ -8,34 +8,51 @@ Consider this a stop-gap until we get this functionality in a proper cucumber fo
 h3. Example Output
 
 <pre>
-@bar
-  Feature: Wired
-    Scenario: Everybody's Wired
-    Scenario: Run a scenario outline example
-    Scenario Outline: Everybody's Wired
-      Examples:  wired examples
-@baz
-  Feature: Wired
-    Scenario: Everybody's Wired
-    Scenario Outline: Everybody's Wired
-      Examples:  wired examples
 @failing
-  Feature: Not WIP
-    Scenario: Failing
-@fails_on_1_9
-  Feature: search examples
-    Scenario: Generate PDF with pdf formatter
+  Feature: Abominable Aardvark
+    Scenario: An Aardvark eats ants
+    Scenario: A Zebra eats aardvarks
+  Feature: Wired
+    Scenario: Everybody's Wired
+    Scenario Outline: Why is everybody so wired?
+      Examples: loosely wired
+      Examples: tightly wired
+@ignore
+  Feature: Wired
+    Scenario Outline: Why is everybody so wired?
+      Examples: tightly wired
+@wip
   Feature: HTML formatter
     Scenario: Everything in fixtures/self_test
-@ignore
-  Feature: Sample
+  Feature: not everyone is involved
+    Scenario: Failure is not an option, people
+  Feature: sample
     Scenario: And yet another Example
+  Feature: search examples
+    Scenario: Generate PDF with pdf formatter
 
 </pre>
 
 ---------
 
 h3. Command Lines
+
+h4. help
+<pre>
+  $ ./bin/cuporter.rb -h  # show options
+
+Usage: cuporter.rb [options]
+
+    -i, --in DIR                     directory of *.feature files
+					Default: features/**/*.feature
+
+        --input-file FILE            full file name with extension: 'path/to/file.feature'
+
+    -o, --out FILE                   Output file path
+
+    -f, --format [pretty|html|csv]   Output format
+					Default: pretty text
+</pre>
 
 h4. run script directly
 
@@ -54,8 +71,3 @@ h4. run via rake
 
   $ rake cuporter:run["-f html -o feature_tag_report.html"]
 </pre>
-
-<pre>
-  $ cuporter -i features/
-</pre>
-
