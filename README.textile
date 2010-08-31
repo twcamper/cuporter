@@ -11,7 +11,7 @@ h3. Example Output
 @failing
   Feature: Abominable Aardvark
     Scenario: An Aardvark eats ants
-    Scenario: A Zebra eats aardvarks
+    Scenario: Zee Zebra eats zee aardvark
   Feature: Wired
     Scenario: Everybody's Wired
     Scenario Outline: Why is everybody so wired?
