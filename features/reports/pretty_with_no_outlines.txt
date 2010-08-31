@@ -1,0 +1,36 @@
+@customer
+  Feature: feature number 1
+    Scenario: 1 1
+    Scenario: 1 2
+  Feature: feature number 3
+    Scenarios: 3 2 3
+@f_tag
+  Feature: feature number 3
+    Scenario: 3 1
+    Examples: 3 2 1
+    Examples: 3 2 2
+    Scenarios: 3 2 3
+    Examples: 3 2 4
+    Scenario: 3 3
+@o_tag
+  Feature: feature number 3
+    Examples: 3 2 1
+    Examples: 3 2 2
+    Scenarios: 3 2 3
+    Examples: 3 2 4
+@s_tag
+  Feature: feature number 3
+    Scenario: 3 3
+@smoke
+  Feature: feature number 1
+    Scenario: 1 2
+  Feature: feature number 2
+    Scenario: 2 2
+@wip
+  Feature: feature number 1
+    Scenario: 1 1
+    Scenario: 1 2
+  Feature: feature number 2
+    Scenario: 2 3
+  Feature: feature number 3
+    Examples: 3 2 4
