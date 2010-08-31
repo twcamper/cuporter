@@ -52,7 +52,7 @@ Usage: cuporter.rb [options]
 
     -f, --format [pretty|html|csv]   Output format
 					Default: pretty text
-<pre>
+</pre>
 
 h4. run script directly
 
