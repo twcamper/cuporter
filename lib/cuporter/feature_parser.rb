@@ -6,8 +6,8 @@ module Cuporter
     TAG_LINE              = /^\s*(@\w.+)/
     SCENARIO_LINE         = /^\s*(Scenario:[^#]+)$/
     SCENARIO_OUTLINE_LINE = /^\s*(Scenario Outline:[^#]+)$/
-    SCENARIOS_LINE        = /^\s*(Scenarios:[^#]+)$/
-    EXAMPLES_LINE         = /^\s*(Examples:[^#]+)$/
+    SCENARIOS_LINE        = /^\s*(Scenarios:[^#]*)$/
+    EXAMPLES_LINE         = /^\s*(Examples:[^#]*)$/
 
     def initialize
       @current_tags = []
