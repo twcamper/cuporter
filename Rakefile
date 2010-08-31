@@ -16,6 +16,11 @@ namespace :cuporter do
     sh "ruby ./bin/cuporter.rb #{args.options}"
   end
 
+  task :readme do
+    require 'redcloth'
+    puts RedCloth.new(File.read("README.textile")).to_html
+  end
+
   namespace :test do
     desc "unit specs"
     RSpec::Core::RakeTask.new(:unit) do |t|

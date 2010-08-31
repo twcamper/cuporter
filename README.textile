@@ -38,20 +38,21 @@ h3. Example Output
 h3. Command Lines
 
 h4. help
+
 <pre>
   $ ./bin/cuporter.rb -h  # show options
 
-Usage: cuporter.rb [options]
-
-    -i, --in DIR                     directory of *.feature files
-					Default: features/**/*.feature
-
-        --input-file FILE            full file name with extension: 'path/to/file.feature'
-
-    -o, --out FILE                   Output file path
-
-    -f, --format [pretty|html|csv]   Output format
-					Default: pretty text
+  Usage: cuporter.rb [options]
+  
+      -i, --in DIR                     directory of *.feature files
+  					Default: features/**/*.feature
+  
+          --input-file FILE            full file name with extension: 'path/to/file.feature'
+  
+      -o, --out FILE                   Output file path
+  
+      -f, --format [pretty|html|csv]   Output format
+  					Default: pretty text
 </pre>
 
 h4. run script directly
