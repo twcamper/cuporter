@@ -273,6 +273,32 @@ EOF
 EOF
         end
       end
+
+      context "2 outline tags, 2 example tag, 2 empty example names" do
+        it "returns 4 tags" do
+          report = one_feature( "fixtures/2_outlines_1_scenario/empty_example_name.feature")
+          report.should  == <<EOF
+@e_tag
+  Feature: foo
+    Scenario Outline: outline 2
+      Examples:
+@nameless
+  Feature: foo
+    Scenario Outline: outline 1
+      Scenarios:
+@s_o_tag_1
+  Feature: foo
+    Scenario Outline: outline 1
+      Scenarios:
+      Scenarios: example set 2
+@s_o_tag_2
+  Feature: foo
+    Scenario Outline: outline 2
+      Examples:
+      Examples: another
+EOF
+        end
+      end
     end
 
   end
