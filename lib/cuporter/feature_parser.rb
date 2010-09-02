@@ -31,11 +31,20 @@ module Cuporter
         when SCENARIO_LINE
           # How do we know when we have read all the lines from a "Scenario Outline:"?
           # One way is when we encounter a "Scenario:"
-          @feature.merge(@scenario_outline) if @scenario_outline
+          if @scenario_outline
+            @feature.merge(@scenario_outline)
+            @scenario_outline = nil
+          end
 
           @feature.add_to_tag_node(Node.new($1.strip), @current_tags)
           @current_tags = []
         when SCENARIO_OUTLINE_LINE
+          # ... another is when we hit a subsequent "Scenario Outline:"
+          if @scenario_outline
+            @feature.merge(@scenario_outline)
+            @scenario_outline = nil
+          end
+
           @scenario_outline  = TagListNode.new($1.strip, @current_tags)
           @current_tags = []
         when EXAMPLES_LINE, SCENARIOS_LINE
@@ -44,7 +53,7 @@ module Cuporter
         end
       end
 
-      # EOF is the other way that we know we are finished with a "Scenario Outline"
+      # EOF is the final way that we know we are finished with a "Scenario Outline"
       @feature.merge(@scenario_outline) if @scenario_outline
       return @feature
     end

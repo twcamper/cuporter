@@ -301,6 +301,39 @@ EOF
       end
     end
 
+    context "scenario outlines only" do
+      context "3 outlines" do
+        it "includes all outlines" do
+          report = one_feature( "fixtures/3_scenario_outlines.feature")
+          report.should  == <<EOF
+@blocked
+  Feature: foo
+    Scenario Outline: outline 2
+      Scenarios: another
+@e_tag
+  Feature: foo
+    Scenario Outline: outline 3
+      Scenarios: yet
+@s_o_tag_1
+  Feature: foo
+    Scenario Outline: outline 1
+      Scenarios: example
+@s_o_tag_3
+  Feature: foo
+    Scenario Outline: outline 3
+      Scenarios: another
+      Scenarios: yet
+@wip
+  Feature: foo
+    Scenario Outline: outline 2
+      Scenarios: another
+      Scenarios: yet
+EOF
+        end
+      end
+
+    end
+
   end
 end
 
