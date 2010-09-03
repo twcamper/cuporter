@@ -17,7 +17,7 @@ module Cuporter
     def self.parse
       @options = {}
       OptionParser.new(ARGV.dup) do |opts|
-        opts.banner = "Usage: cuporter.rb [options]\n\n"
+        opts.banner = "Usage: cuporter [options]\n\n"
 
         opts.on("-i", "--in DIR", "directory of *.feature files\n\t\t\t\t\tDefault: features/**/*.feature\n\n") do |i|
           @options[:input_dir] = "#{i}/**/*.feature"

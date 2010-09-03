@@ -15,7 +15,7 @@ namespace :cuporter do
   # $ rake cuporter:run["-f html cucumber_tag_report.html"]
   desc "run cuporter command line with options"
   task :run, [:options] do |t, args|
-    sh "ruby ./bin/cuporter.rb #{args.options}"
+    sh "ruby ./bin/cuporter #{args.options}"
   end
 
   task :readme do
@@ -69,7 +69,7 @@ namespace :cuporter do
     s.email = 'twcamper@thoughtworks.com'
     s.homepage = 'http://github.com/twcamper/cuporter'
     s.required_ruby_version = '>= 1.8.7'
-    s.default_executable = "cuporter.rb"
+    s.default_executable = "cuporter"
     s.executables = [s.default_executable]
 
     s.files =  %w(LICENSE README.textile Rakefile) + 

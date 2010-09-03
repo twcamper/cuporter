@@ -1,5 +1,5 @@
 When /^I run cuporter (.*)$/ do |cuporter_opts|
-  @output = `bin#{File::SEPARATOR}cuporter.rb #{cuporter_opts}`
+  @output = `bin#{File::SEPARATOR}cuporter #{cuporter_opts}`
 end
 
 
