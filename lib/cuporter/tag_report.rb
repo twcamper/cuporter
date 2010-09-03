@@ -13,7 +13,8 @@ module Cuporter
     def scenarios_per_tag
       tags = TagListNode.new("report",[])
       files.each do |file|
-        tags.merge FeatureParser.parse(File.read(file))
+        content = File.read(file)
+        tags.merge(FeatureParser.parse(content)) unless content.empty?
       end
       tags
     end

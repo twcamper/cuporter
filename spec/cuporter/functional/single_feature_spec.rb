@@ -4,6 +4,15 @@ module Cuporter
 
   describe "Single Feature Tag Reports" do
 
+    context "empty feature file" do
+      it "returns empty string and should not raise an error" do
+        expect do
+          @report = one_feature( "fixtures/empty_file.feature")
+        end.to_not raise_error()
+        @report.should be_empty
+      end
+    end
+
     context "one scenario one tag" do
       it "returns one tag mapped to one scenario name" do
         report = one_feature( "fixtures/one_scenario_one_tag.feature")
