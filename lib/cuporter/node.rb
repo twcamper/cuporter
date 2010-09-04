@@ -42,6 +42,11 @@ module Cuporter
       @name_without_title ||= name.split(/:\s+/).last
     end
 
+    def sort
+      children.sort!
+      self
+    end
+
     # sort on name or substring of name after any ':'
     def <=>(other)
       name_without_title <=> other.name_without_title
