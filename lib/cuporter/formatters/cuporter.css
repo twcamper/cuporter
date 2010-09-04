@@ -1,0 +1,15 @@
+.tag_list {
+    list-style-type: none;
+    padding-left: 0.5em; 
+}
+.tag_name {
+   font-weight: bold;
+   font-size: 1.25em; 
+}
+.tag {
+    margin-bottom: 1em;
+}
+
+.feature {
+    margin-bottom: 0.5em;
+}

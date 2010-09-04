@@ -21,20 +21,24 @@ module Cuporter
       end
 
       def write_node(node, indent_level)
-        builder.li do |list_item|
-          list_item.span(node.name, :class => NODE_CLASS[indent_level])
+        builder.li(:class => NODE_CLASS[indent_level]) do |list_item|
+          list_item.span(node.name, :class => "#{NODE_CLASS[indent_level]}_name")
           if node.has_children?
-            list_item.ul do |list|
+            list_item.ul(:class => "#{NODE_CLASS[indent_level]}_children") do |list|
               node.children.sort.each do |child|
                 if child.has_children?
                   write_node(child, indent_level + 1)
                 else
-                  list.li(child.name, :class => NODE_CLASS[indent_level + 1])
+                  list.li(child.name, :class => "#{NODE_CLASS[indent_level + 1]}_name")
                 end
               end
             end
           end
         end
+      end
+
+      def inline_style
+        File.read("lib/cuporter/formatters/cuporter.css")
       end
 
       def get_binding
@@ -54,10 +58,12 @@ module Cuporter
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Cucumber Tags</title>
-    <style type="text/css"></style>
+    <style type="text/css">
+      <%= inline_style%>
+    </style>
 </head>
 <body>
-    <ul>
+    <ul class="tag_list">
       <%= write_nodes%>
     </ul>
 </body>
