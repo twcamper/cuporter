@@ -45,6 +45,9 @@ EOF
 @smoke
   Feature: foo
     Scenario: another test
+      |foo|bar|fan|
+      | 1 | 2 | 3 |
+      | 4 | 5 | 6 |
 EOF
       end
     end
@@ -319,24 +322,45 @@ EOF
   Feature: foo
     Scenario Outline: outline 2
       Scenarios: another
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
 @e_tag
   Feature: foo
     Scenario Outline: outline 3
       Scenarios: yet
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
 @s_o_tag_1
   Feature: foo
     Scenario Outline: outline 1
       Scenarios: example
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
 @s_o_tag_3
   Feature: foo
     Scenario Outline: outline 3
       Scenarios: another
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
       Scenarios: yet
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
 @wip
   Feature: foo
     Scenario Outline: outline 2
       Scenarios: another
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
       Scenarios: yet
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
 EOF
         end
       end

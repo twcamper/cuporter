@@ -17,7 +17,7 @@ Feature: foo
     When I "<bar>"
     Then it all hits the "<fan>"
 
-		@blocked
+    @blocked
     Scenarios: another
       |foo|bar|fan|
       | 1 | 2 | 3 |

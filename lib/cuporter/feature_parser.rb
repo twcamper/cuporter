@@ -8,6 +8,7 @@ module Cuporter
     SCENARIO_OUTLINE_LINE = /^\s*(Scenario Outline:[^#]+)$/
     SCENARIOS_LINE        = /^\s*(Scenarios:[^#]*)$/
     EXAMPLES_LINE         = /^\s*(Examples:[^#]*)$/
+    EXAMPLE_LINE          = /^\s*(\|.*\|)\s*$/
 
     def initialize
       @current_tags = []
@@ -20,7 +21,7 @@ module Cuporter
     def parse(feature_content)
       lines = feature_content.split(/\n/)
 
-      lines.each do |line|
+      lines.each_with_index do |line, i|
         case line
         when TAG_LINE
           # may be more than one tag line
@@ -41,6 +42,12 @@ module Cuporter
         when SCENARIO_OUTLINE_LINE
           # ... another is when we hit a subsequent "Scenario Outline:"
           if @scenario_outline
+            if @example_set
+              puts "#{i}: #{line}: #{@current_tags.inspect}"
+              @scenario_outline.add_to_tag_node(@example_set, @feature.universal_tags | @current_tags)
+              @example_set = nil
+              @current_tags = []
+            end
             @feature.merge(@scenario_outline)
             @scenario_outline = nil
           end
@@ -48,13 +55,25 @@ module Cuporter
           @scenario_outline  = TagListNode.new($1.strip, @current_tags)
           @current_tags = []
         when EXAMPLES_LINE, SCENARIOS_LINE
-          @scenario_outline.add_to_tag_node(Node.new($1.strip), @feature.universal_tags | @current_tags)
-          @current_tags = []
+          if @example_set
+            puts "#{i}: #{line}: #{@current_tags.inspect}"
+            @scenario_outline.add_to_tag_node(@example_set, @feature.universal_tags | @current_tags)
+            @current_tags = []
+          end
+
+          @example_set = NonSortingNode.new($1.strip)
+        when EXAMPLE_LINE
+          @example_set.add_child(Node.new($1.strip))
         end
       end
 
       # EOF is the final way that we know we are finished with a "Scenario Outline"
-      @feature.merge(@scenario_outline) if @scenario_outline
+      if @scenario_outline
+        if @example_set
+          @scenario_outline.add_to_tag_node(@example_set, @feature.universal_tags | @current_tags)
+        end
+        @feature.merge(@scenario_outline)
+      end
       return @feature
     end
 
