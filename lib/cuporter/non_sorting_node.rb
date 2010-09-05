@@ -8,8 +8,8 @@ module Cuporter
       @tags = tags
     end
 
-    def sort
-      self
+    def sort!
+      # no op
     end
 
   end

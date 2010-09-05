@@ -42,9 +42,9 @@ module Cuporter
       @name_without_title ||= name.split(/:\s+/).last
     end
 
-    def sort
+    def sort!
       children.sort!
-      self
+      children.each {|child| child.sort! }
     end
 
     # sort on name or substring of name after any ':'

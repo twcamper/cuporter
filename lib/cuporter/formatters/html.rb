@@ -10,7 +10,7 @@ module Cuporter
       NODE_CLASS = [:tag, :feature, :scenario, :example_set]
 
       def write_nodes
-        @report.sort.children.each do |tag_node|
+        @report.children.each do |tag_node|
           write_node(tag_node, 0)
         end
         builder
@@ -25,7 +25,7 @@ module Cuporter
           list_item.span(node.name, :class => "#{NODE_CLASS[indent_level]}_name")
           if node.has_children?
             list_item.ul(:class => "#{NODE_CLASS[indent_level]}_children") do |list|
-              node.sort.children.each do |child|
+              node.children.each do |child|
                 if child.has_children?
                   write_node(child, indent_level + 1)
                 else

@@ -4,16 +4,16 @@ module Cuporter
     module TextMethods
     
       def write
-        @report.sort.children.each do |tag_node|
+        @report.children.each do |tag_node|
           write_node(tag_node, 0)
         end
       end
 
       def write_node(node, tab_stops)
         @output.puts "#{self.class::TAB * tab_stops}#{node.name}"
-        node.sort.children.each do |child|
+        node.children.each do |child|
           @output.puts "#{self.class::TAB + (self.class::TAB * tab_stops)}#{child.name}"
-          child.sort.children.each do |grand_child|
+          child.children.each do |grand_child|
             if grand_child.has_children?
               write_node(grand_child, tab_stops + 2)
             else
