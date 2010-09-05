@@ -2,6 +2,7 @@
 require 'cuporter/node'
 require 'cuporter/tag_list_node'
 require 'cuporter/non_sorting_node'
+require 'cuporter/node_numberer'
 require 'cuporter/feature_parser'
 require 'cuporter/extensions/string'
 require 'cuporter/cli/options'

@@ -4,10 +4,12 @@ module Cuporter
     include Comparable
 
     attr_reader :name, :children
+    attr_accessor :number
 
     def initialize(name)
-      @name = name.strip
+      @name = name.to_s.strip
       @children = []
+      @numberer_class = NodeNumberer
     end
 
     def has_children?
@@ -79,6 +81,16 @@ module Cuporter
         end
         direct_child.add_child(new_grandchild)
       end
+    end
+
+    def total
+      number_all_descendants unless @numberer
+      @numberer.total
+    end
+
+    def number_all_descendants
+      @numberer = @numberer_class.new
+      @numberer.number(self)
     end
 
   end
