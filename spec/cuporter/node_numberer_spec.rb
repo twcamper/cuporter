@@ -30,7 +30,7 @@ module Cuporter
         numberer.number(root)
 
         root[:child_1].number.should be_nil
-        root[:child_2].number.should == 1
+        root[:child_2].number.should == 2
       end
 
       it 'numbers child and grandchild in same sequence' do
@@ -38,8 +38,8 @@ module Cuporter
 
         numberer.number(root)
 
-        root[:child_2].number.should             == 1
-        root[:child_1][:grandbaby].number.should == 2
+        root[:child_1][:grandbaby].number.should == 1
+        root[:child_2].number.should             == 2
       end
 
       context '2 children, 1 grandchild, and 2 great-grandchildren' do
@@ -59,10 +59,10 @@ module Cuporter
           root.number.should be_nil
           root[:child_1].number.should == 1
           root[:child_2].number.should be_nil
-          root[:child_3].number.should == 2
+          root[:child_3].number.should == 3
           root[:child_4].number.should be_nil
 
-          root[:child_2][:grandbaby].number.should == 3
+          root[:child_2][:grandbaby].number.should == 2
           root[:child_4][:grandchild].number.should be_nil
           root[:child_4][:grandchild][:great_grandchild_1].number.should == 4
           root[:child_4][:grandchild][:great_grandchild_2].number.should == 5

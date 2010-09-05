@@ -8,15 +8,11 @@ module Cuporter
     end
 
     def number(node)
-      number_children(node)
-      node.children.each {|child| number(child) }
-    end
-
-    private
-    def number_children(node)
-      node.children.each do |c|
-        c.number = @total += 1 unless c.has_children?
+      node.children.each do |child|
+        child.number = @total += 1 if child.numerable?
+        number(child)
       end
     end
+
   end
 end

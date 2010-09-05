@@ -9,7 +9,6 @@ module Cuporter
     def initialize(name)
       @name = name.to_s.strip
       @children = []
-      @numberer_class = NodeNumberer
     end
 
     def has_children?
@@ -89,9 +88,14 @@ module Cuporter
     end
 
     def number_all_descendants
-      @numberer = @numberer_class.new
+      @numberer = NodeNumberer.new
       @numberer.number(self)
     end
+
+    def numerable?
+      @numerable.nil? ? !has_children? : @numerable
+    end
+    attr_writer :numerable
 
   end
 end

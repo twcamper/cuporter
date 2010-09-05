@@ -3,8 +3,9 @@ module Cuporter
   module Formatters
     module TextMethods
     
-      def write
+      def write(number = false)
         @report.children.each do |tag_node|
+          tag_node.number_all_descendants if number
           write_node(tag_node, 0)
         end
       end

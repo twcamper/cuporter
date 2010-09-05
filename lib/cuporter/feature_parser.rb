@@ -45,7 +45,7 @@ module Cuporter
         when EXAMPLE_SET_LINE, SCENARIO_SET_LINE
           @scenario_outline.add_to_tag_nodes(@example_set) if @example_set
 
-          @example_set = NonSortingNode.new($1, @feature.tags | @current_tags)
+          @example_set = ExampleSetNode.new($1, @feature.tags | @current_tags)
           @current_tags = []
         when EXAMPLE_LINE
           @example_set.add_child(Node.new($1))
