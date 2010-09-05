@@ -6,7 +6,7 @@ module Cuporter
     attr_reader :name, :children
 
     def initialize(name)
-      @name = name
+      @name = name.strip
       @children = []
     end
 

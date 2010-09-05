@@ -2,30 +2,30 @@ require 'spec_helper'
 
 module Cuporter
   describe FeatureParser do
-    context "#universal_tags" do
+    context "#tags" do
       context "one tag" do
         it "returns one tag" do
           feature = FeatureParser.parse("@wip\nFeature: foo")
-          feature.universal_tags.should == ["@wip"]
+          feature.tags.should == ["@wip"]
         end
       end
 
       context "two tags on one line" do
         it "returns two tags" do
           feature = FeatureParser.parse(" \n@smoke @wip\nFeature: foo")
-          feature.universal_tags.sort.should == %w[@smoke @wip].sort
+          feature.tags.sort.should == %w[@smoke @wip].sort
         end
       end
       context "two tags on two lines" do
         it "returns two tags" do
           feature = FeatureParser.parse(" \n@smoke\n @wip\nFeature: foo")
-          feature.universal_tags.sort.should == %w[@smoke @wip].sort
+          feature.tags.sort.should == %w[@smoke @wip].sort
         end
       end
       context "no tags" do
         it "returns no tags" do
           feature = FeatureParser.parse("\nFeature: foo")
-          feature.universal_tags.should == []
+          feature.tags.should == []
         end
       end
 
