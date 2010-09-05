@@ -19,6 +19,10 @@ module Cuporter
       @children << node unless has_child?(node)
     end
 
+    def names
+      children.collect {|c| c.name }
+    end
+
     def find_or_create_child(name)
       child_node = self[name]
       unless child_node
@@ -42,9 +46,13 @@ module Cuporter
       @name_without_title ||= name.split(/:\s+/).last
     end
 
+    def sort_all_descendants!
+      sort!
+      children.each {|child| child.sort_all_descendants! }
+    end
+
     def sort!
       children.sort!
-      children.each {|child| child.sort! }
     end
 
     # sort on name or substring of name after any ':'

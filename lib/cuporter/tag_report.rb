@@ -16,7 +16,7 @@ module Cuporter
         content = File.read(file)
         tags.merge(FeatureParser.parse(content)) unless content.empty?
       end
-      tags.sort!
+      tags.sort_all_descendants!
       tags
     end
 
