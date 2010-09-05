@@ -20,14 +20,14 @@ h3. Example Output
         | foo  | bar  |
         | shif | fish |
       Examples: tightly wired
-        | name  | value |
+        | arg1  | arg2  |
         | foo   | bar   |
         | frotz | knurl |
 @ignore
   Feature: Wired
     Scenario Outline: Why is everybody so wired?
       Examples: tightly wired
-        | name  | value |
+        | arg1  | arg2  |
         | foo   | bar   |
         | frotz | knurl |
 @wip
