@@ -3,9 +3,9 @@ module Cuporter
   module Formatters
     module TextMethods
     
-      def write(number = false)
+      def write(number_scenarios)
         @report.children.each do |tag_node|
-          tag_node.number_all_descendants if number
+          tag_node.number_all_descendants if number_scenarios
           write_node(tag_node, 0)
         end
       end

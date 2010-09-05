@@ -38,6 +38,9 @@ module Cuporter
         end
         @options[:format] ||= :Text
         
+        opts.on("-n", "--numbers", "number scenarios and examples") do |n|
+          @options[:numbers] = n
+        end
       end.parse!
 
 
