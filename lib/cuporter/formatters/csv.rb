@@ -4,7 +4,14 @@ module Cuporter
     class Csv < Writer
       include TextMethods
       
-      TAB = ","
+      def tab
+        ","
+      end
+
+      def line(number, line)
+        line.sub!(/^#{tab}/, "#{number}#{tab}") if number
+        line
+      end
 
     end
   end

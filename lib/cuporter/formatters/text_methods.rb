@@ -3,23 +3,24 @@ module Cuporter
   module Formatters
     module TextMethods
     
-      def write(number_scenarios)
+      def write
         @report.children.each do |tag_node|
-          tag_node.number_all_descendants if number_scenarios
+          tag_node.number_all_descendants if @number_scenarios
           write_node(tag_node, 0)
         end
       end
 
       def write_node(node, tab_stops)
-        @output.puts "#{self.class::TAB * tab_stops}#{node.name}"
+        @output.puts line(node.number, "#{tab * tab_stops}#{node.name}")
         node.children.each do |child|
           if child.has_children?
             write_node(child, tab_stops + 1)
           else
-            @output.puts "#{self.class::TAB * tab_stops}#{self.class::TAB }#{child.name}"
+            @output.puts line(child.number, "#{tab * tab_stops}#{tab }#{child.name}")
           end
         end
       end
+
     end
   end
 end

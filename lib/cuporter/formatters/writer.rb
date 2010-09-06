@@ -4,13 +4,10 @@ module Cuporter
   module Formatters
     class Writer
 
-      def initialize(report, output)
+      def initialize(report, output, number_scenarios)
         @report = report
-        if output
-          @output = File.open(output, "w")
-        else
-          @output = STDOUT
-        end
+        @output = output ? File.open(output, "w") : STDOUT
+        @number_scenarios = number_scenarios
       end
     end
   end
