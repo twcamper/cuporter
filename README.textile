@@ -1,44 +1,47 @@
 h1. Cuporter
 
-Scrapes your feature files and shows scenarios per tag, with their context.  Formats Pretty Text, HTML and CSV.
+Scrapes your feature files and shows scenarios per tag, with their context.  Formats HTML, CSV, and Pretty Text.
 
 Consider this a stop-gap until we get this functionality in a proper cucumber formatter.
 
+In version 0.2.0 and later you can number the Scenarios and Example rows with the @-n@ or @--numbers@ option.
+
 ---------
-h3. Example Output
+h3. Example Output: numbered pretty text
 
 <pre>
 @failing
-  Feature: Abominable Aardvark
-    Scenario: An Aardvark eats ants
-    Scenario: Zee Zebra eats zee aardvark
-  Feature: Wired
-    Scenario: Everybody's Wired
-    Scenario Outline: Why is everybody so wired?
-      Examples: loosely wired
-        | arg1 | arg2 |
-        | foo  | bar  |
-        | shif | fish |
-      Examples: tightly wired
-        | arg1  | arg2  |
-        | foo   | bar   |
-        | frotz | knurl |
+   Feature: Abominable Aardvark
+   1. Scenario: An Aardvark eats ants
+   2. Scenario: Zee Zebra eats zee aardvark
+   Feature: Wired
+   3. Scenario: Everybody's Wired
+      Scenario Outline: Why is everybody so wired?
+         Examples: loosely wired
+            | arg1 | arg2 |
+   4.       | foo  | bar  |
+   5.       | shif | fish |
+         Examples: tightly wired
+            | arg1  | arg2  |
+   6.       | foo   | bar   |
+   7.       | frotz | knurl |
+   8. Scenario: Yellow lines
 @ignore
-  Feature: Wired
-    Scenario Outline: Why is everybody so wired?
-      Examples: tightly wired
-        | arg1  | arg2  |
-        | foo   | bar   |
-        | frotz | knurl |
+   Feature: Wired
+      Scenario Outline: Why is everybody so wired?
+         Examples: tightly wired
+            | arg1  | arg2  |
+   1.       | foo   | bar   |
+   2.       | frotz | knurl |
 @wip
-  Feature: HTML formatter
-    Scenario: Everything in fixtures/self_test
-  Feature: not everyone is involved
-    Scenario: Failure is not an option, people
-  Feature: sample
-    Scenario: And yet another Example
-  Feature: search examples
-    Scenario: Generate PDF with pdf formatter
+   Feature: HTML formatter
+   1. Scenario: Everything in fixtures/self_test
+   Feature: not everyone is involved
+   2. Scenario: Failure is not an option, people
+   Feature: sample
+   3. Scenario: And yet another Example
+   Feature: search examples
+   4. Scenario: Generate PDF with pdf formatter
 
 </pre>
 
@@ -70,14 +73,18 @@ h4. help
   
       -f, --format [pretty|html|csv]   Output format
   					Default: pretty text
+
+      -n, --numbers                    number scenarios and examples
 </pre>
 
 h4. run script directly
 
 <pre>
-  $ ./bin/cuporter.rb -i fixtures/self_text               # pretty-print demo report to stdout
+  $ ./bin/cuporter.rb -i fixtures/self_text                         # pretty-print demo report to stdout
 
-  $ ./bin/cuporter.rb -f html -o feature_tag_report.html  # default input features/**/*.feature to named output file
+  $ ./bin/cuporter.rb -f html -o feature_tag_report.html            # default input features/**/*.feature to named output file
+
+  $ ./bin/cuporter.rb -f html --numbers -o feature_tag_report.html  # same, but number the scenarios and example rows
 </pre>
 
 h4. run via rake

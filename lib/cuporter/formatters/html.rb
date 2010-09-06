@@ -7,10 +7,11 @@ module Cuporter
   module Formatters
     class Html < Writer
 
-      NODE_CLASS = [:tag, :feature, :scenario, :example_set]
+      NODE_CLASS = [:tag, :feature, :scenario, :example_set, :example]
 
       def write_nodes
         @report.children.each do |tag_node|
+          tag_node.number_all_descendants if @number_scenarios
           write_node(tag_node, 0)
         end
         builder
@@ -22,14 +23,19 @@ module Cuporter
 
       def write_node(node, indent_level)
         builder.li(:class => NODE_CLASS[indent_level]) do |list_item|
-          list_item.span(node.name, :class => "#{NODE_CLASS[indent_level]}_name")
+          list_item.span("#{node.number}.", :class => :number) if node.number
+          list_item.span(node.name, :class => "#{NODE_CLASS[indent_level]}_name" )
+
           if node.has_children?
             list_item.ul(:class => "#{NODE_CLASS[indent_level]}_children") do |list|
               node.children.each do |child|
                 if child.has_children?
                   write_node(child, indent_level + 1)
                 else
-                  list.li(child.name, :class => "#{NODE_CLASS[indent_level + 1]}_name")
+                  list.li() do |item|
+                    item.span("#{child.number}.", :class => :number) if child.number
+                    item.span(child.name, :class => "#{NODE_CLASS[indent_level + 1]}_name")
+                  end
                 end
               end
             end
