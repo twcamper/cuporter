@@ -1,47 +1,10 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
 require 'rubygems'
 require 'erb'
-require 'builder'
 
 module Cuporter
   module Formatters
     class Html < Writer
-
-      NODE_CLASS = [:tag, :feature, :scenario, :example_set, :example]
-
-      def write_nodes
-        @report.children.each do |tag_node|
-          tag_node.number_all_descendants if @number_scenarios
-          write_node(tag_node, 0)
-        end
-        builder
-      end
-
-      def builder
-        @builder ||= Builder::XmlMarkup.new
-      end
-
-      def write_node(node, indent_level)
-        builder.li(:class => NODE_CLASS[indent_level]) do |list_item|
-          list_item.span("#{node.number}.", :class => :number) if node.number
-          list_item.span(node.name, :class => "#{NODE_CLASS[indent_level]}_name" )
-
-          if node.has_children?
-            list_item.ul(:class => "#{NODE_CLASS[indent_level]}_children") do |list|
-              node.children.each do |child|
-                if child.has_children?
-                  write_node(child, indent_level + 1)
-                else
-                  list.li() do |item|
-                    item.span("#{child.number}.", :class => :number) if child.number
-                    item.span(child.name, :class => "#{NODE_CLASS[indent_level + 1]}_name")
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
 
       def inline_style
         File.read("lib/cuporter/formatters/cuporter.css")
@@ -59,7 +22,7 @@ module Cuporter
         @output.puts rhtml.result(get_binding).reject {|line| /^\s+$/ =~ line}
       end
 
-  RHTML = %{
+      RHTML = %{
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -70,12 +33,12 @@ module Cuporter
 </head>
 <body>
     <ul class="tag_list">
-      <%= write_nodes%>
+      <%= HtmlNodeWriter.new.write_nodes(@report, @number_scenarios)%>
     </ul>
 </body>
 </html>
-  }
-  
+      }
+
 
     end
   end
