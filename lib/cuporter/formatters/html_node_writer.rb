@@ -25,7 +25,7 @@ module Cuporter
       def write_node(node, indent_level)
         builder.li(:class => NODE_CLASS[indent_level]) do
           write_node_name(node, indent_level)
-          write_children(node.children, indent_level)
+          write_children(node, indent_level)
         end
       end
 
@@ -34,10 +34,31 @@ module Cuporter
         builder.span(node.name, :class => "#{NODE_CLASS[indent_level]}_name")
       end
 
-      def write_children(children, indent_level)
-        return if children.empty?
+      def write_children(node, indent_level)
+        return if node.children.empty?
+        indent_level += 1
+        if node.is_a? ExampleSetNode
+          write_children_in_table(node.children, indent_level)
+        else
+          write_children_in_list(node.children, indent_level)
+        end
+      end
+
+      def write_children_in_table(children, indent_level)
+        builder.table(:class => "#{NODE_CLASS[indent_level]}_children") do
+          children.each do |child|
+            builder.tr(:class => :leaf) do |row|
+              row.td(child.number, :class => :number)
+              child.name.split("|").each do |s|
+                 row.td(s.strip) unless s.empty?
+              end
+            end
+          end
+        end
+      end
+
+      def write_children_in_list(children, indent_level)
         builder.ul(:class => "#{NODE_CLASS[indent_level]}_children") do
-          indent_level += 1
           children.each do |child|
             if child.has_children?
               write_node(child, indent_level)
