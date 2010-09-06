@@ -60,9 +60,9 @@ h3. Command Lines
 h4. help
 
 <pre>
-  $ ./bin/cuporter.rb -h
+  $ ./bin/cuporter -h
 
-  Usage: cuporter.rb [options]
+  Usage: cuporter [options]
   
       -i, --in DIR                     directory of *.feature files
   					Default: features/**/*.feature
@@ -80,11 +80,11 @@ h4. help
 h4. run script directly
 
 <pre>
-  $ ./bin/cuporter.rb -i fixtures/self_text                         # pretty-print demo report to stdout
+  $ ./bin/cuporter -i fixtures/self_text                         # pretty-print demo report to stdout
 
-  $ ./bin/cuporter.rb -f html -o feature_tag_report.html            # default input features/**/*.feature to named output file
+  $ ./bin/cuporter -f html -o feature_tag_report.html            # default input features/**/*.feature to named output file
 
-  $ ./bin/cuporter.rb -f html --numbers -o feature_tag_report.html  # same, but number the scenarios and example rows
+  $ ./bin/cuporter -f html --numbers -o feature_tag_report.html  # same, but number the scenarios and example rows
 </pre>
 
 h4. run via rake
