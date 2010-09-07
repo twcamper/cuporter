@@ -32,6 +32,11 @@ module Cuporter
     </style>
 </head>
 <body>
+    <div class="cuporter_header">
+      <div id="label">
+          <h1>Cucumber Tags</h1>
+      </div>
+    </div>
     <ul class="tag_list">
       <%= HtmlNodeWriter.new.write_nodes(@report, @number_scenarios)%>
     </ul>
