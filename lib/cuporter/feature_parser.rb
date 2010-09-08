@@ -47,7 +47,7 @@ module Cuporter
 
           @example_set = ExampleSetNode.new($1, @feature.tags | @current_tags)
           @current_tags = []
-        when EXAMPLE_LINE
+        when @example_set && EXAMPLE_LINE
           @example_set.add_child(Node.new($1))
         end
       end
