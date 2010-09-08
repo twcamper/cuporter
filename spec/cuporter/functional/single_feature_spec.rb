@@ -5,11 +5,22 @@ module Cuporter
   describe "Single Feature Tag Reports" do
 
     context "empty feature file" do
+      let(:stderr_file) {"stderr.out.txt"}
+
+      before do
+        File.delete(stderr_file) if File.exist?(stderr_file)
+      end
+
+      after do
+        File.delete(stderr_file) if File.exist?(stderr_file)
+      end
+
       it "returns empty string and should not raise an error" do
-        expect do
-          @report = one_feature( "fixtures/empty_file.feature")
-        end.to_not raise_error()
-        @report.should be_empty
+        File.delete(stderr_file) if File.exist?(stderr_file)
+        report = one_feature( "fixtures/empty_file.feature 2> #{stderr_file}")
+        err = File.read(stderr_file)
+        err.should be_empty, err
+        report.should be_empty
       end
     end
 
