@@ -56,7 +56,7 @@ namespace :cuporter do
 
   spec = Gem::Specification.new do |s|
     s.name = 'cuporter'
-    s.version = '0.2.4'
+    s.version = '0.2.5'
     s.rubyforge_project = s.name
 
     s.platform = Gem::Platform::RUBY
@@ -69,11 +69,12 @@ namespace :cuporter do
     s.email = 'twcamper@thoughtworks.com'
     s.homepage = 'http://github.com/twcamper/cuporter'
     s.required_ruby_version = '>= 1.8.7'
+    s.add_dependency('builder', '>= 2.1.2')
     s.default_executable = "cuporter"
     s.executables = [s.default_executable]
 
     s.files =  %w(LICENSE README.textile Rakefile) + 
-      FileList["lib/**/*.{rb,css}", "spec/**/*.rb", "features/**/*.{feature,rb}", "bin/*"].to_a
+      FileList["lib/**/*.{rb,css}", "bin/*"].to_a
 
     s.require_path = "lib"
   end
