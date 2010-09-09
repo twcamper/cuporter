@@ -7,7 +7,7 @@ module Cuporter
     class Html < Writer
 
       def inline_style
-        File.read("lib/cuporter/formatters/cuporter.css")
+        File.read(File.dirname(__FILE__) + "/cuporter.css")
       end
 
       def get_binding
