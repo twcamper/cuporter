@@ -77,5 +77,17 @@ module Cuporter
         node[:child].total.should == 0
       end
     end
+
+    context 'traceback' do
+      it 'can have a file name' do 
+        n = Node.new(:feature)
+        expect do
+          n.file = "features/file_name.feature"
+        end.to_not raise_error
+        n.file.should == "features/file_name.feature"
+        
+
+      end
+    end
   end
 end

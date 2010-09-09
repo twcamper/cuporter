@@ -4,7 +4,7 @@ module Cuporter
     include Comparable
 
     attr_reader :name, :children
-    attr_accessor :number
+    attr_accessor :number, :file
 
     def initialize(name)
       @name = name.to_s.strip
