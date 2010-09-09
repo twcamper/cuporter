@@ -48,6 +48,31 @@ module Cuporter
 
     end
 
+    context "#parse" do
+      context "table which is not an example set" do
+        it "does not raise an error" do
+          content = <<EOF
+
+Feature: table not examples
+
+    Scenario: no examples under here
+      Given foo
+      When bar
+      Then wow:
+        | All       |
+        | Some      |
+        | Any       |
+        | Few       |
+        | Most      |
+EOF
+
+          expect do
+            FeatureParser.parse(content)
+          end.to_not raise_error
+        end
+      end
+    end
+
   end
 end
 

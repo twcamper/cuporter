@@ -60,17 +60,6 @@ EOF
       end
     end
 
-    context "no tags" do
-      context "table which is not an example set" do
-        it "does not raise an error" do
-          content = File.read( "fixtures/table_that_is_not_example_set.feature")
-          expect do
-            FeatureParser.parse(content)
-          end.to_not raise_error
-        end
-      end
-    end
-
   end
 end
 
