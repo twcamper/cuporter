@@ -2,10 +2,6 @@
 module Cuporter
   class ExampleSetNode < TagListNode
 
-    def initialize(name, tags)
-      super(name, tags)
-    end
-
     def sort!
       # no op
     end

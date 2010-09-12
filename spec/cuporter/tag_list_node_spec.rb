@@ -144,7 +144,7 @@ module Cuporter
         end
       end
 
-      context 'child is tag list node' do
+      context '#merge: child is tag list node' do
         context '1 universal tag on parent and no universal tags on child' do
           context "child must be initialized with parent's universal tags" do
             it 'top node has no children' do
@@ -284,6 +284,5 @@ module Cuporter
         end
       end
     end
-
   end
 end

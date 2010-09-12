@@ -3,8 +3,9 @@ module Cuporter
   class Node
     include Comparable
 
-    attr_reader :name, :children
-    attr_accessor :number, :file
+    attr_reader :name
+    attr_accessor :children, :number, :file
+
 
     def initialize(name)
       @name = name.to_s.strip
@@ -67,20 +68,6 @@ module Cuporter
     end
     alias :== :eql?
 
-    # Have my children adopt the other node's grandchildren.
-    #
-    # Copy children of other node's top-level, direct descendants to this 
-    # node's direct descendants of the same name.
-    def merge(other)
-      other.children.each do |other_child|
-        direct_child = find_or_create_child(other_child.name)
-        new_grandchild = Node.new(other.name)
-        other_child.children.collect do |c|
-          new_grandchild.add_child(c)
-        end
-        direct_child.add_child(new_grandchild)
-      end
-    end
 
     def total
       number_all_descendants unless @numberer

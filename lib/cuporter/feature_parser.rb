@@ -29,6 +29,7 @@ module Cuporter
           @current_tags |= $1.strip.split(/\s+/)
         when FEATURE_LINE
           @feature = TagListNode.new($1, @current_tags)
+          @feature.file = @file
           @current_tags = []
         when SCENARIO_LINE
           # How do we know when we have read all the lines from a "Scenario Outline:"?

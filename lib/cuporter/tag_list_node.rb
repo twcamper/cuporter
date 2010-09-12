@@ -21,5 +21,20 @@ module Cuporter
       end
     end
 
+    # Have my children adopt the other node's grandchildren.
+    #
+    # Copy children of other node's top-level, direct descendants to this 
+    # node's direct descendants of the same name.
+    def merge(other)
+      other.children.each do |other_child|
+        direct_child               = find_or_create_child(other_child.name)
+        new_grandchild             = Node.new(other.name)
+        new_grandchild.children    = other_child.children
+        new_grandchild.file        = other.file
+
+        direct_child.add_child(new_grandchild)
+      end
+    end
+
   end
 end
