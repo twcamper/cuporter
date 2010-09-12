@@ -10,16 +10,17 @@ module Cuporter
     EXAMPLE_SET_LINE      = /^\s*(Examples:[^#]*)$/
     EXAMPLE_LINE          = /^\s*(\|.*\|)\s*$/
 
-    def initialize
+    def initialize(file)
+      @file = file
       @current_tags = []
     end
 
-    def self.parse(feature_content)
-      self.new.parse(feature_content)
+    def self.parse(file)
+      self.new(file).parse
     end
 
-    def parse(feature_content)
-      lines = feature_content.split(/\n/)
+    def parse
+      lines = File.read(@file).split(/\n/)
 
       lines.each_with_index do |line, i|
         case line

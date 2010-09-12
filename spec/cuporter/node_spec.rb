@@ -20,12 +20,6 @@ module Cuporter
         node.should have_children
       end
 
-      it 'does not check child type' do
-        expect {
-          node.add_child(:foo)
-        }.to_not raise_error()
-      end
-
       it 'does not add duplicate' do
         child = Node.new('child')
         child.add_child Node.new('grandchild')
@@ -79,15 +73,15 @@ module Cuporter
     end
 
     context 'traceback' do
+      let(:file_name) {"features/file_name.feature"}
+      let(:n) { Node.new(:feature)}
       it 'can have a file name' do 
-        n = Node.new(:feature)
         expect do
-          n.file = "features/file_name.feature"
+          n.file = file_name
         end.to_not raise_error
-        n.file.should == "features/file_name.feature"
-        
-
+        n.file.should == file_name
       end
+
     end
   end
 end

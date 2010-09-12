@@ -2,29 +2,34 @@ require 'spec_helper'
 
 module Cuporter
   describe FeatureParser do
+    let(:file)  {"file.feature"}
     context "#tags" do
       context "one tag" do
         it "returns one tag" do
-          feature = FeatureParser.parse("@wip\nFeature: foo")
+          File.should_receive(:read).with(file).and_return("@wip\nFeature: foo")
+          feature = FeatureParser.parse(file)
           feature.tags.should == ["@wip"]
         end
       end
 
       context "two tags on one line" do
         it "returns two tags" do
-          feature = FeatureParser.parse(" \n@smoke @wip\nFeature: foo")
+          File.should_receive(:read).with(file).and_return(" \n@smoke @wip\nFeature: foo")
+          feature = FeatureParser.parse(file)
           feature.tags.sort.should == %w[@smoke @wip].sort
         end
       end
       context "two tags on two lines" do
         it "returns two tags" do
-          feature = FeatureParser.parse(" \n@smoke\n @wip\nFeature: foo")
+          File.should_receive(:read).with(file).and_return(" \n@smoke\n @wip\nFeature: foo")
+          feature = FeatureParser.parse(file)
           feature.tags.sort.should == %w[@smoke @wip].sort
         end
       end
       context "no tags" do
         it "returns no tags" do
-          feature = FeatureParser.parse("\nFeature: foo")
+          File.should_receive(:read).with(file).and_return("\nFeature: foo")
+          feature = FeatureParser.parse(file)
           feature.tags.should == []
         end
       end
@@ -35,13 +40,15 @@ module Cuporter
       let(:name) {"Feature: consume a fairly typical feature name, and barf it back up"}
       context "sentence with comma" do
         it "returns the full name" do
-          feature = FeatureParser.parse("\n#{name}\n  Background: blah")
+          File.should_receive(:read).with(file).and_return("\n#{name}\n  Background: blah")
+          feature = FeatureParser.parse(file)
           feature.name.should == name
         end
       end
       context "name followed by comment" do
         it "returns only the full name" do
-          feature = FeatureParser.parse("# Here is a feature comment\n# And another comment\n #{name} # comment text here\n  Background: blah")
+          File.should_receive(:read).with(file).and_return("# Here is a feature comment\n# And another comment\n #{name} # comment text here\n  Background: blah")
+          feature = FeatureParser.parse(file)
           feature.name.should == name
         end
       end
@@ -66,8 +73,9 @@ Feature: table not examples
         | Most      |
 EOF
 
+          File.should_receive(:read).with(file).and_return(content)
           expect do
-            FeatureParser.parse(content)
+            feature = FeatureParser.parse(file)
           end.to_not raise_error
         end
       end
