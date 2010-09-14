@@ -29,7 +29,10 @@ module Cuporter
 
       def write_node_name(node)
         builder.span("#{node.number}.", :class => :number) if node.number
-        builder.div(node.name, :class => "#{node_class(node.name)}_name")
+        builder.div(:class => "#{node_class(node.name)}_name") do
+          builder.span(node.name)
+          builder.span(node.file, :class => :file) if node.file
+        end
       end
 
       def write_children(node)

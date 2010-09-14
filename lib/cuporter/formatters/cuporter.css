@@ -34,8 +34,8 @@ ul {
 .feature_name {
 	margin-left: -2em;
 	padding-left: 2em;
-	padding-top:  0.1em;
-	padding-bottom: 0.1em;
+	padding-top:  0.3em;
+	padding-bottom: 0.3em;
 	font-weight: bold;
 	background-color: #24A6C1;
 	color: white;
@@ -68,4 +68,11 @@ ul {
 	left: 4.5em;
 	font-weight: bold;
 }
+.file {
+  float: right;
+  padding-right: 0.5em;
+  font-weight: normal;
+  font-size: 1.1em;
+  color: black;
 
+}
