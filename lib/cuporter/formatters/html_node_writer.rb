@@ -32,6 +32,7 @@ module Cuporter
         builder.div(:class => "#{node_class(node.name)}_name") do
           builder.span(node.name)
           builder.span(node.file, :class => :file) if node.file
+          builder.span("[#{node.total}]", :class => :total) if node_class(node.name) == :tag
         end
       end
 
