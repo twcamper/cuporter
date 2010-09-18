@@ -1,72 +1,77 @@
 body {
-	margin: 0;
-	padding: 0;
-	font: normal 11px "Lucida Grande", Helvetica, sans-serif
+  margin: 0;
+  padding: 0;
+  font: normal 11px "Lucida Grande", Helvetica, sans-serif
 }
 .cuporter_header {
-	padding-left: 2em; 
-	padding-bottom: 0.3em; 
-	padding-top: 0.05em; 
-	height: 6em;
-	background-color: #24A6C1;
-	color: white;
+  padding-left: 2em; 
+  padding-bottom: 0.3em; 
+  padding-top: 0.05em; 
+  height: 6em;
+  background-color: #24A6C1;
+  color: white;
 }
 
+#expand-collapse {
+  position: absolute;
+  right: 1em;
+  top:   0.5em;
+}
 ul {
-	list-style-type: none;
+  list-style-type: none;
 }
 .tag_list {
-	padding-left: 0.5em; 
+  padding-left: 0.5em; 
 }
 .tag_name {
-	height: 2em;
-	font-weight: bold;
-	font-size: 1.5em; 
+  height: 2em;
+  font-weight: bold;
+  font-size: 1.5em; 
 }
 .tag {
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 .feature {
-	margin-bottom: 0.5em;
-	margin-right: 1em;
+  margin-bottom: 0.5em;
+  margin-right: 1em;
 }
 .feature_name {
-	margin-left: -2em;
-	padding-left: 2em;
-	padding-top:  0.3em;
-	padding-bottom: 0.3em;
-	font-weight: bold;
-	background-color: #24A6C1;
-	color: white;
+  margin-left: -2em;
+  padding-left: 2em;
+  padding-top:  0.3em;
+  padding-bottom: 0.3em;
+  font-weight: bold;
+  background-color: #24A6C1;
+  color: white;
 }
 .example_rows { 
-	background-color: lightblue;
-	margin-left: -7.2em;
-	padding-left: 7.2em;
+  background-color: lightblue;
+  margin-left: -7.2em;
+  padding-left: 7.2em;
 }
 
 .example_set_name {
-	margin-left: -2em;
+  margin-left: -2em;
 }
 .example {
-	background-color:  #26A6C0;
+  background-color:  #26A6C0;
 }
 
 .example td.val {
-	padding-left: 0.5em;
+  padding-left: 0.5em;
 }
 .scenario_name {
-	margin-left: -3.8em;
-	padding-left: 3.8em;
-	background-color: lightblue;
+  margin-left: -3.8em;
+  padding-left: 3.8em;
+  background-color: lightblue;
 
 }
 
 .number {
-	position: absolute;
-	left: 4.5em;
-	font-weight: bold;
+  position: absolute;
+  left: 4.5em;
+  font-weight: bold;
 }
 .file {
   float: right;
@@ -76,3 +81,4 @@ ul {
   color: black;
 
 }
+
