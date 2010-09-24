@@ -46,13 +46,23 @@ module Cuporter
     $("#collapser").css('cursor', 'pointer');
     $("#collapser").click(function() {
       $(TAGS).siblings().hide();
+      $(FEATURES).siblings().hide();
     });
     
-    $("#expander").css('cursor', 'pointer');
-    $("#expander").click(function() {
+    $("#expand_tags").css('cursor', 'pointer');
+    $("#expand_tags").click(function() {
+      $(TAGS).siblings().show();
+      $(FEATURES).siblings().hide();
+    });
+
+    $("#expand_all").css('cursor', 'pointer');
+    $("#expand_all").click(function() {
       $(TAGS).siblings().show();
       $(FEATURES).siblings().show();
     });
+
+    // load page with features collapsed
+    $("#expand_tags").click();
   })
   
         EOF
@@ -77,7 +87,8 @@ module Cuporter
           <h1>Cucumber Tags</h1>
       </div>
           <div id="expand-collapse">
-             <p id="expander">Expand All</p>
+             <p id="expand_tags">Expand Tags</p>
+             <p id="expand_all">Expand All</p>
              <p id="collapser">Collapse All</p>
           </div>
     </div>
