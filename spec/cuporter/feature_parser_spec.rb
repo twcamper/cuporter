@@ -81,6 +81,29 @@ EOF
       end
     end
 
+    context "#parse_names" do
+      context "one scenario" do
+        it "returns a feature name and scneario name" do
+          content = <<EOF
+Feature: just one scenario
+
+  Scenario: the scenario in question
+    Given foo
+    When bar
+    Then wow
+    And gee
+EOF
+          File.should_receive(:read).with(file).and_return(content)
+          feature = FeatureParser.parse_names(file)
+          feature.should be_a Node
+          feature.file.should == file
+          feature.name.should == "Feature: just one scenario"
+          feature.should have_children
+          feature.children.first.name.should == "Scenario: the scenario in question"
+        end
+      end
+    end
+
   end
 end
 
