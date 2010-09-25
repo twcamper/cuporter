@@ -19,9 +19,14 @@ module Cuporter
       OptionParser.new(ARGV.dup) do |opts|
         opts.banner = "Usage: cuporter [options]\n\n"
 
+        opts.on("-r", "--report [tag|name]", "type of report\n\t\t\t\t\tDefault: tag\n\n") do |r|
+          @options[:report] = "#{r.downcase}Report".to_class_name
+        end
+        @options[:report] ||= :TagReport
         opts.on("-i", "--in DIR", "directory of *.feature files\n\t\t\t\t\tDefault: features/**/*.feature\n\n") do |i|
           @options[:input_dir] = "#{i}/**/*.feature"
         end
+        @options[:input_dir] ||= "features/**/*.feature"
         opts.on("--input-file FILE", "full file name with extension: 'path/to/file.feature'\n\n") do |file|
           @options[:input_file] = file
         end

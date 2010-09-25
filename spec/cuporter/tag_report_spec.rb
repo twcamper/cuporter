@@ -2,12 +2,12 @@ require 'spec_helper'
 
 module Cuporter
   describe TagReport do
-    context "#scenarios_per_tag" do
+    context "#report_node" do
       context "empty input" do
         it "should not raise an error" do
           tag_report = TagReport.new("fixtures/empty_file.feature")
           expect do
-            @report = tag_report.scenarios_per_tag
+            @report = tag_report.report_node
           end.to_not raise_error
         end
       end

@@ -99,7 +99,7 @@ module Cuporter
         when EXAMPLE_SET_LINE, SCENARIO_SET_LINE
           @scenario_outline.add_child(@example_set) if @example_set
 
-          @example_set = Node.new($1)
+          @example_set = ExampleSetNode.new($1,[])
           @current_tags = []
         when @example_set && EXAMPLE_LINE
           @example_set.add_child(Node.new($1))
