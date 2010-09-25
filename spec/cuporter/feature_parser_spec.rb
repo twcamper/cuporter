@@ -55,10 +55,9 @@ module Cuporter
 
     end
 
-    context "#parse" do
-      context "table which is not an example set" do
-        it "does not raise an error" do
-          content = <<EOF
+    context "table which is not an example set" do
+      before do
+        content = <<EOF
 
 Feature: table not examples
 
@@ -73,9 +72,21 @@ Feature: table not examples
         | Most      |
 EOF
 
-          File.should_receive(:read).with(file).and_return(content)
+        File.should_receive(:read).with(file).and_return(content)
+      end
+
+      context "#parse" do
+        it "does not raise an error" do
           expect do
             feature = FeatureParser.parse(file)
+          end.to_not raise_error
+        end
+      end
+
+      context "#parse_names" do
+        it "does not raise an error" do
+          expect do
+            feature = FeatureParser.parse_names(file)
           end.to_not raise_error
         end
       end
@@ -83,7 +94,7 @@ EOF
 
     context "#parse_names" do
       context "one scenario" do
-        it "returns a feature name and scneario name" do
+        it "returns a feature name and scenario name" do
           content = <<EOF
 Feature: just one scenario
 
