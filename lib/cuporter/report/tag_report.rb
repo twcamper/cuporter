@@ -5,7 +5,7 @@ module Cuporter
     def report_node
       tags = TagListNode.new("report",[])
       files.each do |file|
-        feature = FeatureParser.parse(file)
+        feature = FeatureParser.tag_list(file)
         tags.merge_tag_nodes(feature) if feature
       end
       tags.sort_all_descendants!

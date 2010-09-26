@@ -1,5 +1,8 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
 require 'cuporter/node'
+require 'cuporter/filter'
+require 'cuporter/tag_list'
+require 'cuporter/name_list'
 require 'cuporter/tag_list_node'
 require 'cuporter/example_set_node'
 require 'cuporter/node_numberer'

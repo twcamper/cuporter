@@ -5,13 +5,18 @@ module Cuporter
 
     attr_reader :tags
 
-    def initialize(name, tags)
+    def initialize(name, tags, filter = {})
       super(name)
       @tags = tags
+      @filter = filter
     end
 
     def has_tags?
       @tags.size > 0
+    end
+
+    def filter_child(node, node_tags)
+      add_child(node) if @filter.pass?(tags | node_tags)
     end
 
     def add_to_tag_nodes(node)
