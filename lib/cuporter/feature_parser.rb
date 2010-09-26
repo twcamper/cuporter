@@ -65,7 +65,7 @@ module Cuporter
           @scenario_outline.add_to_tag_nodes(@example_set) if @example_set
           @example_set = nil
         end
-        @feature.merge(@scenario_outline)
+        @feature.merge_tag_nodes(@scenario_outline)
         @scenario_outline = nil
       end
     end
