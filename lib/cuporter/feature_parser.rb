@@ -10,15 +10,9 @@ module Cuporter
     EXAMPLE_SET_LINE      = /^\s*(Examples:[^#]*)$/
     EXAMPLE_LINE          = /^\s*(\|.*\|)\s*$/
 
-    def initialize(file)
-      @file = file
-      @current_tags = []
-    end
-
     def self.tag_list(file)
       TagList.new(file).parse_feature
     end
-
 
     def self.name_list(file, filter)
       NameList.new(file, filter).parse_feature
