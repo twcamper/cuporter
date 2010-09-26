@@ -40,7 +40,7 @@ module Cuporter
           @example_set = ExampleSetNode.new($1, @feature.tags | @current_tags, @filter)
           @current_tags = []
         when @example_set && FeatureParser::EXAMPLE_LINE
-          @example_set.filter_child(Node.new($1), @current_tags)
+          @example_set.add_child(Node.new($1))
         end
       end
 
@@ -55,7 +55,7 @@ module Cuporter
           @scenario_outline.filter_child(@example_set, @example_set.tags) if @example_set
           @example_set = nil
         end
-        @feature.filter_child(@scenario_outline, @scenario_outline.tags)
+        @feature.add_child(@scenario_outline) if @scenario_outline.has_children?
         @scenario_outline = nil
       end
     end

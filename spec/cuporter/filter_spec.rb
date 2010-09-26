@@ -5,6 +5,21 @@ module Cuporter
     context "#pass?" do
       let(:tag_list)  { %w[@one @two @three] }
       context "empty filter" do
+        context "no init args" do
+          it "raises no error" do
+            expect do
+              Filter.new
+            end.to_not raise_error()
+          end
+
+          it "all tag lists are empty" do
+            filter = Filter.new
+            filter.all.should be_empty
+            filter.any.should be_empty
+            filter.none.should be_empty
+          end
+        end
+
         it "passes" do
           Filter.new.pass?(tag_list).should be_true
         end

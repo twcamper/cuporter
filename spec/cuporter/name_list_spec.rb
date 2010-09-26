@@ -258,6 +258,57 @@ EOF
 
       
       end
+
+      context "Filtered: tag on outline and one example set" do
+        let(:content) { <<EOF
+@feature
+Feature: two scenarios one outline
+
+  @scenario
+  Scenario: the scenario in question
+    Given foo
+    When bar
+    Then wow
+    And gee
+
+  @outline
+  Scenario Outline: outline
+    Given <foo>
+    When  "<bar>"
+    The   "<unbar>"
+
+    @example_set
+    Examples: we are tagged
+      |foo | bar | unbar |
+      | a  | b   | c     |
+      | d  | e   | f     |
+
+    Examples: other tests
+      |foo | bar | unbar |
+      | a  | b   | c     |
+      | d  | e   | f     |
+EOF
+ }
+        context "include outline tag AND example set tag" do
+          it "returns the tagged example set" do
+            File.should_receive(:read).with(file).and_return(content)
+            feature = NameList.new(file, Filter.new(:all => %w[@example_set @outline])).parse_feature
+            feature.name.should == "Feature: two scenarios one outline"
+            feature.names.should == ["Scenario Outline: outline"]
+            feature["Scenario Outline: outline"].names.should == ["Examples: we are tagged"]
+          end
+        end
+
+        context "include outline tag AND exclude example set tag" do
+          it "returns the other example set" do
+            File.should_receive(:read).with(file).and_return(content)
+            feature = NameList.new(file, Filter.new(:all => :@outline, :none => :@example_set )).parse_feature
+            feature.name.should == "Feature: two scenarios one outline"
+            feature.names.should == ["Scenario Outline: outline"]
+            feature["Scenario Outline: outline"].names.should == ["Examples: other tests"]
+          end
+        end
+      end
     end
 
   end

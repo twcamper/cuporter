@@ -2,8 +2,9 @@
 module Cuporter
   class Report
 
-    def initialize(input_file_pattern)
+    def initialize(input_file_pattern, filter_args = nil)
       @input_file_pattern = input_file_pattern
+      @filter = Filter.new(filter_args || {})
     end
 
     def files

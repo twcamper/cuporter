@@ -15,7 +15,7 @@ module Cuporter
 
       # Logical AND: are all of the tags in :all in the tests' tags?
       unless all.empty?
-        pass = false if (other_tags & all).size != all.size
+        pass = false unless (other_tags & all).size == all.size
       end
 
       # Logical OR: are any of the tests' tags in :any?

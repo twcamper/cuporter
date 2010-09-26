@@ -3,11 +3,12 @@ module Cuporter
   class NameReport < Report
 
     def report_node
-      filter = Filter.new({})
-      names = TagListNode.new("report", filter)
+      names = TagListNode.new("report", @filter)
       files.each do |file|
-        feature = FeatureParser.name_list(file, filter)
-        names.add_child(feature) if feature
+        feature = FeatureParser.name_list(file, @filter)
+        if feature && feature.has_children?
+          names.add_child(feature)
+        end
       end
       names.sort_all_descendants!
       names
