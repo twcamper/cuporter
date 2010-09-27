@@ -8,7 +8,7 @@ module Cuporter
       include HtmlMethods
 
       def title
-        "Cucumber Scenario Inventory"
+        @report.title
       end
 
       RHTML = %{
@@ -30,7 +30,7 @@ module Cuporter
           <h1><%= title %></h1>
       </div>
           <div id="summary">
-              <p id="total"><%= @report.total%> Scenarios </p>
+              <p id="total"><%= @report.report_node.total%> Scenarios </p>
               <div id="expand-collapse">
                   <p id="expand_features">Expand All</p>
                   <p id="collapse_features">Collapse All</p>

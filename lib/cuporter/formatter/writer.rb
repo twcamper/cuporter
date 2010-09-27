@@ -4,15 +4,14 @@ module Cuporter
   module Formatter
     class Writer
 
-      def initialize(report, output, number_scenarios)
+      def initialize(report, output)
         @report = report
         @output = output ? File.open(output, "w") : STDOUT
-        @number_scenarios = number_scenarios
       end
 
-      def self.create(format, report, output, number_scenarios)
+      def self.create(format, report, output)
         klass = writer_class(format, report.class.name.split(/::/).last)
-        klass.new(report.report_node, output, number_scenarios)
+        klass.new(report, output)
       end
 
       def self.writer_class(format, report_class)

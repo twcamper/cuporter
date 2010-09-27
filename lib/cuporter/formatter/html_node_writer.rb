@@ -13,8 +13,7 @@ module Cuporter
       end
 
       def write_nodes(report, number_scenarios)
-        report.children.each do |tag_node|
-          tag_node.number_all_descendants if number_scenarios
+        report.report_node.children.each do |tag_node|
           write_node(tag_node)
         end
         builder

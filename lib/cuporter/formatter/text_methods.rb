@@ -4,7 +4,7 @@ module Cuporter
     module TextMethods
     
       def write
-        @report.children.each do |tag_node|
+        @report.report_node.children.each do |tag_node|
           tag_node.number_all_descendants if @number_scenarios
           write_node(tag_node, 0)
         end
