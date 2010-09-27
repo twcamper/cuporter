@@ -5,13 +5,18 @@ module Cuporter
 
     attr_reader :tags
 
-    def initialize(name, tags)
+    def initialize(name, tags, filter = {})
       super(name)
       @tags = tags
+      @filter = filter
     end
 
     def has_tags?
       @tags.size > 0
+    end
+
+    def filter_child(node, node_tags)
+      add_child(node) if @filter.pass?(tags | node_tags)
     end
 
     def add_to_tag_nodes(node)
@@ -25,14 +30,14 @@ module Cuporter
     #
     # Copy children of other node's top-level, direct descendants to this 
     # node's direct descendants of the same name.
-    def merge(other)
-      other.children.each do |other_child|
-        direct_child               = find_or_create_child(other_child.name)
-        new_grandchild             = Node.new(other.name)
-        new_grandchild.children    = other_child.children
-        new_grandchild.file        = other.file
+    def merge_tag_nodes(other)
+      other.children.each do |other_tag_node|
+        tag_node                = find_or_create_child(other_tag_node.name)
+        new_grandchild          = Node.new(other.name)
+        new_grandchild.children = other_tag_node.children
+        new_grandchild.file     = other.file
 
-        direct_child.add_child(new_grandchild)
+        tag_node.add_child(new_grandchild)
       end
     end
 

@@ -144,7 +144,7 @@ module Cuporter
         end
       end
 
-      context '#merge: child is tag list node' do
+      context '#merge_tag_nodes: child is tag list node' do
         context '1 universal tag on parent and no universal tags on child' do
           context "child must be initialized with parent's universal tags" do
             it 'top node has no children' do
@@ -160,7 +160,7 @@ module Cuporter
               c = TagListNode.new("child", p.tags)
               c.add_to_tag_nodes(TagListNode.new("leaf_1", []))
               c.add_to_tag_nodes(TagListNode.new("leaf_2", []))
-              p.merge(c)
+              p.merge_tag_nodes(c)
 
               p.children.size.should == 1
               p.children[0].name.should == "p_tag_1"
@@ -184,7 +184,7 @@ module Cuporter
             c = TagListNode.new("child", p.tags | ["c_tag_1"])
             c.add_to_tag_nodes(TagListNode.new("leaf_1", []))
             c.add_to_tag_nodes(TagListNode.new("leaf_2", []))
-            p.merge(c)
+            p.merge_tag_nodes(c)
 
             p.children.size.should == 2
             p.children[0].name.should == "p_tag_1"
@@ -216,7 +216,7 @@ module Cuporter
             c = TagListNode.new("child", p.tags )
             c.add_to_tag_nodes(TagListNode.new("leaf_1", []))
             c.add_to_tag_nodes(TagListNode.new("leaf_2", ["l_tag_1"]))
-            p.merge(c)
+            p.merge_tag_nodes(c)
 
             p.children.size.should == 2
             p.children[0].name.should == "p_tag_1"
@@ -246,7 +246,7 @@ module Cuporter
             c = TagListNode.new("child", p.tags | ["c_tag_1"])
             c.add_to_tag_nodes(TagListNode.new("leaf_1", []))
             c.add_to_tag_nodes(TagListNode.new("leaf_2", ["l_tag_1"]))
-            p.merge(c)
+            p.merge_tag_nodes(c)
 
             p.children.size.should == 3
             p.children[0].name.should == "p_tag_1"
