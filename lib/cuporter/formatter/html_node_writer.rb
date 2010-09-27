@@ -3,7 +3,7 @@ require 'rubygems'
 require 'builder'
 
 module Cuporter
-  module Formatters
+  module Formatter
     class HtmlNodeWriter
 
       attr_reader :builder

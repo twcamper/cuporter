@@ -20,10 +20,11 @@ module Cuporter
         OptionParser.new(ARGV.dup) do |opts|
           opts.banner = "Usage: cuporter [options]\n\n"
 
+          @options[:report] = "tag"
           opts.on("-r", "--report [tag|name]", "type of report\n\t\t\t\t\tDefault: tag\n\n") do |r|
-            @options[:report] = "#{r.downcase}Report".to_class_name
+            @options[:report] = r
           end
-          @options[:report] ||= :TagReport
+
           opts.on("-i", "--in DIR", "directory of *.feature files\n\t\t\t\t\tDefault: features/**/*.feature\n\n") do |i|
             @options[:input_dir] = "#{i}/**/*.feature"
           end
@@ -39,10 +40,10 @@ module Cuporter
 
             @options[:output] = full_path
           end
+          @options[:format] = "text"
           opts.on("-f", "--format [pretty|html|csv]", "Output format\n\t\t\t\t\tDefault: pretty text\n\n") do |f|
-            @options[:format] = f.downcase.to_class_name
+            @options[:format] = f
           end
-          @options[:format] ||= :Text
 
           opts.on("-n", "--numbers", "number scenarios and examples\n\n") do |n|
             @options[:numbers] = n

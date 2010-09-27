@@ -5,11 +5,12 @@ require 'cuporter'
 
 filter_args = Cuporter::CLI::FilterArgsBuilder.new(Cuporter::CLI::Options[:tags]).args
 
-report_class = Cuporter.const_get(Cuporter::CLI::Options[:report])
-report = report_class.new(Cuporter::CLI::Options[:input_file] || Cuporter::CLI::Options[:input_dir],
-                          filter_args)
+report = Cuporter::Report.create(Cuporter::CLI::Options[:report], 
+                                 Cuporter::CLI::Options[:input_file] || Cuporter::CLI::Options[:input_dir],
+                                 filter_args)
 
-formatter_class = Cuporter::Formatters.const_get(Cuporter::CLI::Options[:format])
-formatter_class.new(report.report_node,
-                    Cuporter::CLI::Options[:output],
-                    Cuporter::CLI::Options[:numbers]).write
+formatter = Cuporter::Formatter::Writer.create(Cuporter::CLI::Options[:format],
+                                               report,
+                                               Cuporter::CLI::Options[:output],
+                                               Cuporter::CLI::Options[:numbers])
+formatter.write

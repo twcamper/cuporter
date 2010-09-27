@@ -11,10 +11,21 @@ body {
   background-color: #24A6C1;
   color: white;
 }
-
-#expand-collapse {
+#summary {
   position: absolute;
   right: 1em;
+  text-align: right;
+  top: 1.2em;
+}
+
+#summary p {
+  margin: 0px 0px 0px 2px;
+}
+
+.tag_report #expand-collapse {
+  position: absolute;
+  right: 1em;
+  text-align: right;
   top:   0.5em;
 }
 ul {
@@ -77,6 +88,10 @@ ul {
   position: absolute;
   left: 4.5em;
   font-weight: bold;
+}
+
+.name_report .number {
+  left: 4em;
 }
 .file {
   float: right;

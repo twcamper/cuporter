@@ -3,8 +3,8 @@ require 'rubygems'
 require 'erb'
 
 module Cuporter
-  module Formatters
-    class Html < Writer
+  module Formatter
+    module HtmlMethods
 
       def inline_style
         File.read(File.dirname(__FILE__) + "/cuporter.css")
@@ -15,7 +15,7 @@ module Cuporter
       end
 
       def rhtml
-        ERB.new(RHTML)
+        ERB.new(self.class::RHTML)
       end
 
       def write
@@ -61,44 +61,22 @@ module Cuporter
       $(FEATURES).siblings().show();
     });
 
+    $("#expand_features").css('cursor', 'pointer');
+    $("#expand_features").click(function() {
+      $(FEATURES).siblings().show();
+    });
+
+    $("#collapse_features").css('cursor', 'pointer');
+    $("#collapse_features").click(function() {
+      $(FEATURES).siblings().hide();
+    });
+
     // load page with features collapsed
-    $("#expand_tags").click();
+    $("#expand_tags, #collapse_features").click();
   })
   
         EOF
       end
-
-      RHTML = %{
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Cucumber Tags</title>
-    <style type="text/css">
-      <%= inline_style%>
-    </style>
-    <script type="text/javascript">
-      <%= inline_jquery%>
-      <%= inline_js_content%>
-    </script>
-</head>
-<body>
-    <div class="cuporter_header">
-      <div id="label">
-          <h1>Cucumber Tags</h1>
-      </div>
-          <div id="expand-collapse">
-             <p id="expand_tags">Expand Tags</p>
-             <p id="expand_all">Expand All</p>
-             <p id="collapser">Collapse All</p>
-          </div>
-    </div>
-    <ul class="tag_list">
-      <%= HtmlNodeWriter.new.write_nodes(@report, @number_scenarios)%>
-    </ul>
-</body>
-</html>
-      }
-
 
     end
   end
