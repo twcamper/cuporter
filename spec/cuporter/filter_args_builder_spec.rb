@@ -3,9 +3,16 @@ require 'spec_helper'
 module Cuporter::CLI
   describe FilterArgsBuilder do
     context "maps command line args to hash args" do
-      context "empty command lines args" do
+      context "empty command line args" do
         it "returns empty hash" do
           builder = FilterArgsBuilder.new([])
+          builder.args.should be_empty
+        end
+      end
+
+      context "no command line args" do
+        it "returns empty hash" do
+          builder = FilterArgsBuilder.new()
           builder.args.should be_empty
         end
       end

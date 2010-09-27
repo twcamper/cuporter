@@ -1,13 +1,24 @@
 h1. Cuporter
 
-Scrapes your feature files and shows scenarios per tag, with their context.  Formats HTML, CSV, and Pretty Text.
+Scrapes your feature files and shows 2 possible reports:
+
+# scenarios and examples per tag
+** in Feature and Scenario Outline context, as appropriate
+** sorted alphbetically
+** optionally numbered, counting scenarios and outline examples per tag
+# feature, scenario and example names
+** may be filtered by tags, using same CLI syntax as Cucumber
+** sorted alphbetically
+** optionally numbered, using 1 count of all scenarios and outline examples for the report
+
+Either report may be formatted in HTML, CSV, or Pretty Text.
+
+* HTML reports do jQuery expand-collapse, with acklowedgment due to the Cucumber HTML formatter.
 
 Consider this a stop-gap until we get this functionality in a proper cucumber formatter.
 
-In version 0.2.0 and later you can number the Scenarios and Example rows with the @-n@ or @--numbers@ option.
-
 ---------
-h3. Example Output: numbered pretty text
+h3. Example Tag Report Output: numbered pretty text
 
 <pre>
 @failing
@@ -63,28 +74,44 @@ h4. help
   $ ./bin/cuporter -h
 
   Usage: cuporter [options]
-  
+
       -i, --in DIR                     directory of *.feature files
-  					Default: features/**/*.feature
-  
-          --input-file FILE            full file name with extension: 'path/to/file.feature'
-  
+    					Default: features/**/*.feature
+
+      -I, --input-file FILE            full file name with extension: 'path/to/file.feature'
+
       -o, --out FILE                   Output file path
-  
+
       -f, --format [pretty|html|csv]   Output format
-  					Default: pretty text
+					Default: pretty text
 
       -n, --numbers                    number scenarios and examples
+
+      -t, --tags TAG_EXPRESSION        Filter on tags for name report.
+  					TAG_EXPRESSION rules: see '$ cucumber --help' and http://github.com/aslakhellesoy/cucumber/wiki/Tags
+
+      -r, --report [tag|name]          type of report
+					Default: tag
+
+      -T, --title STRING               title of name report
+					Default: 'Cucumber Scenario Inventory'
+
 </pre>
 
 h4. run script directly
 
 <pre>
-  $ ./bin/cuporter -i fixtures/self_text                         # pretty-print demo report to stdout
+  #  pretty-print demo report to stdout
+  $ ./bin/cuporter -i fixtures/self_text
 
-  $ ./bin/cuporter -f html -o feature_tag_report.html            # default input features/**/*.feature to named output file
+  #  default input features/**/*.feature to named output file
+  $ ./bin/cuporter -f html -o feature_tag_report.html
 
-  $ ./bin/cuporter -f html --numbers -o feature_tag_report.html  # same, but number the scenarios and example rows
+  #  same, but number the scenarios and example rows
+  $ ./bin/cuporter -f html --numbers -o feature_tag_report.html
+
+  #  filtered html name report, with non-default title
+  $ ./bin/cuporter -f html -o active_customer.html -r name -n -T "Active Customer Test Inventory" -t ~@wip -t @customer,@client
 </pre>
 
 h4. run via rake

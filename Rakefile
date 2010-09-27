@@ -63,7 +63,7 @@ namespace :cuporter do
     s.has_rdoc = true
     s.extra_rdoc_files = XTRA_RDOC
     s.rdoc_options += RDOC_OPTS
-    s.summary = "Scrapes Cucumber *.feature files to build report on tag usage"
+    s.summary = "Scrapes Cucumber *.feature files to build reports on tag usage and test inventory"
     s.description = s.summary
     s.author = "Tim Camper"
     s.email = 'twcamper@thoughtworks.com'

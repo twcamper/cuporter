@@ -3,7 +3,7 @@
 module Cuporter
   module CLI
     class FilterArgsBuilder
-      def initialize(cli_tags)
+      def initialize(cli_tags = [])
         @cli_tags = cli_tags
         @all  = []
         @any  = []

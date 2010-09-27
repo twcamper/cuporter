@@ -2,6 +2,26 @@ require 'spec_helper'
 
 module Cuporter
   describe Filter do
+    context "#empty?" do
+      context "empty" do
+        it "returns true" do
+          Filter.new.should be_empty
+        end
+      end
+
+      context "not empty" do
+        it "returns false if :all not empty" do
+          Filter.new(:all => :foo).should_not be_empty
+        end
+        it "returns false if :any not empty" do
+          Filter.new(:any => :foo).should_not be_empty
+        end
+        it "returns false if :none not empty" do
+          Filter.new(:none => :foo).should_not be_empty
+        end
+      end
+    end
+
     context "#pass?" do
       let(:tag_list)  { %w[@one @two @three] }
       context "empty filter" do

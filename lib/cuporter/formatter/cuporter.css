@@ -7,10 +7,20 @@ body {
   padding-left: 2em; 
   padding-bottom: 0.3em; 
   padding-top: 0.05em; 
-  height: 6em;
   background-color: #24A6C1;
   color: white;
+  height: 7em;
 }
+.cuporter_header #label {
+  padding-right: 2em;
+  float: left;
+}
+#filter_summary {
+  width: 60em;
+  float: right;
+  padding-top: 1.2em;
+}
+
 #summary {
   position: absolute;
   right: 1em;
@@ -18,7 +28,7 @@ body {
   top: 1.2em;
 }
 
-#summary p {
+#summary p, #filter_summary p {
   margin: 0px 0px 0px 2px;
 }
 

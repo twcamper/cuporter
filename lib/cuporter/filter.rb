@@ -29,6 +29,12 @@ module Cuporter
       pass
     end
 
+    def empty?
+      all.empty? && any.empty? && none.empty?
+    end
+
+    private
+
     def to_tag_array(tag_input)
       case tag_input
       when Array
