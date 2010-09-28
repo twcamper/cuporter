@@ -1,8 +1,7 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
   module Formatter
-    class Csv < Writer
-      include TextMethods
+    module CsvTextMethods
       
       def tab
         ","

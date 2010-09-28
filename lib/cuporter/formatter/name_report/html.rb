@@ -4,25 +4,26 @@ require 'erb'
 
 module Cuporter
   module Formatter
-    class NameReportHtml < Writer
-      include HtmlMethods
+    module NameReport
+      class Html < Writer
+        include HtmlMethods
 
-      def title
-        @report.title
-      end
-
-      def filter_summary
-        return if @report.filter.empty?
-        builder = Builder::XmlMarkup.new
-        builder.div(:id => :filter_summary) do |div|
-          div.p("Filtering:")
-          div.p("Include: #{@report.filter.all.join(' AND ')}") unless @report.filter.all.empty?
-          div.p("Include: #{@report.filter.any.join(' OR ')}") unless @report.filter.any.empty?
-          div.p("Exclude: #{@report.filter.none.join(', ')}") unless @report.filter.none.empty?
+        def title
+          @report.title
         end
-      end
 
-      RHTML = %{
+        def filter_summary
+          return if @report.filter.empty?
+          builder = Builder::XmlMarkup.new
+          builder.div(:id => :filter_summary) do |div|
+            div.p("Filtering:")
+            div.p("Include: #{@report.filter.all.join(' AND ')}") unless @report.filter.all.empty?
+            div.p("Include: #{@report.filter.any.join(' OR ')}") unless @report.filter.any.empty?
+            div.p("Exclude: #{@report.filter.none.join(', ')}") unless @report.filter.none.empty?
+          end
+        end
+
+        RHTML = %{
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -50,13 +51,14 @@ module Cuporter
       </div>
     </div>
     <ul class="tag_list, name_report">
-      <%= HtmlNodeWriter.new.write_nodes(@report, @number_scenarios)%>
+      <%= Cuporter::Formatter::NameReport::HtmlNodeWriter.new.write_nodes(@report)%>
     </ul>
 </body>
 </html>
       }
 
 
+      end
     end
   end
 end

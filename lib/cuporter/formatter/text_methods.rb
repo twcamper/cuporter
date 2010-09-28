@@ -3,13 +3,6 @@ module Cuporter
   module Formatter
     module TextMethods
     
-      def write
-        @report.report_node.children.each do |tag_node|
-          tag_node.number_all_descendants if @number_scenarios
-          write_node(tag_node, 0)
-        end
-      end
-
       def write_node(node, tab_stops)
         @output.puts line(node.number, "#{tab * tab_stops}#{node.name}")
         node.children.each do |child|

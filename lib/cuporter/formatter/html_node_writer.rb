@@ -12,13 +12,13 @@ module Cuporter
         @builder = Builder::XmlMarkup.new
       end
 
-      def write_nodes(report, number_scenarios)
-        report.report_node.children.each do |tag_node|
-          write_node(tag_node)
+        def write_nodes(report, number_scenarios)
+          report.report_node.number_all_descendants if number_scenarios
+          report.report_node.children.each do |child_node|
+            write_node(child_node)
+          end
+          builder
         end
-        builder
-      end
-
       def write_node(node)
         builder.li(:class => node_class(node.name)) do
           write_node_name(node)

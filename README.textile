@@ -5,11 +5,13 @@ Scrapes your feature files and shows 2 possible reports:
 # scenarios and examples per tag
 ** in Feature and Scenario Outline context, as appropriate
 ** sorted alphbetically
-** optionally numbered, counting scenarios and outline examples per tag
+** optionally numbered*, counting scenarios and outline examples per tag
 # feature, scenario and example names
 ** may be filtered by tags, using same CLI syntax as Cucumber
 ** sorted alphbetically
-** optionally numbered, using 1 count of all scenarios and outline examples for the report
+** optionally numbered*, using 1 count of all scenarios and outline examples for the report
+
+<notextile>*</notextile> _HTML reports are always numbered._
 
 Either report may be formatted in HTML, CSV, or Pretty Text.
 

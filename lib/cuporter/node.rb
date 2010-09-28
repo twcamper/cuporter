@@ -25,15 +25,6 @@ module Cuporter
       children.collect {|c| c.name }
     end
 
-    def find_or_create_child(name)
-      child_node = self[name]
-      unless child_node
-        children << Node.new(name)
-        child_node = children.last
-      end
-      child_node
-    end
-
     def find_by_name(name)
       children.find {|c| c.name == name.to_s}
     end

@@ -4,14 +4,15 @@ require 'erb'
 
 module Cuporter
   module Formatter
-    class TagReportHtml < Writer
-      include HtmlMethods
+    module TagReport
+      class Html < Writer
+        include HtmlMethods
 
-      def title
-        "Cucumber Tags"
-      end
+        def title
+          "Cucumber Tags"
+        end
 
-      RHTML = %{
+        RHTML = %{
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -36,13 +37,14 @@ module Cuporter
           </div>
     </div>
     <ul class="tag_list">
-      <%= HtmlNodeWriter.new.write_nodes(@report, @number_scenarios)%>
+      <%= Cuporter::Formatter::TagReport::HtmlNodeWriter.new.write_nodes(@report)%>
     </ul>
 </body>
 </html>
       }
 
 
+      end
     end
   end
 end

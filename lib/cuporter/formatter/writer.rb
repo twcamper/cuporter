@@ -4,25 +4,29 @@ module Cuporter
   module Formatter
     class Writer
 
-      def initialize(report, output)
+      attr_reader :number_scenarios
+
+      def initialize(report, output, number_scenarios)
         @report = report
         @output = output ? File.open(output, "w") : STDOUT
+        @number_scenarios = number_scenarios
       end
 
-      def self.create(format, report, output)
+      def self.create(format, report, output, number_scenarios)
         klass = writer_class(format, report.class.name.split(/::/).last)
-        klass.new(report, output)
+        klass.new(report, output, number_scenarios)
       end
 
       def self.writer_class(format, report_class)
-        case format
-        when /text|pretty/i
-          Cuporter::Formatter::Text
+        fmt = case format
+        when /text|pretty/i 
+          "Text"
         when /csv/i
-          Cuporter::Formatter::Csv
+          "Csv"
         when /html/i
-          Cuporter::Formatter.const_get("#{report_class}Html")
+          "Html"
         end
+        Cuporter::Formatter.const_get(report_class).const_get(fmt)
       end
     end
   end

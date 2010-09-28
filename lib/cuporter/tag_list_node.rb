@@ -41,5 +41,14 @@ module Cuporter
       end
     end
 
+    def find_or_create_child(name)
+      child_node = self[name]
+      unless child_node
+        children << Node.new(name)
+        child_node = children.last
+      end
+      child_node
+    end
+
   end
 end

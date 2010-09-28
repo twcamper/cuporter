@@ -11,7 +11,7 @@ module Cuporter
         end
       end
       names.sort_all_descendants!
-      names.number_all_descendants if number_scenarios
+      names.number_all_descendants
       names
     end
 

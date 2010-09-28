@@ -9,7 +9,6 @@ module Cuporter
         tags.merge_tag_nodes(feature) if feature
       end
       tags.sort_all_descendants!
-      tags.children.each { |child| child.number_all_descendants } if number_scenarios
       tags
     end
 
