@@ -6,8 +6,8 @@ module Cuporter
   module Formatter
     module HtmlMethods
 
-      def inline_style
-        File.read(File.dirname(__FILE__) + "/cuporter.css")
+      def inline_file(file_name)
+        File.read("#{File.dirname(__FILE__)}/#{file_name}")
       end
 
       def get_binding
@@ -23,7 +23,7 @@ module Cuporter
       end
 
       def inline_jquery
-        File.read(File.dirname(__FILE__) + '/jquery-min.js')
+        inline_file('/jquery-min.js')
       end
       
       def inline_js_content
@@ -72,7 +72,7 @@ module Cuporter
     });
 
     // load page with features collapsed
-    $("#expand_tags, #collapse_features").click();
+    $("#collapser, #collapse_features").click();
   })
   
         EOF

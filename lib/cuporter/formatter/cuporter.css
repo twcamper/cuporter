@@ -7,7 +7,6 @@ body {
   padding-left: 2em; 
   padding-bottom: 0.3em; 
   padding-top: 0.05em; 
-  background-color: #24A6C1;
   color: white;
   height: 7em;
 }
@@ -15,12 +14,6 @@ body {
   padding-right: 2em;
   float: left;
 }
-#filter_summary {
-  width: 60em;
-  float: right;
-  padding-top: 1.2em;
-}
-
 #summary {
   position: absolute;
   right: 1em;
@@ -28,87 +21,40 @@ body {
   top: 1.2em;
 }
 
-#summary p, #filter_summary p {
+#summary p {
   margin: 0px 0px 0px 2px;
 }
 
-.tag_report #expand-collapse {
-  position: absolute;
-  right: 1em;
-  text-align: right;
-  top:   0.5em;
-}
 ul {
   list-style-type: none;
 }
-.tag_list {
+.main_list {
   padding-left: 0.5em; 
 }
-.tag_name {
-  height: 2em;
-  font-weight: bold;
-  font-size: 1.5em; 
-}
-.total {
-  margin-left: 0.5em;
-  font-weight: normal;
-  font-size: 0.8em;
-}
-.tag {
-  margin-bottom: 1em;
-}
-
 .feature {
   margin-bottom: 0.5em;
   margin-right: 1em;
 }
 .feature_name {
-  margin-left: -2em;
-  padding-left: 2em;
   padding-top:  0.3em;
   padding-bottom: 0.3em;
   font-weight: bold;
-  background-color: #24A6C1;
-  color: white;
-}
-.example_rows { 
-  background-color: lightblue;
-  margin-left: -7.2em;
-  padding-left: 7.2em;
 }
 
-.example_set_name {
-  margin-left: -2em;
-}
-.example {
-  background-color:  #26A6C0;
+.file {
+  float: right;
+  padding-right: 0.5em;
+  font-weight: normal;
+  color: black;
 }
 
 .example td.val {
   padding-left: 0.5em;
 }
-.scenario_name {
-  margin-left: -3.8em;
-  padding-left: 3.8em;
-  background-color: lightblue;
-
-}
 
 .number {
   position: absolute;
-  left: 4.5em;
   font-weight: bold;
 }
 
-.name_report .number {
-  left: 4em;
-}
-.file {
-  float: right;
-  padding-right: 0.5em;
-  font-weight: normal;
-  font-size: 1.1em;
-  color: black;
-
-}
 

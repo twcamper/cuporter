@@ -23,6 +23,10 @@ module Cuporter
           end
         end
 
+      def inline_style
+        inline_file("cuporter.css") + inline_file("name_report/style.css")
+      end
+
         RHTML = %{
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -36,7 +40,7 @@ module Cuporter
       <%= inline_js_content%>
     </script>
 </head>
-<body class="name_report">
+<body>
     <div class="cuporter_header">
       <div id="label">
           <h1><%= title %></h1>
@@ -50,7 +54,7 @@ module Cuporter
            </div>
       </div>
     </div>
-    <ul class="tag_list, name_report">
+    <ul class="main_list">
       <%= Cuporter::Formatter::NameReport::HtmlNodeWriter.new.write_nodes(@report)%>
     </ul>
 </body>
