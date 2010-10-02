@@ -8,8 +8,8 @@ module Cuporter
 
       attr_reader :builder
 
-      def initialize
-        @builder = Builder::XmlMarkup.new
+      def initialize(builder)
+        @builder = builder
       end
 
         def write_nodes(report, number_scenarios)
