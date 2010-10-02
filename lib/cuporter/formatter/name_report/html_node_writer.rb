@@ -5,8 +5,8 @@ module Cuporter
     module NameReport
       class HtmlNodeWriter < Cuporter::Formatter::HtmlNodeWriter
 
-        def write_nodes(report)
-          report.report_node.children.each do |child_node|
+        def write_report_node
+          @report.report_node.children.each do |child_node|
             write_node(child_node)
           end
           builder

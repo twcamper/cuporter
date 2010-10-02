@@ -6,11 +6,8 @@ module Cuporter
   module Formatter
     module HtmlMethods
 
-      def builder
-        @builder ||= Builder::XmlMarkup.new
-      end
-
       def document
+        builder = Builder::XmlMarkup.new
         builder.declare!(:DOCTYPE, :html,
                          :PUBLIC, "-//W3C//DTD XHTML 1.0 Transitional//EN",
                          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
@@ -29,7 +26,7 @@ module Cuporter
         html.head do |head|
           head.title(title)
           head.style(inline_file("cuporter.css"))
-          head.style(inline_style)
+          head.style(inline_file(inline_style))
           head.script(:type => "text/javascript") do
             head << inline_jquery  # jquery is corrupted if it isn't handled this way
             head << inline_js_content
@@ -57,7 +54,7 @@ module Cuporter
       end
 
       def write_report_node(body)
-        report_node_writer.new(body).write_nodes(@report)
+        report_node_writer.new(@report, body).write_report_node
       end
 
       def write

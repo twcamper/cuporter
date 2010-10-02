@@ -38,7 +38,7 @@ module Cuporter
         end
 
         def inline_style
-          inline_file("name_report/style.css")
+          "name_report/style.css"
         end
         
 

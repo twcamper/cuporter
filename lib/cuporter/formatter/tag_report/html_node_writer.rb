@@ -5,8 +5,8 @@ module Cuporter
     module TagReport
       class HtmlNodeWriter < Cuporter::Formatter::HtmlNodeWriter
 
-        def write_nodes(report)
-          report.report_node.children.each do |tag_node|
+        def write_report_node
+          @report.report_node.children.each do |tag_node|
             tag_node.number_all_descendants
             write_node(tag_node)
           end

@@ -8,17 +8,11 @@ module Cuporter
 
       attr_reader :builder
 
-      def initialize(builder)
+      def initialize(report, builder)
+        @report  = report
         @builder = builder
       end
 
-        def write_nodes(report, number_scenarios)
-          report.report_node.number_all_descendants if number_scenarios
-          report.report_node.children.each do |child_node|
-            write_node(child_node)
-          end
-          builder
-        end
       def write_node(node)
         builder.li(:class => node_class(node.name)) do
           write_node_name(node)
@@ -79,18 +73,18 @@ module Cuporter
 
       def node_class(name)
         case name
-          when FeatureParser::TAG_LINE
-            :tag
-          when FeatureParser::FEATURE_LINE
-            :feature
-          when FeatureParser::SCENARIO_LINE
-            :scenario
-          when FeatureParser::SCENARIO_OUTLINE_LINE
-            :scenario_outline
-          when FeatureParser::SCENARIO_SET_LINE, FeatureParser::EXAMPLE_SET_LINE
-            :example_set
-          else
-            :example
+        when FeatureParser::TAG_LINE
+          :tag
+        when FeatureParser::FEATURE_LINE
+          :feature
+        when FeatureParser::SCENARIO_LINE
+          :scenario
+        when FeatureParser::SCENARIO_OUTLINE_LINE
+          :scenario_outline
+        when FeatureParser::SCENARIO_SET_LINE, FeatureParser::EXAMPLE_SET_LINE
+          :example_set
+        else
+          :example
         end
       end
 

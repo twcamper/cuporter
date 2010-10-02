@@ -14,7 +14,7 @@ module Cuporter
         end
 
         def inline_style
-          inline_file("tag_report/style.css")
+          "tag_report/style.css"
         end
 
         def header(body)
