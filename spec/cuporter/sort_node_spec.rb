@@ -20,6 +20,18 @@ module Cuporter
         root.names.should == %w[aardvark zebra]
       end
 
+      it 'sorts on file property when it is present' do
+        root = Node.new('root')
+        root.add_child(Node.new('zebra'))
+        root.add_child(Node.new('aardvark'))
+        
+        root[:zebra].file    = "features/big_files/important_thing.feature"
+        root[:aardvark].file = "features/small_files/important_thing.feature"
+
+        root.sort_all_descendants!
+        root.names.should == %w[zebra aardvark]
+      end
+
       it 'sorts all descendants to an arbitrary depth, such as 6' do
         root = Node.new('root')
         zebra  = Node.new("zebra")

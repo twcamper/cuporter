@@ -48,9 +48,13 @@ module Cuporter
       children.sort!
     end
 
-    # sort on name or substring of name after any ':'
+    # sort on: file path, name, substring of name after any ':'
     def <=>(other)
-      name_without_title <=> other.name_without_title
+      if file
+        file <=> other.file
+      else
+        name_without_title <=> other.name_without_title
+      end
     end
     
     # value equivalence

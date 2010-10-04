@@ -1,11 +1,11 @@
 Feature: feature number 1
   Scenario: 1 1
   Scenario: 1 2
-Feature: feature number 2
-  Scenario: 2 3
 Feature: feature number 3
   Scenario Outline: 3 2
     Examples: 3 2 4
       |foo|bar|dump|
       | 1 | 2 | 3  |
       | 4 | 5 | 6  |
+Feature: feature number 2
+  Scenario: 2 3

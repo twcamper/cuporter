@@ -1,6 +1,3 @@
-Feature: feature number 2
-  Scenario: 2 1
-  Scenario: 2 2
 Feature: feature number 3
   Scenario: 3 1
   Scenario Outline: 3 2
@@ -17,3 +14,6 @@ Feature: feature number 3
       | 1 | 2 | 3  |
       | 4 | 5 | 6  |
   Scenario: 3 3
+Feature: feature number 2
+  Scenario: 2 1
+  Scenario: 2 2
