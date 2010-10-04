@@ -2,13 +2,13 @@ h1. Cuporter
 
 Scrapes your feature files and shows 2 possible reports:
 
-# scenarios and examples per tag
+# Tag Report: scenarios and examples per tag
 ** in Feature and Scenario Outline context, as appropriate
-** sorted alphbetically
+** sorted alphbetically by file path, scenario name, scenario outline name, example name
 ** optionally numbered*, counting scenarios and outline examples per tag
-# feature, scenario and example names
+# Inventory Report: feature, scenario and example names
 ** may be filtered by tags, using same CLI syntax as Cucumber
-** sorted alphbetically
+** sorted alphbetically by file path, scenario name, scenario outline name, example name
 ** optionally numbered*, using 1 count of all scenarios and outline examples for the report
 
 <notextile>*</notextile> _HTML reports are always numbered._
@@ -106,20 +106,12 @@ h4. run script directly
   #  pretty-print demo report to stdout
   $ ./bin/cuporter -i fixtures/self_text
 
-  #  default input features/**/*.feature to named output file
+  #  same, but number the scenarios and example rows
+  $ ./bin/cuporter -i fixtures/self_text -n
+
+  #  default input features/**/*.feature to named html output file
   $ ./bin/cuporter -f html -o feature_tag_report.html
 
-  #  same, but number the scenarios and example rows
-  $ ./bin/cuporter -f html --numbers -o feature_tag_report.html
-
   #  filtered html name report, with non-default title
-  $ ./bin/cuporter -f html -o active_customer.html -r name -n -T "Active Customer Test Inventory" -t ~@wip -t @customer,@client
-</pre>
-
-h4. run via rake
-
-<pre>
-  $ rake cuporter:run["-i fixtures/self_text"]
-
-  $ rake cuporter:run["-f html -o feature_tag_report.html"]
+  $ ./bin/cuporter -f html -o active_customer.html -r name -T "Active Customer Test Inventory" -t ~@wip -t @customer,@client
 </pre>

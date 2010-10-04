@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Cuporter
-  describe NameList do
+  describe NameListParser do
     let(:file)  {"file.feature"}
 
     context "#parse_feature" do
@@ -17,7 +17,7 @@ Feature: just one scenario
     And gee
 EOF
           File.should_receive(:read).with(file).and_return(content)
-          feature = NameList.new(file, Filter.new).parse_feature
+          feature = NameListParser.new(file, Filter.new).parse_feature
           feature.should be_a Node
           feature.file.should == file
           feature.name.should == "Feature: just one scenario"
@@ -47,7 +47,7 @@ EOF
         context "none filter" do
           it "returns an empty feature" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:none => :@wip)).parse_feature
+            feature = NameListParser.new(file, Filter.new(:none => :@wip)).parse_feature
             feature.name.should == "Feature: two scenarios"
             feature.should_not have_children
           end
@@ -56,7 +56,7 @@ EOF
         context "any filter" do
           it "returns the feature with both scenarios" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:any => :@wip)).parse_feature
+            feature = NameListParser.new(file, Filter.new(:any => :@wip)).parse_feature
             feature.name.should == "Feature: two scenarios"
             feature.names.should == ["Scenario: the scenario in question", "Scenario: the other"]
           end
@@ -84,7 +84,7 @@ EOF
         context "none filter" do
           it "returns the feature with one scenario" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:none => :@wip)).parse_feature
+            feature = NameListParser.new(file, Filter.new(:none => :@wip)).parse_feature
             feature.name.should == "Feature: two scenarios"
             feature.names.should == ["Scenario: the scenario in question"]
           end
@@ -93,7 +93,7 @@ EOF
         context "any filter" do
           it "returns the feature with the other scenario" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:any => :@wip)).parse_feature
+            feature = NameListParser.new(file, Filter.new(:any => :@wip)).parse_feature
             feature.name.should == "Feature: two scenarios"
             feature.names.should == ["Scenario: the other"]
           end
@@ -133,7 +133,7 @@ EOF
         context "none filter" do
           it "returns a feature with two scenarios" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:none => :@wip)).parse_feature
+            feature = NameListParser.new(file, Filter.new(:none => :@wip)).parse_feature
             feature.name.should == "Feature: two scenarios one outline"
             feature.names.should == ["Scenario: the scenario in question", "Scenario: the other"]
           end
@@ -142,7 +142,7 @@ EOF
         context "any filter" do
           it "returns the feature with the outline" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:any => :@wip)).parse_feature
+            feature = NameListParser.new(file, Filter.new(:any => :@wip)).parse_feature
             feature.name.should == "Feature: two scenarios one outline"
             feature.names.should == ["Scenario Outline: outline"]
           end
@@ -181,7 +181,7 @@ EOF
         context "none filter" do
           it "returns the feature with a scenario and a scenario outline" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:none => :@wip)).parse_feature
+            feature = NameListParser.new(file, Filter.new(:none => :@wip)).parse_feature
             feature.name.should == "Feature: two scenarios one outline"
             feature.names.should == ["Scenario: the scenario in question", "Scenario Outline: outline"]
             feature["Scenario Outline: outline"].names.should == ["Examples: tests"]
@@ -192,7 +192,7 @@ EOF
         context "any filter" do
           it "returns the feature with one scenario" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:any => :@wip)).parse_feature
+            feature = NameListParser.new(file, Filter.new(:any => :@wip)).parse_feature
             feature.name.should == "Feature: two scenarios one outline"
             feature.names.should == ["Scenario: the other"]
           end
@@ -233,7 +233,7 @@ EOF
         context "include scenario and outline tags, exclude non-matching tag" do
           it "returns the feature and the untagged scenario" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:any => %w[@scenario @outline], :none => :@jack)).parse_feature
+            feature = NameListParser.new(file, Filter.new(:any => %w[@scenario @outline], :none => :@jack)).parse_feature
             feature.name.should == "Feature: two scenarios one outline"
             feature.names.should == ["Scenario: the scenario in question", "Scenario Outline: outline"]
           end
@@ -242,7 +242,7 @@ EOF
         context "include feature tag, exclude scenario and outline tags" do
           it "returns the feature and the untagged scenario" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:any => :@feature, :none => %w[@scenario @outline])).parse_feature
+            feature = NameListParser.new(file, Filter.new(:any => :@feature, :none => %w[@scenario @outline])).parse_feature
             feature.name.should == "Feature: two scenarios one outline"
             feature.names.should == ["Scenario: the other"]
           end
@@ -250,7 +250,7 @@ EOF
         context "exclude feature tags, include scenario and outline tags" do
           it "returns an empty feature" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:any => %w[@scenario @outline], :none => :@feature)).parse_feature
+            feature = NameListParser.new(file, Filter.new(:any => %w[@scenario @outline], :none => :@feature)).parse_feature
             feature.name.should == "Feature: two scenarios one outline"
             feature.should_not have_children
           end
@@ -292,7 +292,7 @@ EOF
         context "include outline tag AND example set tag" do
           it "returns the tagged example set" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:all => %w[@example_set @outline])).parse_feature
+            feature = NameListParser.new(file, Filter.new(:all => %w[@example_set @outline])).parse_feature
             feature.name.should == "Feature: two scenarios one outline"
             feature.names.should == ["Scenario Outline: outline"]
             feature["Scenario Outline: outline"].names.should == ["Examples: we are tagged"]
@@ -302,7 +302,7 @@ EOF
         context "include outline tag AND exclude example set tag" do
           it "returns the other example set" do
             File.should_receive(:read).with(file).and_return(content)
-            feature = NameList.new(file, Filter.new(:all => :@outline, :none => :@example_set )).parse_feature
+            feature = NameListParser.new(file, Filter.new(:all => :@outline, :none => :@example_set )).parse_feature
             feature.name.should == "Feature: two scenarios one outline"
             feature.names.should == ["Scenario Outline: outline"]
             feature["Scenario Outline: outline"].names.should == ["Examples: other tests"]
