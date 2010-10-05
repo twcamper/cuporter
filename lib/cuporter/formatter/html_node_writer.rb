@@ -24,8 +24,19 @@ module Cuporter
         builder.span("#{node.number}.", :class => :number) if node.number
         builder.div(:class => "#{node_class(node.name)}_name") do
           builder.span(node.name)
-          builder.span(node.file, :class => :file) if node.file
+          write_file(node.file) if node.file
           builder.span("[#{node.total}]", :class => :total) if node_class(node.name) == :tag
+        end
+      end
+
+      def write_file(file)
+        builder.div(:class => :file) do |div|
+          path_nodes = file.split(File::Separator)
+          file_name = path_nodes.pop
+          parent_dir = path_nodes.pop
+          div.span(path_nodes.join("/"))
+          div.span("/#{parent_dir}", :class => :dir)
+          div.span("/#{file_name}")
         end
       end
 

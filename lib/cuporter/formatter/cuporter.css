@@ -48,6 +48,10 @@ ul {
   color: black;
 }
 
+.file .dir {
+  font-weight: bold;
+}
+
 .example td.val {
   padding-left: 0.5em;
 }
