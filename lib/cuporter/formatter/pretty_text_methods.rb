@@ -7,7 +7,8 @@ module Cuporter
         @tab ||= @number_scenarios ? "   " : "  "
       end
 
-      def line(number, line)
+      def line(number, empty_columns, name)
+        line = empty_columns + name
         if @number_scenarios
           number_string = number ? "#{number}." : ""
           number_field = number_string.rjust(self.class::COL_WIDTH, " ")

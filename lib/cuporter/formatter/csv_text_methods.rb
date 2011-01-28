@@ -7,9 +7,12 @@ module Cuporter
         ","
       end
 
-      def line(number, line)
-        line.sub!(/^#{tab}/, "#{number}#{tab}") if number
-        line
+      def line(number, empty_columns, name)
+        empty_columns.sub!(/^#{tab}/, "#{number}#{tab}") if number
+        name.gsub!(tab, ";")
+        name.sub!(/^\|/, '')
+        name.gsub!("|", tab)
+        empty_columns + name
       end
 
     end
