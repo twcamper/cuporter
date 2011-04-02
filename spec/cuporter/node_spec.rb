@@ -43,6 +43,10 @@ module Cuporter
         n1.add_child(Node.new('lou'))
         n2.add_child(Node.new('lou'))
         n1.should == n2
+
+        n1.file = "a.feature"
+        n2.file = "b.feature"
+        n1.should_not == n2
       end
     end
 

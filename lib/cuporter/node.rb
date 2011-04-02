@@ -50,7 +50,7 @@ module Cuporter
 
     # sort on: file path, name, substring of name after any ':'
     def <=>(other)
-      if file
+      if file && other.file
         file <=> other.file
       else
         name_without_title <=> other.name_without_title
@@ -59,7 +59,7 @@ module Cuporter
     
     # value equivalence
     def eql?(other)
-      name == other.name && children == other.children
+      name == other.name && file == other.file && children == other.children
     end
     alias :== :eql?
 
