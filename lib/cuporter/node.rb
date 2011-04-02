@@ -35,6 +35,22 @@ module Cuporter
     end
     alias :has_child? :find
     
+    def add_leaf(path, node)
+      node_at(path).add_child(node)
+    end
+
+    def node_at(path)
+      return self if path.empty?
+
+      node_name = path.shift.upcase
+      unless (child = find_by_name(node_name))
+        child = Node.new(node_name)
+        child.numerable = false
+        add_child(child)
+      end
+      child.node_at(path)
+    end
+
     def name_without_title
       @name_without_title ||= name.split(/:\s+/).last
     end
