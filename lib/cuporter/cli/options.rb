@@ -51,7 +51,7 @@ module Cuporter
           end
 
           @options[:report] = "tag"
-          opts.on("-r", "--report [tag|name]", "type of report\n\t\t\t\t\tDefault: tag\n\n") do |r|
+          opts.on("-r", "--report [tag|name|tree]", "type of report\n\t\t\t\t\tDefault: tag\n\n") do |r|
             @options[:report] = r
           end
 

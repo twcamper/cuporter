@@ -10,6 +10,15 @@ module Cuporter
       @title = title
     end
 
+    def root
+      path = @input_file_pattern.split(File::SEPARATOR)
+      if path.size == 1
+        "."
+      else
+        path.first
+      end
+    end
+
     def files
       Dir[@input_file_pattern].collect {|f| File.expand_path f}
     end

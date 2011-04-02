@@ -18,10 +18,13 @@ module Cuporter
       NameListParser.new(file, filter).parse_feature
     end
 
-    def initialize(file)
+    attr_writer :root
+
+    def initialize(file, root = "features")
       @file = file
       @current_tags = []
       @lines = File.read(@file).split(/\n/)
+      @root = root
     end
 
     def parse_feature
@@ -32,7 +35,7 @@ module Cuporter
           @current_tags |= $1.strip.split(/\s+/)
         when FeatureParser::FEATURE_LINE
           @feature = new_feature_node($1)
-          @feature.file = @file.sub(/^.*features\//,"features/")
+          @feature.file = @file.sub(/^.*#{@root}\//,"#{@root}/")
           @current_tags = []
         when FeatureParser::SCENARIO_LINE
           # How do we know when we have read all the lines from a "Scenario Outline:"?

@@ -35,6 +35,22 @@ module Cuporter
     end
     alias :has_child? :find
     
+    def add_leaf(path, node)
+      node_at(path).add_child(node)
+    end
+
+    def node_at(path)
+      return self if path.empty?
+
+      node_name = path.shift.upcase
+      unless (child = find_by_name(node_name))
+        child = Node.new(node_name)
+        child.numerable = false
+        add_child(child)
+      end
+      child.node_at(path)
+    end
+
     def name_without_title
       @name_without_title ||= name.split(/:\s+/).last
     end
@@ -50,7 +66,7 @@ module Cuporter
 
     # sort on: file path, name, substring of name after any ':'
     def <=>(other)
-      if file
+      if file && other.file
         file <=> other.file
       else
         name_without_title <=> other.name_without_title
@@ -59,7 +75,7 @@ module Cuporter
     
     # value equivalence
     def eql?(other)
-      name == other.name && children == other.children
+      name == other.name && file == other.file && children == other.children
     end
     alias :== :eql?
 

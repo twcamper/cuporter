@@ -2,6 +2,7 @@
 
 module Cuporter
   module Formatter
+
     class Writer
 
       attr_reader :number_scenarios
