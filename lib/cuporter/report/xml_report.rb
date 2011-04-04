@@ -7,7 +7,6 @@ module Cuporter
 
     def xml
       doc.root << body
-      p doc.class
       doc.to_xml(:indent => 2, :encoding => 'UTF-8')
     end
 
