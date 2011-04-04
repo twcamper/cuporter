@@ -8,15 +8,12 @@ module Cuporter
       @input_file_pattern = input_file_pattern
       @filter = Filter.new(filter_args || {})
       @title = title
+      @doc = new_doc
     end
 
-    def root
+    def root_path
       path = @input_file_pattern.split(File::SEPARATOR)
-      if path.size == 1
-        "."
-      else
-        path.first
-      end
+      path.first
     end
 
     def files
@@ -27,5 +24,40 @@ module Cuporter
       klass = Cuporter.const_get("#{type.downcase}Report".to_class_name)
       klass.new(input_file_pattern, filter_args, title)
     end
+
+    def xml
+      @doc.root << body
+      @doc.to_xml
+    end
+
+    private
+
+    def report_node
+      report = new_node(:report)
+      files.each do |file|
+        report << new_node(:feature) << File.read(file)
+      end
+    end
+
+    def body
+      b = new_node(:body)
+      b << report_node
+      b
+    end
+
+    def new_doc
+      doc = Nokogiri::XML::Document.new
+      doc << Nokogiri::XML::Node.new(root_path, doc)
+      doc
+    end
+    
+    def new_node(name, attributes = {})
+      n = Nokogiri::XML::Node.new(name.to_s, @doc)
+      attributes.each do | attr, value |
+        n[attr.to_s] = value.to_s
+      end
+      n
+    end
+    
   end
 end

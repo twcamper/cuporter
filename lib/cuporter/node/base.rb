@@ -2,22 +2,11 @@
 module Cuporter
   module Node
 
-    class Base < Nokogiri::XML::Node
+    module BaseMethods
       include Comparable
-
-      attr_accessor :number, :file
-
-      def initialize(name)
-        super(self.class, doc) << name.to_s.strip
-      end
 
       def has_children?
         children.size > 0
-      end
-
-      # will not add duplicate
-      def add_child(node)
-        super(node) unless has_child?(node)
       end
 
       def names
@@ -27,7 +16,6 @@ module Cuporter
       def find_by_name(name)
         children.find {|c| c.content == name.to_s}
       end
-      alias :[] :find_by_name
 
       def find_by_type(type, name)
         children.find {|c| c.type == type && c.content == name.to_s}
@@ -55,7 +43,7 @@ module Cuporter
       end
 
       def name_without_title
-        @name_without_title ||= content.split(/:\s+/).last
+        @name_without_title ||= name.split(/:\s+/).last
       end
 
       def sort_all_descendants!
@@ -78,8 +66,9 @@ module Cuporter
       end
 
       def total
-        number_all_descendants unless @numberer
-        @numberer.total
+        t = search("*[@number]").size
+        self["total"] = t.to_s if t > 0
+        children.each {|child| child.total }
       end
 
       def number_all_descendants
@@ -87,10 +76,21 @@ module Cuporter
         @numberer.number(self)
       end
 
-      def numerable?
-        false
+      def to_s
+        self["name"]
       end
-
     end
+
+    def self.new_node(name, doc, attributes = {})
+      n = Cuporter::Node.const_get(name).new(name.to_s, doc)
+      attributes.each do | attr, value |
+        value = value.is_a?( Array) ?  value.join(",") : value.to_s
+        n[attr.to_s] = value unless value.empty?
+      end
+      n
+    end
+
   end
 end
+
+Nokogiri::XML::Node.send(:include, Cuporter::Node::BaseMethods)

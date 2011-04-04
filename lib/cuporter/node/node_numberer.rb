@@ -10,7 +10,9 @@ module Cuporter
 
       def number(node)
         node.children.each do |child|
-          child.number = @total += 1 if child.numerable?
+          if child["number"] 
+            child["number"] = (@total += 1).to_s
+          end
           number(child)
         end
       end

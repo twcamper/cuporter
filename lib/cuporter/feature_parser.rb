@@ -17,7 +17,10 @@ module Cuporter
     def self.name_list(file, filter)
       NameListParser.new(file, filter).parse_feature
     end
-
+  
+    def self.node(file, doc, filter)
+      NodeParser.new(file, doc, filter).parse_feature
+    end
     attr_writer :root
 
     def initialize(file, root = "features")
@@ -34,8 +37,7 @@ module Cuporter
           # may be more than one tag line
           @current_tags |= $1.strip.split(/\s+/)
         when FeatureParser::FEATURE_LINE
-          @feature = new_feature_node($1)
-          @feature.file = @file.sub(/^.*#{@root}\//,"#{@root}/")
+          @feature = new_feature_node($1, @file.sub(/^.*#{@root}\//,"#{@root}/"))
           @current_tags = []
         when FeatureParser::SCENARIO_LINE
           # How do we know when we have read all the lines from a "Scenario Outline:"?
@@ -56,13 +58,17 @@ module Cuporter
           @example_set = new_example_set_node($1)
           @current_tags = []
         when @example_set && FeatureParser::EXAMPLE_LINE
-          @example_set.add_child(Node.new($1))
+          new_example_line($1)
         end
       end
 
       # EOF is the final way that we know we are finished with a "Scenario Outline"
       close_scenario_outline
       return @feature
+    end
+
+    def new_example_line(sub_expression)
+      @example_set.add_child(Node.new(sub_expression))
     end
 
   end

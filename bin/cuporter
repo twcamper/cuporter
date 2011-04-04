@@ -10,6 +10,8 @@ report = Cuporter::Report.create(Cuporter::CLI::Options[:report],
                                  filter_args,
                                  Cuporter::CLI::Options[:title])
 
+puts report.xml
+__END__
 formatter = Cuporter::Formatter::Writer.create(Cuporter::CLI::Options[:format],
                                                report,
                                                Cuporter::CLI::Options[:output],

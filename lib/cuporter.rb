@@ -1,11 +1,11 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
+$LOAD_PATH.unshift( File.expand_path("#{File.dirname(__FILE__)}"))
+$LOAD_PATH.unshift( File.expand_path("#{File.dirname(__FILE__)}/.."))
 require 'cuporter/node'
 require 'cuporter/filter'
-require 'cuporter/tag_list_node'
-require 'cuporter/example_set_node'
-require 'cuporter/node_numberer'
 require 'cuporter/feature_parser'
 require 'cuporter/tag_list_parser'
+require 'cuporter/node_parser'
 require 'cuporter/name_list_parser'
 require 'cuporter/extensions/string'
 require 'cuporter/cli/options'
@@ -14,6 +14,7 @@ require 'cuporter/report/report'
 require 'cuporter/report/tag_report'
 require 'cuporter/report/tree_report'
 require 'cuporter/report/name_report'
+require 'cuporter/report/xml_report'
 require 'cuporter/formatter/writer'
 require 'cuporter/formatter/text_methods'
 require 'cuporter/formatter/pretty_text_methods'

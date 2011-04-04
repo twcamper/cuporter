@@ -1,8 +1,11 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
   module Node
-    class Feature < Base
-      attr_accessor :file
+    class Feature < Tagged
+
+      def file
+        ["file"]
+      end
 
       def file_name
         file.split(/\//).last
