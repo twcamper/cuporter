@@ -27,13 +27,13 @@ namespace :cuporter do
     desc "unit specs"
     RSpec::Core::RakeTask.new(:unit) do |t|
       t.pattern = "spec/cuporter/*_spec.rb"
-      t.spec_opts = ["--color" , "--format" , "doc" ]
+      t.rspec_opts = ["--color" , "--format" , "doc" ]
     end
 
     desc "functional specs against feature fixtures"
     RSpec::Core::RakeTask.new(:functional) do |t|
       t.pattern = "spec/cuporter/functional/**/*_spec.rb"
-      t.spec_opts = ["--color" , "--format" , "doc" ]
+      t.rspec_opts = ["--color" , "--format" , "doc" ]
     end
 
     desc "cucumber features"
