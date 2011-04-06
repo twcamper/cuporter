@@ -37,7 +37,7 @@ module Cuporter
             @options[:output] = full_path
           end
           @options[:format] = "text"
-          opts.on("-f", "--format [pretty|html|csv]", "Output format\n\t\t\t\t\tDefault: pretty text\n\n") do |f|
+          opts.on("-f", "--format [pretty|html|xml|csv]", "Output format\n\t\t\t\t\tDefault: pretty text\n\n") do |f|
             @options[:format] = f
           end
 

@@ -6,7 +6,7 @@ module Spec
       end
 
       def one_feature_name_report(path)
-        `bin#{File::SEPARATOR}cuporter -r name --input-file #{path}`
+        `bin#{File::SEPARATOR}cuporter -r feature --input-file #{path}`
       end
     end
   end

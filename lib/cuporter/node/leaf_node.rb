@@ -5,7 +5,7 @@ module Cuporter
     class Scenario < Tagged
     end
 
-    class Example < Nokogiri::XML::Node
+    class Example < BaseNode
     end
   end
 end

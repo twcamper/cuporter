@@ -10,11 +10,11 @@ module Cuporter
       end
 
       def names
-        children.collect {|c| c.content }
+        children.collect {|c| c.name }
       end
 
       def find_by_name(name)
-        children.find {|c| c.content == name.to_s}
+        children.find {|c| c.name == name.to_s}
       end
 
       def find_by_type(type, name)
@@ -52,10 +52,10 @@ module Cuporter
       end
 
       def sort!
-        children.sort!
+        return unless has_children?
+        kidz = children.sort
+        self.children = kidz
       end
-
-      # sort on: substring of name after any ':'
       def <=>(other)
         name_without_title <=> other.name_without_title
       end
@@ -76,21 +76,48 @@ module Cuporter
         @numberer.number(self)
       end
 
-      def to_s
-        self["name"]
+      def depth_to(root)
+        d = path.sub(/^.*\/#{root}/, root).split('/').size - 1
+        d < 0 ? 0 : d
       end
+
+      def to_text(options = {})
+        indent = '  ' * depth_to("feature")
+        s = ""
+        s = "#{indent}#{self['name']}\n" if self['name']
+        s += children.map {|n| n.to_text}.to_s
+        s
+      end
+      alias :to_pretty :to_text
+
     end
 
     def self.new_node(name, doc, attributes = {})
-      n = Cuporter::Node.const_get(name).new(name.to_s, doc)
+      node_name = name.to_s.gsub(/([a-z])([A-Z])/,'\1_\2').downcase
+      n = Cuporter::Node.const_get(name).new(node_name, doc)
       attributes.each do | attr, value |
         value = value.is_a?( Array) ?  value.join(",") : value.to_s
         n[attr.to_s] = value unless value.empty?
       end
       n
     end
-
+  
+    BaseNode = Nokogiri::XML::Node
   end
 end
 
-Nokogiri::XML::Node.send(:include, Cuporter::Node::BaseMethods)
+
+module NodeSetSort
+  def sort
+    return self if empty?
+    sorted = to_a.sort
+    self.class.new(document, sorted)
+  end
+end
+
+Nokogiri::XML::NodeSet.send(:include, NodeSetSort)
+Cuporter::Node::BaseNode.class_eval do
+  remove_method :<=>
+end
+
+Cuporter::Node::BaseNode.send(:include, Cuporter::Node::BaseMethods)

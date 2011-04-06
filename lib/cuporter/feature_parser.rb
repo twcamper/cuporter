@@ -2,10 +2,10 @@
 
 module Cuporter
   class FeatureParser
-    FEATURE_LINE          = /^\s*(Feature:[^#]+)/
+    FEATURE_LINE          = /^\s*(Feature:[^#]*)/
     TAG_LINE              = /^\s*(@\w.+)/
-    SCENARIO_LINE         = /^\s*(Scenario:[^#]+)$/
-    SCENARIO_OUTLINE_LINE = /^\s*(Scenario Outline:[^#]+)$/
+    SCENARIO_LINE         = /^\s*(Scenario:[^#]*)$/
+    SCENARIO_OUTLINE_LINE = /^\s*(Scenario Outline:[^#]*)$/
     SCENARIO_SET_LINE     = /^\s*(Scenarios:[^#]*)$/
     EXAMPLE_SET_LINE      = /^\s*(Examples:[^#]*)$/
     EXAMPLE_LINE          = /^\s*(\|.*\|)\s*$/
@@ -55,7 +55,13 @@ module Cuporter
         when FeatureParser::EXAMPLE_SET_LINE, FeatureParser::SCENARIO_SET_LINE
           handle_example_set_line if @example_set
 
+          begin
           @example_set = new_example_set_node($1)
+          rescue NoMethodError
+            p @file
+            p line
+            raise
+          end
           @current_tags = []
         when @example_set && FeatureParser::EXAMPLE_LINE
           new_example_line($1)

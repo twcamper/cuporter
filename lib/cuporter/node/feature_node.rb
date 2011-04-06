@@ -6,7 +6,7 @@ module Cuporter
       def file
         ["file"]
       end
-
+      
       def file_name
         file.split(/\//).last
       end
