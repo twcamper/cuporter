@@ -2,10 +2,8 @@
 module Cuporter
   class FeatureReport < Report
 
-    private
-
     def report_node
-      report = new_node(:Report)
+      report = Cuporter::Node.new_node(:Report, @doc)
       files.each do |file|
         feature = FeatureParser.node(file, @doc, @filter)
         if feature && feature.has_children?
@@ -18,9 +16,10 @@ module Cuporter
       report
     end
 
-    
-    def new_node(name, attributes = {})
-      Cuporter::Node.new_node(name, @doc, attributes)
+    def write
+      doc.root << report_node
+      doc.write
     end
+
   end
 end

@@ -2,14 +2,24 @@
 module Cuporter
   class TagReport < Report
 
-    def report_node
-      tags = TagListNode.new("report",[])
+    def build_report_node
       files.each do |file|
-        feature = FeatureParser.tag_list(file)
-        tags.merge_tag_nodes(feature) if feature
+        FeatureParser.tag_nodes(file, report, @filter)
       end
-      tags.sort_all_descendants!
-      tags
+      report.sort_all_descendants!
+    end
+
+    def report
+      @report ||= begin
+                    r = Cuporter::Node.new_node(:Report, doc)
+                    doc.root << r
+                    r
+                  end
+    end
+
+    def write
+      build_report_node
+      doc.write
     end
 
   end

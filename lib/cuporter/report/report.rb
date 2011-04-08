@@ -21,10 +21,5 @@ module Cuporter
       klass.new(input_file_pattern, doc, filter_args, title)
     end
 
-    def write
-      doc.root << report_node
-      doc.write
-    end
-
   end
 end

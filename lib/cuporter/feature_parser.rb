@@ -10,14 +10,13 @@ module Cuporter
     EXAMPLE_SET_LINE      = /^\s*(Examples:[^#]*)$/
     EXAMPLE_LINE          = /^\s*(\|.*\|)\s*$/
 
-    def self.tag_list(file)
-      TagListParser.new(file).parse_feature
+    # adds a node to the doc for each cucumber '@' tag, populated with features and
+    # scenarios
+    def self.tag_nodes(file, report, filter)
+      TagNodesParser.new(file, report, filter).parse_feature
     end
 
-    def self.name_list(file, filter)
-      NameListParser.new(file, filter).parse_feature
-    end
-  
+    # returns a feature node populated with scenarios
     def self.node(file, doc, filter)
       NodeParser.new(file, doc, filter).parse_feature
     end
@@ -55,13 +54,7 @@ module Cuporter
         when FeatureParser::EXAMPLE_SET_LINE, FeatureParser::SCENARIO_SET_LINE
           handle_example_set_line if @example_set
 
-          begin
           @example_set = new_example_set_node($1)
-          rescue NoMethodError
-            p @file
-            p line
-            raise
-          end
           @current_tags = []
         when @example_set && FeatureParser::EXAMPLE_LINE
           new_example_line($1)

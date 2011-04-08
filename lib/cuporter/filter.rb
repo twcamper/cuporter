@@ -26,6 +26,7 @@ module Cuporter
       unless none.empty?
         pass = false if !(other_tags & none).empty?
       end
+
       pass
     end
 

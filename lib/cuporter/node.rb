@@ -15,7 +15,7 @@ module Cuporter
     class Feature < Tagged
 
       def file
-        ["file"]
+        self["file"]
       end
 
       def file_name
@@ -39,6 +39,7 @@ module Cuporter
       end
     end
 
+    # The set of examples in a scenario outline
     class Examples < Tagged
 
       # don't sort scenario outline examples
