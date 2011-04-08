@@ -25,7 +25,7 @@ module Cuporter
     end
 
     def new_example_set_node(sub_expression)
-      es = Node.new_node(:ExampleSet, @doc, :value => sub_expression, :tags => (@feature.tags | @current_tags))
+      es = Node.new_node(:Examples, @doc, :value => sub_expression, :tags => (@feature.tags | @current_tags))
       es.filter = @filter
       es
     end
