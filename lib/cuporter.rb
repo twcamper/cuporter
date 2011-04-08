@@ -1,6 +1,8 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
 $LOAD_PATH.unshift( File.expand_path("#{File.dirname(__FILE__)}"))
 $LOAD_PATH.unshift( File.expand_path("#{File.dirname(__FILE__)}/.."))
+require 'cuporter/extensions/nokogiri'
+require 'cuporter/extensions/string'
 require 'cuporter/node'
 require 'cuporter/cli/options'
 require 'cuporter/cli/filter_args_builder'
@@ -9,7 +11,6 @@ require 'cuporter/feature_parser'
 require 'cuporter/tag_list_parser'
 require 'cuporter/node_parser'
 require 'cuporter/name_list_parser'
-require 'cuporter/extensions/string'
 require 'cuporter/document'
 require 'cuporter/report/report'
 require 'cuporter/report/tag_report'

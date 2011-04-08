@@ -42,8 +42,8 @@ module Cuporter
         child.node_at(path)
       end
 
-      def name_without_title
-        @name_without_title ||= name.split(/:\s+/).last
+      def value_without_title
+        @value_without_title ||= self['value'].to_s.split(/:\s*/).last
       end
 
       def sort_all_descendants!
@@ -56,8 +56,9 @@ module Cuporter
         kidz = children.sort
         self.children = kidz
       end
+
       def <=>(other)
-        name_without_title <=> other.name_without_title
+        (value_without_title || name) <=> (other.value_without_title || other.name)
       end
 
       # value equivalence
@@ -84,7 +85,7 @@ module Cuporter
       def to_text(options = {})
         indent = '  ' * depth_to("feature")
         s = ""
-        s = "#{indent}#{self['name']}\n" if self['name']
+        s = "#{indent}#{self['value']}\n" if self['value']
         s += children.map {|n| n.to_text}.to_s
         s
       end
@@ -97,7 +98,8 @@ module Cuporter
       n = Cuporter::Node.const_get(name).new(node_name, doc)
       attributes.each do | attr, value |
         value = value.is_a?( Array) ?  value.join(",") : value.to_s
-        n[attr.to_s] = value unless value.empty?
+
+        n[attr.to_s] = value.to_s
       end
       n
     end
@@ -106,18 +108,5 @@ module Cuporter
   end
 end
 
-
-module NodeSetSort
-  def sort
-    return self if empty?
-    sorted = to_a.sort
-    self.class.new(document, sorted)
-  end
-end
-
-Nokogiri::XML::NodeSet.send(:include, NodeSetSort)
-Cuporter::Node::BaseNode.class_eval do
-  remove_method :<=>
-end
 
 Cuporter::Node::BaseNode.send(:include, Cuporter::Node::BaseMethods)

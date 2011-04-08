@@ -20,10 +20,3 @@ module Cuporter
 
   end
 end
-module NokogiriExtensions
-  attr_accessor :format
-  def write
-    send("to_#{format}".to_sym, :indent => 2, :encoding => 'UTF-8')
-  end
-end
-Nokogiri::XML::Document.send(:include, NokogiriExtensions)
