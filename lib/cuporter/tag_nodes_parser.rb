@@ -2,7 +2,6 @@
 
 module Cuporter
   class TagNodesParser < FeatureParser
-    class FilterError < RuntimeError; end
 
     # ++sub_expression++ is the paren group in the regex, dereferenced with $1 in the caller
     def new_feature_node(sub_expression, file)

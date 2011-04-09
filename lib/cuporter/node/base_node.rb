@@ -56,16 +56,16 @@ module Cuporter
         path_node = path.shift
         if path_node.is_a? Array
           type, value = path_node
-          child = find_by_type(type, value)
-          unless child
-            child = Node.new_node(type, document, :value => value)
-            add_child(child)
-          end
+          attributes = {:value => value}
         else
-          unless( child = at("#{path_node.node_name}[@value='#{path_node.value}']") )
-            add_child(path_node.dup)
-            child = children.last
-          end
+          type = path_node.node_name
+          value = path_node.value
+          attributes = path_node.attributes
+        end
+
+        unless( child = find_by_type(type, value) )
+          child = Node.new_node(type, document, attributes)
+          add_child(child)
         end
         child.node_at(*path)
       end
@@ -86,12 +86,6 @@ module Cuporter
       end
 
       def <=>(other)
-=begin
-        p "v #{value_without_title}"
-        p "name #{ name}"# <=> (other.value_without_title || other.name)
-        p "other v: #{other.value_without_title}"
-        p "other name:#{ other.name}"
-=end
         (value_without_title || name) <=> (other.value_without_title || other.name)
       end
 
@@ -119,7 +113,7 @@ module Cuporter
       def to_text(options = {})
         indent = '  ' * depth
         s = ""
-        s = "#{indent}#{self['value']}\n" if self['value']
+        s = "#{indent}#{value}\n" if value
         s += children.map {|n| n.to_text}.to_s
         s
       end
@@ -132,9 +126,9 @@ module Cuporter
       class_name = name.to_s.to_class_name.to_sym
       n = Cuporter::Node.const_get(class_name).new(node_name, doc)
       attributes.each do | attr, value |
-        value = value.is_a?( Array) ?  value.join(",") : value.to_s
+        value = value.is_a?( Array) ?  value.join(",") : value.to_s.strip
 
-        n[attr.to_s] = value.to_s
+        n[attr.to_s] = value unless value.empty?
       end
       n
     end
