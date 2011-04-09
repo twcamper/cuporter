@@ -113,7 +113,7 @@ module Cuporter
       def to_text(options = {})
         indent = '  ' * depth
         s = ""
-        s = "#{indent}#{value}\n" if value
+        s = "#{indent}#{self['value']}\n" if self['value']
         s += children.map {|n| n.to_text}.to_s
         s
       end
