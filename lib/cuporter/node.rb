@@ -8,7 +8,7 @@ end
 module Cuporter
   module Node
     class Report < BaseNode; end
-    class File < BaseNode; end
+    class Dir < BaseNode; end
     class Tag < BaseNode; end
     class ScenarioOutline < Tagged; end
 

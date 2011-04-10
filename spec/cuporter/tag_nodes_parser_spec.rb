@@ -3,7 +3,7 @@ require 'spec_helper'
 module Cuporter
   describe TagNodesParser do
     let(:file)  {"file.feature"}
-    let(:doc)   {Cuporter::Document.new_xml '/'}
+    let(:doc)   {Cuporter::Document.new_xml}
     let(:filter) {Cuporter::Filter.new}
     context "tags" do
       context "one tag" do

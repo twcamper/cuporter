@@ -29,6 +29,10 @@ module Cuporter
       @root = root
     end
 
+    def file_relative_path
+      @file_relative_path ||= @file.sub(/^.*#{@root}\/?/,"#{@root}/")
+    end
+
     def parse_feature
       @lines.each do |line|
         case line
@@ -36,7 +40,7 @@ module Cuporter
           # may be more than one tag line
           @current_tags |= $1.strip.split(/\s+/)
         when FeatureParser::FEATURE_LINE
-          @feature = new_feature_node($1, @file.sub(/^.*#{@root}\//,"#{@root}/"))
+          @feature = new_feature_node($1, file_relative_path)
           @current_tags = []
         when FeatureParser::SCENARIO_LINE
           # How do we know when we have read all the lines from a "Scenario Outline:"?

@@ -38,6 +38,17 @@ module Cuporter
       end
       alias :add_to_end :add_leaf
 
+      def to(path)
+        return self if path.empty?
+        path_node = path.shift
+
+        unless( child = children.find {|c| c.name == path_node})
+          child = File.new(path_node, document)
+          add_child(child)
+        end
+        child.to(path)
+      end
+
       # *path is a list of nodes forming a path to the last one.
       # a 'node' here is either a Node object or a node_name/cuke_name pair
       def node_at(*path)

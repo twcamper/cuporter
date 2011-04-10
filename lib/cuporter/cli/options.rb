@@ -4,6 +4,7 @@ require 'fileutils'
 
 module Cuporter
   module CLI
+
     class Options
 
       def self.[](key)
@@ -20,14 +21,6 @@ module Cuporter
         OptionParser.new(ARGV.dup) do |opts|
           opts.banner = "Usage: cuporter [options]\n\n"
 
-          @options[:input_dir] = "features/**/*.feature"
-          opts.on("-i", "--in DIR", "directory of *.feature files\n\t\t\t\t\tDefault: features/**/*.feature\n\n") do |i|
-            @options[:input_dir] = "#{i}/**/*.feature"
-          end
-
-          opts.on("-I", "--input-file FILE", "full file name with extension: 'path/to/file.feature'\n\n") do |file|
-            @options[:input_file] = file
-          end
           opts.on("-o", "--out FILE", "Output file path\n\n") do |o|
             full_path = File.expand_path(o)
             path = full_path.split(File::SEPARATOR)
@@ -37,10 +30,16 @@ module Cuporter
             @options[:output] = full_path
           end
           @options[:format] = "text"
-          opts.on("-f", "--format [pretty|html|xml|csv]", "Output format\n\t\t\t\t\tDefault: pretty text\n\n") do |f|
+          opts.on("-f", "--format [xml|html|csv|text]", "Output format: Default: text (it's pretty, though!)\n\n") do |f|
             @options[:format] = f
           end
 
+          opts.on("-I", "--file-input FILE", %Q{Full file name with extension: 'path/to/file.feature.'
+                                     Overrides --input-dir and used mostly for testing.
+          }) do |file|
+            @options[:input_file] = file
+          end
+          
           opts.on("-n", "--numbers", "number scenarios and examples\n\n") do |n|
             @options[:numbers] = n
           end
@@ -59,9 +58,24 @@ module Cuporter
           opts.on("-T", "--title STRING", "title of name report\n\t\t\t\t\tDefault: 'Cucumber Scenario Inventory'\n\n") do |title|
             @options[:title] = title
           end
+          @options[:input_dir] = "features"
+          opts.on("-i", "--input-dir DIR", %Q{Root directory of *.feature files.
+                                     Default: "features"
+
+                                     Used to build the glob pattern '[--in]/**/*.feature', which is really most likely
+                                     "features/**/*.features" and finds all feature files anywhere under "features" or
+                                     your custom root supplied with this option.
+                                     Overridden by "--file-input'.
+          }) do |i|
+            @options[:input_dir] = i.sub(/#{File::SEPARATOR}$/,'')
+          end
+
 
         end.parse!
 
+        def self.input_file_pattern
+          options[:input_file] || "#{options[:input_dir]}/**/*.feature"
+        end
 
       end
     end
