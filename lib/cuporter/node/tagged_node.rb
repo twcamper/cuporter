@@ -18,20 +18,6 @@ module Cuporter
         add_child(node) if @filter.pass?(tags | node.tags)
       end
 
-      def find_or_create_child(name)
-        child_node = self[name]
-        unless child_node
-
-
-          # what do we do here??
-          children << Node.new(name)
-          
-          
-          child_node = children.last
-        end
-        child_node
-      end
-
     end
   end
 end
