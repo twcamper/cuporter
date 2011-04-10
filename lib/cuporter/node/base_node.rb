@@ -21,19 +21,9 @@ module Cuporter
         @cuke_name ||= self['cuke_name'].to_s
       end
 
-      def find_by_name(name)
-        children.find {|c| c.name == name.to_s}
-      end
-
-      def find_by_type(node_name, cuke_name)
+      def find_by(node_name, attributes)
         children.find do |c|
-          c.node_name == node_name.to_s.downcase && c.cuke_name == cuke_name
-        end
-      end
-
-      def find_by_attributes(node)
-        children.find do |c|
-          c.node_name == node.node_name && c.cuke_name == node.cuke_name  && c['file'] == node['file']
+          c.node_name == node_name && c.cuke_name == attributes['cuke_name']  && c['file'] == attributes['file']
         end
       end
 
@@ -44,37 +34,36 @@ module Cuporter
 
       def add_leaf(node, *path)
         parent = node_at(*path)
-        parent.add_child(node) unless parent.has_child? node
+        parent.add_child(node.dup(1)) unless parent.has_child? node
       end
       alias :add_to_end :add_leaf
 
       # *path is a list of nodes forming a path to the last one.
-      # a 'node' here is either a Node object or type, cuke_name pair
+      # a 'node' here is either a Node object or a node_name/cuke_name pair
       def node_at(*path)
         return self if path.empty?
 
+        # recursive loop ends when last path_node is shifted off the array
         path_node = path.shift
-=begin
+
         if path_node.is_a? Array
-          type, cuke_name = path_node
-          attributes = {:cuke_name => cuke_name}
-          #
-          #path_node = Node.new_node(type, document, :cuke_name => cuke_name)
-#       else
-#         path_node = path.shift
+          type = path_node[0].to_s.downcase
+          attributes = {'cuke_name' => path_node[1]}
         else
           type = path_node.node_name
-          cuke_name = path_node.cuke_name
-          attributes = path_node.attributes
+          attributes = {'cuke_name' => path_node.cuke_name}
+          path_node.attribute_nodes.each do |attr|
+            attributes[attr.name] = attr.value
+          end
         end
-        unless( child = find_by_type(type, cuke_name) )
+     
+        # create and add the child node if it's not found among the immediate
+        # children of self
+        unless( child = find_by(type, attributes) )
           child = Node.new_node(type, document, attributes)
           add_child(child)
-=end
-        unless( child = find_by_attributes(path_node) )
-          child = Node.new_node(path_node.node_name, document, path_node.attributes)
-          add_child(child)
         end
+
         child.node_at(*path)
       end
 

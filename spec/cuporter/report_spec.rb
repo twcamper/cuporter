@@ -5,9 +5,9 @@ module Cuporter
     context "#report_node" do
       context "empty input" do
         it "should not raise an error" do
-          tag_report = TagReport.new("fixtures/empty_file.feature", number_scenarios = false)
+          tag_report = TagReport.new("fixtures/empty_file.feature", Cuporter::Document.new_xml('/'))
           expect do
-            @report = tag_report.report_node
+            @report = tag_report.build_report_node
           end.to_not raise_error
         end
       end
@@ -18,7 +18,7 @@ module Cuporter
     context "#report_node" do
       context "empty input" do
         it "should not raise an error" do
-          name_report = NameReport.new("fixtures/empty_file.feature", number_scenarios = false)
+          name_report = FeatureReport.new("fixtures/empty_file.feature", Nokogiri::XML::Document.new)
           expect do
             @report = name_report.report_node
           end.to_not raise_error

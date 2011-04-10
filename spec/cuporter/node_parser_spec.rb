@@ -185,8 +185,8 @@ EOF
             feature = NodeParser.new(file, doc, Filter.new(:none => :@wip)).parse_feature
             feature.cuke_name.should == "Feature: two scenarios one outline"
             feature.cuke_names.should == ["Scenario: the scenario in question", "Scenario Outline: outline"]
-            feature["Scenario Outline: outline"].cuke_names.should == ["Examples: tests"]
-            feature["Scenario Outline: outline"]["Examples: tests"].children.size.should == 3
+            feature.at(:scenario_outline).cuke_names.should == ["Examples: tests"]
+            feature.at(:scenario_outline).at(:examples).children.size.should == 3
           end
         end
 
@@ -296,7 +296,7 @@ EOF
             feature = NodeParser.new(file, doc, Filter.new(:all => %w[@example_set @outline])).parse_feature
             feature.cuke_name.should == "Feature: two scenarios one outline"
             feature.cuke_names.should == ["Scenario Outline: outline"]
-            feature["Scenario Outline: outline"].cuke_names.should == ["Examples: we are tagged"]
+            feature.at(:scenario_outline).cuke_names.should == ["Examples: we are tagged"]
           end
         end
 
@@ -306,7 +306,7 @@ EOF
             feature = NodeParser.new(file, doc, Filter.new(:all => :@outline, :none => :@example_set )).parse_feature
             feature.cuke_name.should == "Feature: two scenarios one outline"
             feature.cuke_names.should == ["Scenario Outline: outline"]
-            feature["Scenario Outline: outline"].cuke_names.should == ["Examples: other tests"]
+            feature.at(:scenario_outline).cuke_names.should == ["Examples: other tests"]
           end
         end
       end

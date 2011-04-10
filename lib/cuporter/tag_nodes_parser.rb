@@ -16,8 +16,7 @@ module Cuporter
       if s
         (@current_tags | @feature.tags).each do |tag|
           next unless @filter.pass? tag.to_a
-          #@report.add_leaf(s.dup, [:tag, tag], @feature)
-          @report.add_leaf(s.dup, Node.new_node(:Tag, @doc, :cuke_name => tag), @feature)
+          @report.add_leaf(s, [:tag, tag], @feature)
         end
       end
     end
@@ -42,7 +41,7 @@ module Cuporter
       e = Node.new_node(:Example, @doc, :cuke_name => sub_expression, :number => true)
       (@current_tags | @example_set.tags | @scenario_outline.tags | @feature.tags).each do |tag|
         next unless @filter.pass? tag.to_a
-        @report.add_leaf(e.dup, Node.new_node(:Tag, @doc, :cuke_name => tag), @feature, @scenario_outline, @example_set)
+        @report.add_leaf(e, [:tag, tag], @feature, @scenario_outline, @example_set)
       end
     end
 
