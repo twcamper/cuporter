@@ -66,8 +66,15 @@ module Cuporter
       return @feature
     end
 
-    def new_example_line(sub_expression)
-      @example_set.add_child(Node.new(sub_expression))
+    def close_scenario_outline
+      if @scenario_outline
+        if @example_set
+          @scenario_outline.filter_child(@example_set)
+          @example_set = nil
+        end
+        @feature.add_child(@scenario_outline) if @scenario_outline.has_children?
+        @scenario_outline = nil
+      end
     end
 
   end
