@@ -37,6 +37,7 @@ module Cuporter
         end
         super(other)
       end
+
     end
 
     # The set of examples in a scenario outline

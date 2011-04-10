@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 module Cuporter
-  describe NodeNumberer do
+  module Node
+  describe Numberer do
     context '#number' do
       let(:root) {Node.new("root")} 
-      let(:numberer) { NodeNumberer.new}
+      let(:numberer) { Numberer.new}
 
       before(:each) do
         root.add_child(Node.new("child_1"))
@@ -77,4 +78,5 @@ module Cuporter
     end
 
   end
+end
 end

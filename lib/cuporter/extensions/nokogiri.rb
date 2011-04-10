@@ -13,6 +13,16 @@ module NodeSetExtensions
     sorted = to_a.sort
     self.class.new(document, sorted)
   end
+
+  # value equivalence
+  def eql?(other)
+    return false unless other.is_a?(Nokogiri::XML::NodeSet)
+    return false unless length == other.length
+    each_with_index do |node, i|
+      return false unless node.eql?(other[i])
+    end
+    true
+  end
 end
 Nokogiri::XML::NodeSet.send(:include, NodeSetExtensions)
 

@@ -3,6 +3,7 @@ require 'spec_helper'
 module Cuporter
   describe FeatureParser do
     let(:file)  {"file.feature"}
+    let(:doc)   {Nokogiri::XML::Document.new}
 
     context "table which is not an example set" do
       before do
@@ -24,18 +25,18 @@ EOF
         File.should_receive(:read).with(file).and_return(content)
       end
 
-      context "#tag_list" do
+      context "#tag_nodes" do
         it "does not raise an error" do
           expect do
-            feature = FeatureParser.tag_list(file)
+            feature = FeatureParser.tag_nodes(file, doc, Filter.new)
           end.to_not raise_error
         end
       end
 
-      context "#name_list" do
+      context "#node" do
         it "does not raise an error" do
           expect do
-            feature = FeatureParser.name_list(file, Filter.new)
+            feature = FeatureParser.node(file, doc, Filter.new)
           end.to_not raise_error
         end
       end

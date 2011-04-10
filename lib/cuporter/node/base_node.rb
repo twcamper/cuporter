@@ -13,34 +13,34 @@ module Cuporter
         children.collect {|c| c.name }
       end
 
-      def value
-        @value ||= self['value'].to_s
+      def cuke_names
+        children.collect {|c| c.cuke_name }
       end
 
-      def find_by_value(value)
-        children.find {|c| c.value == value }
+      def cuke_name
+        @cuke_name ||= self['cuke_name'].to_s
       end
 
       def find_by_name(name)
         children.find {|c| c.name == name.to_s}
       end
 
-      def find_by_type(node_name, value)
-        children.find {|c| c.node_name == node_name.to_s.downcase && c.value == value.to_s}
+      def find_by_type(node_name, cuke_name)
+        children.find do |c|
+          c.node_name == node_name.to_s.downcase && c.cuke_name == cuke_name
+        end
+      end
+
+      def find_by_attributes(node)
+        children.find do |c|
+          c.node_name == node.node_name && c.cuke_name == node.cuke_name  && c['file'] == node['file']
+        end
       end
 
       def find(node)
         children.find {|c| c.eql? node}
       end
       alias :has_child? :find
-
-      def add(type, attributes)
-        unless (child = find_by_value(attributes[:value]))
-          child = Node.new_node(type, document, attributes)
-          add_child(child)
-        end
-        child
-      end
 
       def add_leaf(node, *path)
         parent = node_at(*path)
@@ -49,29 +49,37 @@ module Cuporter
       alias :add_to_end :add_leaf
 
       # *path is a list of nodes forming a path to the last one.
-      # a 'node' here is either a Node object or type, value pair
+      # a 'node' here is either a Node object or type, cuke_name pair
       def node_at(*path)
         return self if path.empty?
 
         path_node = path.shift
+=begin
         if path_node.is_a? Array
-          type, value = path_node
-          attributes = {:value => value}
+          type, cuke_name = path_node
+          attributes = {:cuke_name => cuke_name}
+          #
+          #path_node = Node.new_node(type, document, :cuke_name => cuke_name)
+#       else
+#         path_node = path.shift
         else
           type = path_node.node_name
-          value = path_node.value
+          cuke_name = path_node.cuke_name
           attributes = path_node.attributes
         end
-
-        unless( child = find_by_type(type, value) )
+        unless( child = find_by_type(type, cuke_name) )
           child = Node.new_node(type, document, attributes)
+          add_child(child)
+=end
+        unless( child = find_by_attributes(path_node) )
+          child = Node.new_node(path_node.node_name, document, path_node.attributes)
           add_child(child)
         end
         child.node_at(*path)
       end
 
-      def value_without_title
-        @value_without_title ||= value.split(/:\s*/).last
+      def short_cuke_name
+        @short_cuke_name ||= cuke_name.split(/:\s*/).last
       end
 
       def sort_all_descendants!
@@ -81,17 +89,17 @@ module Cuporter
 
       def sort!
         return unless has_children?
-        kidz = children.sort
-        self.children = kidz
+        sorted_children = children.sort
+        self.children = sorted_children
       end
 
       def <=>(other)
-        (value_without_title || name) <=> (other.value_without_title || other.name)
+        (short_cuke_name || name) <=> (other.short_cuke_name || other.name)
       end
 
       # value equivalence
       def eql?(other)
-        node_name == other.node_name && value == other.value && children == other.children
+        node_name == other.node_name && cuke_name == other.cuke_name && children.eql?(other.children)
       end
 
       def total
@@ -113,7 +121,7 @@ module Cuporter
       def to_text(options = {})
         indent = '  ' * depth
         s = ""
-        s = "#{indent}#{self['value']}\n" if self['value']
+        s = "#{indent}#{self['cuke_name']}\n" if self['cuke_name']
         s += children.map {|n| n.to_text}.to_s
         s
       end
@@ -125,6 +133,7 @@ module Cuporter
       node_name = name.to_s.gsub(/([a-z])([A-Z])/,'\1_\2').downcase
       class_name = name.to_s.to_class_name.to_sym
       n = Cuporter::Node.const_get(class_name).new(node_name, doc)
+
       attributes.each do | attr, value |
         value = value.is_a?( Array) ?  value.join(",") : value.to_s.strip
 
