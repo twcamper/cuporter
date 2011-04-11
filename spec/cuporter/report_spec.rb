@@ -18,7 +18,7 @@ module Cuporter
     context "#report_node" do
       context "empty input" do
         it "should not raise an error" do
-          name_report = FeatureReport.new("fixtures/empty_file.feature", Nokogiri::XML::Document.new, '.')
+          name_report = FeatureReport.new("fixtures/empty_file.feature", Cuporter::Document.new_xml, '.')
           expect do
             @report = name_report.report_node
           end.to_not raise_error

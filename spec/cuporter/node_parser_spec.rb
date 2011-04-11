@@ -3,7 +3,7 @@ require 'spec_helper'
 module Cuporter
   describe NodeParser do
     let(:file)  {"file.feature"}
-    let(:doc)  { Nokogiri::XML::Document.new}
+    let(:doc)  { Cuporter::Document.new_xml}
 
     context "#parse_feature" do
       context "Unfiltered: one scenario" do

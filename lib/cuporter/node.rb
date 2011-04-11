@@ -7,10 +7,18 @@ end
 
 module Cuporter
   module Node
-    class Report < NodeBase; end
-    class Dir < NodeBase; end
-    class Tag < NodeBase; end
-    class ScenarioOutline < Tagged; end
+    class Report < NodeBase
+      def self.html_tag; end
+    end
+    class Dir < NodeBase
+      def self.html_tag; end
+    end
+    class Tag < NodeBase
+      def self.html_tag; end
+    end
+    class ScenarioOutline < Tagged
+      def self.html_tag; end
+    end
 
     class Feature < Tagged
 
@@ -37,11 +45,18 @@ module Cuporter
         end
         super(other)
       end
+      def build
+        add_child parse("<div class='cuke_name'>#{delete('cuke_name').value}</div>")
+      end
 
+      def self.html_tag
+        'li'
+      end
     end
 
     # The set of examples in a scenario outline
     class Examples < Tagged
+      def self.html_tag; end
 
       # don't sort scenario outline examples
       def sort!
@@ -59,9 +74,11 @@ module Cuporter
 
     # Leaf Nodes: won't have children
     class Scenario < Tagged
+      def self.html_tag; end
     end
 
     class Example < NodeBase
+      def self.html_tag; end
     end
   end
 end

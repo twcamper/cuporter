@@ -4,17 +4,21 @@ module Cuporter
 
     def build_report_node
       files.each do |file|
-        FeatureParser.tag_nodes(file, report, @filter)
+        FeatureParser.tag_nodes(file, report, @filter, root_dir)
       end
       report.sort_all_descendants!
     end
 
     def report
       @report ||= begin
-                    r = Cuporter::Node.new_node(:Report, doc)
-                    doc.root << r
+                    r = Cuporter::Node.new_node(:Report, doc, :title => title)
+                    doc.add_report r
                     r
                   end
+    end
+
+    def title
+      @title || "Cucumber Features, Tag View"
     end
 
     def write

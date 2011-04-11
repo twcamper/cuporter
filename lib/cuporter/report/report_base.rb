@@ -18,7 +18,7 @@ module Cuporter
 
     def self.create(type, input_file_pattern, root_dir, filter_args = nil, title = nil, format = nil)
       klass = Cuporter.const_get("#{type.downcase}Report".to_class_name)
-      doc = Cuporter::Document.new_doc(format)
+      doc = Cuporter::Document.new_doc(format, type)
       klass.new(input_file_pattern, doc, root_dir, filter_args, title)
     end
 

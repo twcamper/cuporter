@@ -12,25 +12,28 @@ module Cuporter
 
     # adds a node to the doc for each cucumber '@' tag, populated with features and
     # scenarios
-    def self.tag_nodes(file, report, filter)
-      TagNodesParser.new(file, report, filter).parse_feature
+    def self.tag_nodes(file, report, filter, root_dir)
+      parser = TagNodesParser.new(file, report, filter)
+      parser.root = root_dir
+      parser.parse_feature
     end
 
     # returns a feature node populated with scenarios
-    def self.node(file, doc, filter)
-      NodeParser.new(file, doc, filter).parse_feature
+    def self.node(file, doc, filter, root_dir)
+      parser = NodeParser.new(file, doc, filter)
+      parser.root = root_dir
+      parser.parse_feature
     end
     attr_writer :root
 
-    def initialize(file, root = "features")
+    def initialize(file)
       @file = file
       @current_tags = []
       @lines = File.read(@file).split(/\n/)
-      @root = root
     end
 
     def file_relative_path
-      @file_relative_path ||= @file.sub(/^.*#{@root}\/?/,"#{@root}/")
+      @file_relative_path ||= @file.sub(/^.*#{@root}\//,"#{@root}/")
     end
 
     def parse_feature

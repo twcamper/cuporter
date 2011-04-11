@@ -3,13 +3,11 @@ module Cuporter
   class TreeReport < ReportBase
 
     def report_node
-      folders = Cuporter::Node.new_node(:Report, @doc)
+      folders = Cuporter::Node.new_node(:Report, @doc, :title => title)
       files.each do |file|
-        parser = Cuporter::NodeParser.new(file, @doc, @filter)
-        parser.root = root_dir
-        feature = parser.parse_feature
+        feature = FeatureParser.node(file, @doc, @filter, root_dir)
         if feature && feature.has_children?
-          path = parser.file_relative_path.split(File::SEPARATOR)
+          path = feature.file.split(File::SEPARATOR)
           path.pop
           folders.add_leaf(feature, *path.map {|dir| [:Dir, dir.upcase]})
         end
@@ -20,8 +18,12 @@ module Cuporter
       folders
     end
 
+    def title
+      @title || "Cucumber Features, Tree View"
+    end
+
     def write
-      doc.root << report_node
+      doc.add_report report_node
       doc.write
     end
   end

@@ -54,8 +54,7 @@ module Cuporter
             @options[:report] = r
           end
 
-          @options[:title] = "Cucumber Scenario Inventory"
-          opts.on("-T", "--title STRING", "title of name report\n\t\t\t\t\tDefault: 'Cucumber Scenario Inventory'\n\n") do |title|
+          opts.on("-T", "--title STRING", "title of name report\n\t\t\t\t\tDefault: 'Cucumber Features, [Tag|Tree|List] View'\n\n") do |title|
             @options[:title] = title
           end
           @options[:input_dir] = "features"

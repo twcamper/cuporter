@@ -3,9 +3,9 @@ module Cuporter
   class FeatureReport < ReportBase
 
     def report_node
-      report = Cuporter::Node.new_node(:Report, @doc)
+      report = Cuporter::Node.new_node(:Report, @doc, :title => title)
       files.each do |file|
-        feature = FeatureParser.node(file, @doc, @filter)
+        feature = FeatureParser.node(file, @doc, @filter, root_dir)
         if feature && feature.has_children?
           report << feature
         end
@@ -16,8 +16,12 @@ module Cuporter
       report
     end
 
+    def title
+      @title || "Cucumber Features, List View"
+    end
+
     def write
-      doc.root << report_node
+      doc.add_report report_node
       doc.write
     end
 

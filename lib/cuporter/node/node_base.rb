@@ -102,6 +102,7 @@ module Cuporter
         @numberer.number(self)
       end
 
+      def build; end
       def depth
         d = path.sub(/^.*\/report/, 'report').split('/').size - 2
         d < 0 ? 0 : d
@@ -121,14 +122,26 @@ module Cuporter
     def self.new_node(name, doc, attributes = {})
       node_name = name.to_s.gsub(/([a-z])([A-Z])/,'\1_\2').downcase
       class_name = name.to_s.to_class_name.to_sym
-      n = Cuporter::Node.const_get(class_name).new(node_name, doc)
 
+      case doc.root.name
+      when 'xml'
+        n = Cuporter::Node.const_get(class_name).new(node_name, doc)
+        copy_attrs(n, attributes)
+      when 'html'
+        node_class = Cuporter::Node::Html.const_get(class_name)
+        n = node_class.new(node_class::HTML_TAG.to_s || node_name, doc)
+        n = copy_attrs(n, attributes.merge!(:class => node_name))
+        n.build
+        n
+      end
+    end
+    def self.copy_attrs(node, attributes)
       attributes.each do | attr, value |
         value = value.is_a?( Array) ?  value.join(",") : value.to_s.strip
 
-        n[attr.to_s] = value unless value.empty?
+        node[attr.to_s] = value unless value.empty?
       end
-      n
+      node
     end
   
     NodeBase = Nokogiri::XML::Node
