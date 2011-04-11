@@ -1,5 +1,5 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
-require 'lib/cuporter/node/base_node'
+require 'lib/cuporter/node/node_base'
 require 'lib/cuporter/node/tagged_node'
 Dir["lib/cuporter/node/*.rb"].each do |lib|
   require lib
@@ -7,9 +7,9 @@ end
 
 module Cuporter
   module Node
-    class Report < BaseNode; end
-    class Dir < BaseNode; end
-    class Tag < BaseNode; end
+    class Report < NodeBase; end
+    class Dir < NodeBase; end
+    class Tag < NodeBase; end
     class ScenarioOutline < Tagged; end
 
     class Feature < Tagged
@@ -61,7 +61,7 @@ module Cuporter
     class Scenario < Tagged
     end
 
-    class Example < BaseNode
+    class Example < NodeBase
     end
   end
 end

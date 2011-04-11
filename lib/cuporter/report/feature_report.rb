@@ -1,6 +1,6 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
-  class FeatureReport < Report
+  class FeatureReport < ReportBase
 
     def report_node
       report = Cuporter::Node.new_node(:Report, @doc)

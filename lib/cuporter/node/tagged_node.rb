@@ -2,7 +2,7 @@
 module Cuporter
   module Node
     # a node with a list of tags that can be applied to all children
-    class Tagged < BaseNode
+    class Tagged < NodeBase
 
       attr_accessor :filter
 

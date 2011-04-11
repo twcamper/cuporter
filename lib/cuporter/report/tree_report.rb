@@ -1,6 +1,6 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
-  class TreeReport < Report
+  class TreeReport < ReportBase
 
     def report_node
       folders = Cuporter::Node.new_node(:Report, @doc)
@@ -15,8 +15,8 @@ module Cuporter
         end
       end
       folders.sort_all_descendants!
-      folders.total
       folders.number_all_descendants
+      folders.total
       folders
     end
 

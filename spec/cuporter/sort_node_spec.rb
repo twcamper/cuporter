@@ -2,12 +2,12 @@ require 'spec_helper'
 
 module Cuporter
   module Node
-    describe BaseNode do
+    describe NodeBase do
       def doc
         @doc ||= Nokogiri::XML::Document.new
       end
       def new_node(node_name)
-        BaseNode.new(node_name, doc)
+        NodeBase.new(node_name, doc)
       end
       context 'sorting' do
         it 'defaults to order of addition' do

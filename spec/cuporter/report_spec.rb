@@ -14,7 +14,7 @@ module Cuporter
     end
   end
   
-  describe NameReport do
+  describe FeatureReport do
     context "#report_node" do
       context "empty input" do
         it "should not raise an error" do

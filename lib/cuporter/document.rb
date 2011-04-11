@@ -17,6 +17,10 @@ module Cuporter
       doc << Nokogiri::XML::Node.new('xml', doc)
       doc
     end
-
+    def self.new_html
+      doc =  Nokogiri::XML::Document.new
+      doc << Nokogiri::XML::Node.new('html', doc)
+      doc
+    end
   end
 end

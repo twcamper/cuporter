@@ -1,6 +1,6 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
-  class Report
+  class ReportBase
 
     attr_reader :filter, :title, :doc, :root_dir
 
