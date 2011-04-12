@@ -1,6 +1,45 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
+  module InitializeNode
+
+    def format_name(name)
+      node_name = name.to_s.gsub(/([a-z])([A-Z])/,'\1_\2').downcase
+      class_name = name.to_s.to_class_name.to_sym
+      return node_name, class_name
+    end
+
+    def copy_attrs(node, attributes)
+      attributes.each do | attr, value |
+        value = value.is_a?(Array) ?  value.join(",") : value.to_s.strip
+        node[attr.to_s] = value unless value.empty?
+      end
+      node
+    end
+  end
+
+  module XMLNode
+    include InitializeNode
+
+    def new_node(name, doc, attributes = {})
+      node_name, class_name = format_name(name)
+      n = Cuporter::Node::Xml.const_get(class_name).new(node_name, doc)
+      copy_attrs(n, attributes)
+    end
+  end
+  module HTMLNode
+    include InitializeNode
+
+    def new_node(name, doc, attributes = {})
+      node_name, class_name = format_name(name)
+      node_class = Cuporter::Node::Html.const_get(class_name)
+      n = node_class.new(node_class::HTML_TAG.to_s, doc)
+      n = copy_attrs(n, attributes.merge(:class => node_name))
+      n.build
+      n
+    end
+  end
   module Node
+    extend Cuporter.const_get("#{Cuporter::CLI::Options[:format] == :html ? 'HTML' : 'XML'}Node".to_sym)
 
     module BaseMethods
       include Comparable
@@ -56,7 +95,7 @@ module Cuporter
             attributes[attr.name] = attr.value
           end
         end
-     
+
         # create and add the child node if it's not found among the immediate
         # children of self
         unless( child = find_by(type, attributes) )
@@ -119,31 +158,6 @@ module Cuporter
 
     end
 
-    def self.new_node(name, doc, attributes = {})
-      node_name = name.to_s.gsub(/([a-z])([A-Z])/,'\1_\2').downcase
-      class_name = name.to_s.to_class_name.to_sym
-
-      case doc.root.name
-      when 'xml'
-        n = Cuporter::Node.const_get(class_name).new(node_name, doc)
-        copy_attrs(n, attributes)
-      when 'html'
-        node_class = Cuporter::Node::Html.const_get(class_name)
-        n = node_class.new(node_class::HTML_TAG.to_s || node_name, doc)
-        n = copy_attrs(n, attributes.merge!(:class => node_name))
-        n.build
-        n
-      end
-    end
-    def self.copy_attrs(node, attributes)
-      attributes.each do | attr, value |
-        value = value.is_a?( Array) ?  value.join(",") : value.to_s.strip
-
-        node[attr.to_s] = value unless value.empty?
-      end
-      node
-    end
-  
     NodeBase = Nokogiri::XML::Node
   end
 end
