@@ -34,8 +34,8 @@ module Cuporter
         end
 
         it 'Feature node considers file value in eql?' do
-          n1 = Feature.new('herbert', doc)
-          n2 = Feature.new('herbert', doc)
+          n1 = Xml::Feature.new('herbert', doc)
+          n2 = Xml::Feature.new('herbert', doc)
           n1.should eql n2
           n1['file'] = "a.feature"
           n2['file'] = "b.feature"

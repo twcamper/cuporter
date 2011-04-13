@@ -29,8 +29,8 @@ module Cuporter
 
         it 'sorts on file property when it is present' do
           root = new_node('root')
-          root.add_child(Cuporter::Node::Feature.new('zebra', doc))
-          root.add_child(Cuporter::Node::Feature.new('aardvark', doc))
+          root.add_child(Cuporter::Node::Xml::Feature.new('zebra', doc))
+          root.add_child(Cuporter::Node::Xml::Feature.new('aardvark', doc))
 
           root.at('zebra')['file']    = "features/big_files/important_thing.feature"
           root.at('aardvark')['file'] = "features/small_files/important_thing.feature"
@@ -41,7 +41,7 @@ module Cuporter
 
         it 'only sorts on file property when present on both self and other' do
           root = new_node('root')
-          root.add_child(Cuporter::Node::Feature.new('zebra', doc))
+          root.add_child(Cuporter::Node::Xml::Feature.new('zebra', doc))
           root.add_child(new_node('aardvark'))
 
           root.at('zebra')['file']    = "features/big_files/important_thing.feature"

@@ -8,10 +8,12 @@ module Cuporter
       end
       class Tag < NodeBase
       end
-      class ScenarioOutline < Tagged
+      class ScenarioOutline < NodeBase
+        include Tagged
       end
 
-      class Feature < Tagged
+      class Feature < NodeBase
+        include Tagged
 
         def file
           self["file"]
@@ -39,7 +41,8 @@ module Cuporter
       end
 
       # The set of examples in a scenario outline
-      class Examples < Tagged
+      class Examples < NodeBase
+        include Tagged
 
         # don't sort scenario outline examples
         def sort!
@@ -56,7 +59,8 @@ module Cuporter
       Scenarios = Examples
 
       # Leaf Nodes: won't have children
-      class Scenario < Tagged
+      class Scenario < NodeBase
+        include Tagged
       end
 
       class Example < NodeBase

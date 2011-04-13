@@ -39,7 +39,7 @@ module Cuporter
     end
   end
   module Node
-    extend Cuporter.const_get("#{Cuporter::CLI::Options[:format] == :html ? 'HTML' : 'XML'}Node".to_sym)
+    extend Cuporter.const_get("#{Cuporter::CLI::Options[:format] == 'html' ? 'HTML' : 'XML'}Node".to_sym)
 
     module BaseMethods
       include Comparable
@@ -141,7 +141,15 @@ module Cuporter
         @numberer.number(self)
       end
 
-      def build; end
+      def build(node_name = 'span')
+        #self.content = parse("<div class='cuke_name'>#{delete('cuke_name').value}</div>") if self['cuke_name']
+        if self['cuke_name']
+          cuke_name = NodeBase.new(node_name, document)
+          cuke_name['class'] = 'name'
+          cuke_name.children = delete('cuke_name').value
+          self.children = cuke_name
+        end
+      end
       def depth
         d = path.sub(/^.*\/report/, 'report').split('/').size - 2
         d < 0 ? 0 : d

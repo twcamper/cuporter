@@ -7,7 +7,7 @@ module Cuporter
       files.each do |file|
         feature = FeatureParser.node(file, @doc, @filter, root_dir)
         if feature && feature.has_children?
-          report << feature
+          report.add_child feature
         end
       end
       report.sort_all_descendants!

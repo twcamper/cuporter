@@ -2,37 +2,45 @@
 module Cuporter
   module Node
     module Html
-      module Parent
+      class Parent < NodeBase
+
+        def build(*)
+          super('div')
+          self << ul
+        end
+
+        def ul
+          @ul ||= NodeBase.new('ul', document)
+        end
 
         def add_child(node)
-          li = Cuporter::Node::NodeBase.new('li', document)
-          li << node
-          super(li)
+          if node['class'] == 'name'
+            super(node)
+          else
+            ul << node
+          end
         end
       end
 
       module Leaf
       end
-      class Report < NodeBase
-        HTML_TAG = :ul
-        include Parent
+      class Report < Parent
+        HTML_TAG = :div
       end
-      class Dir < NodeBase
-        HTML_TAG = :ul
-        include Parent
+      class Dir < Parent
+        HTML_TAG = :div
       end
-      class Tag < NodeBase
-        HTML_TAG = :ul
-        include Parent
+      class Tag < Parent
+        HTML_TAG = :div
       end
-      class ScenarioOutline < Tagged
-        HTML_TAG = :ul
-        include Parent
+      class ScenarioOutline < Parent
+        include Tagged
+        HTML_TAG = :li
       end
 
-      class Feature < Tagged
-        HTML_TAG = :ul
-        include Parent
+      class Feature < Parent
+        include Tagged
+        HTML_TAG = :li
 
         def file
           self["file"]
@@ -57,39 +65,80 @@ module Cuporter
           end
           super(other)
         end
-        def build
-          add_child parse("<div class='cuke_name'>#{delete('cuke_name').value}</div>")
-        end
 
       end
 
       # The set of examples in a scenario outline
-      class Examples < Tagged
-        HTML_TAG = :ul
+      class Examples < NodeBase
+        include Tagged
+        HTML_TAG = :li
+
+        def build
+          super('div')
+          table << thead
+          table << tbody
+          self << table
+        end
+
+        def table
+          @table ||= NodeBase.new('table', document)
+        end
+
+        def thead
+          @thead ||= NodeBase.new('thead', document)
+        end
+
+        def tbody
+          @tbody ||= NodeBase.new('tbody', document)
+        end
 
         # don't sort scenario outline examples
         def sort!
           # no op
         end
 
+        def has_children?
+          at('.example')
+        end
+
         def add_child(other)
-          unless has_children? #first row ( arg list header)
-            other.delete("number")
+          if other.is_a? Example
+            if has_children? # not the first row ( arg list header)
+              tbody << other
+            else
+              thead << header_row(other)
+            end
+          else
+            self << other
           end
-          super(other)
+        end
+
+        def header_row(other)
+          other.delete("number")
+          other.children.each { |td| td.node_name = "th" }
+          other
         end
       end
       Scenarios = Examples
 
       # Leaf Nodes: won't have children
-      class Scenario < Tagged
-        HTML_TAG = :div
+      class Scenario < NodeBase
+        HTML_TAG = :li
         include Leaf
+        include Tagged
       end
 
       class Example < NodeBase
-        HTML_TAG = :div
-        include Leaf
+        HTML_TAG = :tr
+        
+        def build
+          row = delete('cuke_name').value.split('|').reject { |s| s.empty? }
+          row.each do | cell_text |
+            td = NodeBase.new('td', document)
+            td.content = cell_text.strip
+            add_child(td)
+          end
+        end
       end
     end
   end
