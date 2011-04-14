@@ -198,7 +198,6 @@ Cuporter::Node::NodeBase.class_eval do
 end
 
 Cuporter::Node.class_eval do 
-
   if Cuporter.html?
     extend Cuporter::HTMLNode
   else
