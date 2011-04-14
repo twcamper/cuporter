@@ -79,4 +79,8 @@ module Cuporter
       end
     end
   end
+
+  def self.html?
+    CLI::Options[:format] == 'html'
+  end
 end

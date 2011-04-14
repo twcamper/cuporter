@@ -1,45 +1,6 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
-  module InitializeNode
-
-    def format_name(name)
-      node_name = name.to_s.gsub(/([a-z])([A-Z])/,'\1_\2').downcase
-      class_name = name.to_s.to_class_name.to_sym
-      return node_name, class_name
-    end
-
-    def copy_attrs(node, attributes)
-      attributes.each do | attr, value |
-        value = value.is_a?(Array) ?  value.join(",") : value.to_s.strip
-        node[attr.to_s] = value unless value.empty?
-      end
-      node
-    end
-  end
-
-  module XMLNode
-    include InitializeNode
-
-    def new_node(name, doc, attributes = {})
-      node_name, class_name = format_name(name)
-      n = Cuporter::Node::Xml.const_get(class_name).new(node_name, doc)
-      copy_attrs(n, attributes)
-    end
-  end
-  module HTMLNode
-    include InitializeNode
-
-    def new_node(name, doc, attributes = {})
-      node_name, class_name = format_name(name)
-      node_class = Cuporter::Node::Html.const_get(class_name)
-      n = node_class.new(node_class::HTML_TAG.to_s, doc)
-      n = copy_attrs(n, attributes.merge(:class => node_name))
-      n.build
-      n
-    end
-  end
   module Node
-    extend Cuporter.const_get("#{Cuporter::CLI::Options[:format] == 'html' ? 'HTML' : 'XML'}Node".to_sym)
 
     module BaseMethods
       include Comparable
@@ -141,15 +102,6 @@ module Cuporter
         @numberer.number(self)
       end
 
-      def build(node_name = 'span')
-        #self.content = parse("<div class='cuke_name'>#{delete('cuke_name').value}</div>") if self['cuke_name']
-        if self['cuke_name']
-          cuke_name = NodeBase.new(node_name, document)
-          cuke_name['class'] = 'name'
-          cuke_name.children = delete('cuke_name').value
-          self.children = cuke_name
-        end
-      end
       def depth
         d = path.sub(/^.*\/report/, 'report').split('/').size - 2
         d < 0 ? 0 : d
@@ -165,10 +117,76 @@ module Cuporter
       alias :to_pretty :to_text
 
     end
-
+    # this will vary when json comes
     NodeBase = Nokogiri::XML::Node
+
+    module Html
+      # this gets mixed in to NodeBase/Nokogiri::XML::Node
+      def build(node_name = 'span')
+        #self.content = parse("<div class='cuke_name'>#{delete('cuke_name').value}</div>") if self['cuke_name']
+        if self['cuke_name']
+          cuke_name = NodeBase.new(node_name, document)
+          cuke_name['class'] = 'name'
+          cuke_name.children = delete('cuke_name').value
+          self.children = cuke_name
+        end
+      end
+    end
+  end
+  #
+  # common methods for building either html or xml nodes
+  module InitializeNode
+
+    def format_name(name)
+      node_name = name.to_s.gsub(/([a-z])([A-Z])/,'\1_\2').downcase
+      class_name = name.to_s.to_class_name.to_sym
+      return node_name, class_name
+    end
+
+    def copy_attrs(node, attributes)
+      attributes.each do | attr, value |
+        value = value.is_a?(Array) ?  value.join(",") : value.to_s.strip
+      node[attr.to_s] = value unless value.empty?
+      end
+      node
+    end
+  end
+
+
+  module XMLNode
+    include InitializeNode
+
+    def new_node(name, doc, attributes = {})
+      node_name, class_name = format_name(name)
+      n = Cuporter::Node::Xml.const_get(class_name).new(node_name, doc)
+      copy_attrs(n, attributes)
+    end
+  end
+
+  module HTMLNode
+    include InitializeNode
+
+    def new_node(name, doc, attributes = {})
+      node_name, class_name = format_name(name)
+      node_class = Cuporter::Node::Html.const_get(class_name)
+      n = node_class.new(node_class::HTML_TAG.to_s, doc)
+      n = copy_attrs(n, attributes.merge(:class => node_name))
+      n.build
+      n
+    end
   end
 end
 
+Cuporter::Node::NodeBase.class_eval do 
+  include Cuporter::Node::BaseMethods
+  include Cuporter::Node::Html if Cuporter.html?
+end
 
-Cuporter::Node::NodeBase.send(:include, Cuporter::Node::BaseMethods)
+Cuporter::Node.class_eval do 
+
+  if Cuporter.html?
+    extend Cuporter::HTMLNode
+  else
+    extend Cuporter::XMLNode
+  end
+end

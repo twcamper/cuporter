@@ -2,9 +2,10 @@
 module Cuporter
   module Node
     module Html
+
       class Parent < NodeBase
 
-        def build(*)
+        def build
           super('div')
           self << ul
         end
