@@ -121,15 +121,30 @@ module Cuporter
     NodeBase = Nokogiri::XML::Node
 
     module Html
+      def html_node(node_name, attributes = {})
+        n = NodeBase.new(node_name.to_s, document)
+        attributes.each do |attr, value|
+          value = value.is_a?(Array) ?  value.join(",") : value.to_s.strip
+          n[attr.to_s] = value unless value.empty?
+        end
+        n
+      end
+
+      def cuke_name
+        unless @cuke_name
+          if self['cuke_name']
+            @cuke_name = html_node('div', 'class' => 'cuke_name')
+            @cuke_name.children = delete('cuke_name').value
+            @cuke_name['alt'] = delete('tags').value if self['tags']
+          end
+        end
+        @cuke_name
+      end
+
       # this gets mixed in to NodeBase/Nokogiri::XML::Node
       def build(node_name = 'span')
-        #self.content = parse("<div class='cuke_name'>#{delete('cuke_name').value}</div>") if self['cuke_name']
-        if self['cuke_name']
-          cuke_name = NodeBase.new(node_name, document)
-          cuke_name['class'] = 'name'
-          cuke_name.children = delete('cuke_name').value
-          self.children = cuke_name
-        end
+        self.children = cuke_name if cuke_name
+        yield if block_given?
       end
     end
   end
@@ -144,9 +159,9 @@ module Cuporter
     end
 
     def copy_attrs(node, attributes)
-      attributes.each do | attr, value |
+      attributes.each do |attr, value|
         value = value.is_a?(Array) ?  value.join(",") : value.to_s.strip
-      node[attr.to_s] = value unless value.empty?
+        node[attr.to_s] = value unless value.empty?
       end
       node
     end

@@ -6,7 +6,7 @@ module Cuporter
       class Parent < NodeBase
 
         def build
-          super('div')
+          super(node_name)
           self << ul
         end
 
@@ -15,7 +15,7 @@ module Cuporter
         end
 
         def add_child(node)
-          if node['class'] == 'name'
+          if node['class'] == 'cuke_name'
             super(node)
           else
             ul << node
@@ -48,7 +48,16 @@ module Cuporter
         end
 
         def file_name
-          file.split(/\//).last
+          path = delete('file').value.split(File::SEPARATOR)
+          name = html_node(:span)
+          name.content = "/#{path.pop}"
+          parent = html_node(:em)
+          parent.content = "/#{path.pop}"
+          div = html_node('div', :class => 'file')
+          div.children = path.join('/')
+          div << parent
+          div << name
+          div
         end
 
         # sort on: file path, name, substring of name after any ':'
@@ -67,6 +76,13 @@ module Cuporter
           super(other)
         end
 
+        def build
+          super do
+            self << file_name
+            self << ul
+          end
+        end
+
       end
 
       # The set of examples in a scenario outline
@@ -75,10 +91,11 @@ module Cuporter
         HTML_TAG = :li
 
         def build
-          super('div')
-          table << thead
-          table << tbody
-          self << table
+          super('div') do
+            table << thead
+            table << tbody
+            self << table
+          end
         end
 
         def table
@@ -127,6 +144,7 @@ module Cuporter
         HTML_TAG = :li
         include Leaf
         include Tagged
+
       end
 
       class Example < NodeBase
