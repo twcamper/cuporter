@@ -34,6 +34,17 @@ module Cuporter
       @example_set.add_child(Node.new_node(:Example, @doc, :cuke_name => sub_expression, :number => true))
     end
 
+    def close_scenario_outline
+      if @scenario_outline
+        if @example_set
+          @scenario_outline.filter_child(@example_set)
+          @example_set = nil
+        end
+        @feature.add_child(@scenario_outline) if @scenario_outline.has_children?
+        @scenario_outline = nil
+      end
+    end
+
     def initialize(file, doc, filter)
       super(file)
       @filter = filter

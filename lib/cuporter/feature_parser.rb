@@ -43,45 +43,34 @@ module Cuporter
           # may be more than one tag line
           @current_tags |= $1.strip.split(/\s+/)
         when FeatureParser::FEATURE_LINE
-          @feature = new_feature_node($1, file_relative_path)
+          @feature = new_feature_node($1.strip, file_relative_path)
           @current_tags = []
         when FeatureParser::SCENARIO_LINE
           # How do we know when we have read all the lines from a "Scenario Outline:"?
           # One way is when we encounter a "Scenario:"
           close_scenario_outline
 
-          handle_scenario_line($1)
+          handle_scenario_line($1.strip)
           @current_tags = []
         when FeatureParser::SCENARIO_OUTLINE_LINE
           # ... another is when we hit a subsequent "Scenario Outline:"
           close_scenario_outline
 
-          @scenario_outline  = new_scenario_outline_node($1)
+          @scenario_outline  = new_scenario_outline_node($1.strip)
           @current_tags = []
         when FeatureParser::EXAMPLE_SET_LINE, FeatureParser::SCENARIO_SET_LINE
           handle_example_set_line if @example_set
 
-          @example_set = new_example_set_node($1)
+          @example_set = new_example_set_node($1.strip)
           @current_tags = []
         when @example_set && FeatureParser::EXAMPLE_LINE
-          new_example_line($1)
+          new_example_line($1.strip)
         end
       end
 
       # EOF is the final way that we know we are finished with a "Scenario Outline"
       close_scenario_outline
       return @feature
-    end
-
-    def close_scenario_outline
-      if @scenario_outline
-        if @example_set
-          @scenario_outline.filter_child(@example_set)
-          @example_set = nil
-        end
-        @feature.add_child(@scenario_outline) if @scenario_outline.has_children?
-        @scenario_outline = nil
-      end
     end
 
   end
