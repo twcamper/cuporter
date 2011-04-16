@@ -10,10 +10,12 @@ module Cuporter
       end
       class ScenarioOutline < NodeBase
         include Tagged
+        include TaggedXml
       end
 
       class Feature < NodeBase
         include Tagged
+        include TaggedXml
 
         def file
           self["file"]
@@ -43,6 +45,7 @@ module Cuporter
       # The set of examples in a scenario outline
       class Examples < NodeBase
         include Tagged
+        include TaggedXml
 
         # don't sort scenario outline examples
         def sort!
@@ -61,6 +64,7 @@ module Cuporter
       # Leaf Nodes: won't have children
       class Scenario < NodeBase
         include Tagged
+        include TaggedXml
       end
 
       class Example < NodeBase

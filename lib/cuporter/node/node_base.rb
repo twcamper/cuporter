@@ -39,28 +39,22 @@ module Cuporter
       alias :add_to_end :add_leaf
 
       # *path is a list of nodes forming a path to the last one.
-      # a 'node' here is either a Node object or a node_name/cuke_name pair
       def node_at(*path)
         return self if path.empty?
 
         # recursive loop ends when last path_node is shifted off the array
         path_node = path.shift
 
-        if path_node.is_a? Array
-          type = path_node[0].to_s.downcase
-          attributes = {'cuke_name' => path_node[1]}
-        else
-          type = path_node.node_name
-          attributes = {'cuke_name' => path_node.cuke_name}
-          path_node.attribute_nodes.each do |attr|
-            attributes[attr.name] = attr.value
-          end
+        type = path_node.node_name
+        attributes = {'cuke_name' => path_node.cuke_name}
+        path_node.attribute_nodes.each do |attr|
+          attributes[attr.name] = attr.value
         end
-
         # create and add the child node if it's not found among the immediate
         # children of self
         unless( child = find_by(type, attributes) )
           child = Node.new_node(type, document, attributes)
+          #child = path_node.dup(1)
           add_child(child)
         end
 
@@ -68,7 +62,7 @@ module Cuporter
       end
 
       def short_cuke_name
-        @short_cuke_name ||= cuke_name.split(/:\s*/).last
+        @short_cuke_name ||= (cn = cuke_name) ? cn.split(/:\s*/).last : ""
       end
 
       def sort_all_descendants!
@@ -121,6 +115,57 @@ module Cuporter
     NodeBase = Nokogiri::XML::Node
 
     module Html
+
+      attr_writer :cuke_name
+
+      def file
+        inner_text_at("./*[@class='file']")
+      end
+
+      def cuke_name
+        inner_text_at('.cuke_name')
+      end
+      
+      def inner_text_at(expression)
+        (e = at(expression)) ? e.inner_text : nil
+      end
+
+      def find_by(node_name, attributes)
+        if has_children?
+          ul.children.find do |c|
+=begin
+STDERR.puts attributes.inspect
+            STDERR.puts "'#{c['class']}' == '#{node_name}'"
+            STDERR.puts "'#{c.cuke_name}' == '#{attributes['cuke_name']}'"
+            STDERR.puts "'#{c.file}' == '#{attributes['file']}'"
+STDERR.puts
+=end
+            c['class'] == node_name && c.cuke_name == attributes['cuke_name']  && c.file == attributes['file']
+          end
+        end
+      end
+
+      def node_at(*path)
+        return self if path.empty?
+
+        # recursive loop ends when last path_node is shifted off the array
+        path_node = path.shift
+
+        type = path_node['class']
+        attributes = {'cuke_name' => path_node.cuke_name}
+        path_node.attribute_nodes.each do |attr|
+          attributes[attr.name] = attr.value
+        end
+        attributes.merge!('file' => path_node.file) if path_node.file
+        attributes.merge!('tags' => path_node.tags) if path_node.tags
+        unless( child = find_by(type, attributes) )
+          child = Node.new_node(type, document, attributes )
+          add_child(child)
+        end
+
+        child.node_at(*path)
+      end
+
       def html_node(node_name, attributes = {})
         n = NodeBase.new(node_name.to_s, document)
         attributes.each do |attr, value|
@@ -130,20 +175,20 @@ module Cuporter
         n
       end
 
-      def cuke_name
-        unless @cuke_name
-          if self['cuke_name']
-            @cuke_name = html_node('div', 'class' => 'cuke_name')
-            @cuke_name.children = delete('cuke_name').value
-            @cuke_name['alt'] = delete('tags').value if self['tags']
+      def cuke_name_node
+        unless @cuke_name_node
+          if self['cuke_name']  #.nil?
+            @cuke_name_node = html_node('div', 'class' => 'cuke_name')
+            @cuke_name_node.children = delete('cuke_name').value
+            @cuke_name_node['alt'] = delete('tags').value if self['tags']
           end
         end
-        @cuke_name
+        @cuke_name_node
       end
 
       # this gets mixed in to NodeBase/Nokogiri::XML::Node
       def build(node_name = 'span')
-        self.children = cuke_name if cuke_name
+        self.children = cuke_name_node if cuke_name_node
         yield if block_given?
       end
     end
@@ -185,17 +230,22 @@ module Cuporter
       node_name, class_name = format_name(name)
       node_class = Cuporter::Node::Html.const_get(class_name)
       n = node_class.new(node_class::HTML_TAG.to_s, doc)
-      n = copy_attrs(n, attributes.merge(:class => node_name))
+      n = copy_attrs(n, attributes.merge('class' => node_name))
       n.build
       n
     end
   end
 end
 
-Cuporter::Node::NodeBase.class_eval do 
-  include Cuporter::Node::BaseMethods
-  include Cuporter::Node::Html if Cuporter.html?
+if Cuporter.html?
+  Cuporter::Node::BaseMethods.class_eval do 
+      remove_method :cuke_name
+      remove_method :node_at
+      remove_method :find_by
+    include Cuporter::Node::Html 
+  end
 end
+Cuporter::Node::NodeBase.send(:include, Cuporter::Node::BaseMethods)
 
 Cuporter::Node.class_eval do 
   if Cuporter.html?

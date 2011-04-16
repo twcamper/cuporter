@@ -5,6 +5,10 @@ module Cuporter
 
       class Parent < NodeBase
 
+        def has_children?
+          ul.children.size > 0
+        end
+
         def build
           super(node_name)
           self << ul
@@ -32,23 +36,21 @@ module Cuporter
         HTML_TAG = :div
       end
       class Tag < Parent
-        HTML_TAG = :div
+        HTML_TAG = :li
       end
       class ScenarioOutline < Parent
         include Tagged
+        include TaggedHtml
         HTML_TAG = :li
       end
 
       class Feature < Parent
         include Tagged
+        include TaggedHtml
         HTML_TAG = :li
 
-        def file
-          self["file"]
-        end
-
         def file_name
-          path = delete('file').value.split(File::SEPARATOR)
+          path = delete("file").value.split(File::SEPARATOR)
           name = html_node(:span)
           name.content = "/#{path.pop}"
           parent = html_node(:em)
@@ -88,6 +90,7 @@ module Cuporter
       # The set of examples in a scenario outline
       class Examples < NodeBase
         include Tagged
+        include TaggedHtml
         HTML_TAG = :li
 
         def build
@@ -144,6 +147,7 @@ module Cuporter
         HTML_TAG = :li
         include Leaf
         include Tagged
+        include TaggedHtml
 
       end
 

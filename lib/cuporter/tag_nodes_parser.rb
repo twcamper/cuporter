@@ -14,9 +14,9 @@ module Cuporter
       s = @feature.filter_child(Node.new_node(:Scenario, @doc, :cuke_name => sub_expression, :tags => (@feature.tags | @current_tags), :number => true))
 
       if s
-        (@current_tags | @feature.tags).each do |tag|
+        s.tags.each do |tag|
           next unless @filter.pass? tag.to_a
-          @report.add_leaf(s, [:tag, tag], @feature)
+          tag_node(tag).add_leaf(s, @feature)
         end
       end
     end
@@ -39,11 +39,21 @@ module Cuporter
 
     def new_example_line(sub_expression)
       e = Node.new_node(:Example, @doc, :cuke_name => sub_expression, :number => true)
-      (@current_tags | @example_set.tags | @scenario_outline.tags | @feature.tags).each do |tag|
+      @example_set.tags.each do |tag|
         next unless @filter.pass? tag.to_a
-        @report.add_leaf(e, [:tag, tag], @feature, @scenario_outline, @example_set)
+        tag_node(tag).add_leaf(e, @feature, @scenario_outline, @example_set)
       end
     end
+    
+    def tag_node(tag_name)
+      attributes = {'cuke_name' => tag_name}
+      unless( tn = @report.find_by('tag', attributes) )
+        tn = Node.new_node(:tag, @doc, attributes)
+        @report.add_child(tn)
+      end
+      tn
+    end
+    
 
     def initialize(file, report, filter)
       super(file)
