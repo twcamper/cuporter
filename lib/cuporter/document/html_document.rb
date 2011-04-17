@@ -14,7 +14,7 @@ module Cuporter
       end
 
       def to_html(options = {})
-        to_xml options
+        root.at(:head).to_html + root.at(:body).to_xml(options)
       end
 
       private
@@ -24,9 +24,11 @@ module Cuporter
         title = new_node(:title)
         title.content = title_text
         h << title
-        h << inline_css
+        h << inline_css("cuporter.css")
+        h << inline_css("#{view}_style.css")
         h
       end
+
 
       def body(report_node)
         b = new_node(:body)
@@ -55,10 +57,9 @@ module Cuporter
         p
       end
 
-      def inline_css
-        style = new_node(:style)
-        style['type'] = 'text/css'
-        file = File.expand_path("#{File.dirname(__FILE__)}/#{view}_style.css")
+      def inline_css(style_sheet)
+        style = new_node('style', 'type' => 'text/css')
+        file = File.expand_path("#{File.dirname(__FILE__)}/#{style_sheet}")
         style.content = "\n#{File.read(file)}"
         style
       end

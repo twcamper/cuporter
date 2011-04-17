@@ -19,7 +19,8 @@ module Cuporter
         end
 
         def add_child(node)
-          if node['class'] == 'cuke_name'
+          case node['class']
+          when 'cuke_name'
             super(node)
           else
             ul << node

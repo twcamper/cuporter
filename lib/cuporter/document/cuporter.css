@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  padding: 0;
+  font: normal 11px "Lucida Grande", Helvetica, sans-serif
+}
+.cuporter_header {
+  padding-left: 2em; 
+  padding-bottom: 0.3em; 
+  padding-top: 0.05em; 
+  color: white;
+  height: 7em;
+}
+.cuporter_header #label {
+  padding-right: 2em;
+  float: left;
+}
+#summary {
+  position: absolute;
+  right: 1em;
+  text-align: right;
+  top: 1.2em;
+}
+
+#summary p {
+  margin: 0px 0px 0px 2px;
+}
+
+ul {
+  list-style-type: none;
+}
+.report > ul {
+  padding-left: 0.5em; 
+}
+.feature {
+  margin-bottom: 0.5em;
+  margin-right: 1em;
+}
+.feature > .cuke_name {
+  padding-top:  0.3em;
+  padding-bottom: 0.3em;
+  font-weight: bold;
+}
+
+.file {
+  float: right;
+  padding-right: 0.5em;
+  font-weight: normal;
+  color: black;
+}
+
+.file .dir {
+  font-weight: bold;
+}
+
+.example td {
+  padding-left: 0.5em;
+}
+
+.number {
+  position: absolute;
+  font-weight: bold;
+}
+
+

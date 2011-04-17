@@ -131,8 +131,8 @@ module Cuporter
       end
       def scenario_outline_node(scenario_outline)
         get_node(".scenario_outline > .cuke_name:contains('#{scenario_outline[:cuke_name]}')")
-        
       end
+
       def feature_node(feature)
         get_node(".feature > .cuke_name:contains('#{feature[:cuke_name]}') + .file:contains('#{feature[:file]}')")
       end
@@ -166,7 +166,7 @@ module Cuporter
           if self['cuke_name']  #.nil?
             @cuke_name_node = html_node('div', 'class' => 'cuke_name')
             @cuke_name_node.children = delete('cuke_name').value
-            @cuke_name_node['alt'] = delete('tags').value if self['tags']
+            @cuke_name_node['title'] = delete('tags').value if self['tags']
           end
         end
         @cuke_name_node
