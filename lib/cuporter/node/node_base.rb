@@ -45,16 +45,20 @@ module Cuporter
         # recursive loop ends when last path_node is shifted off the array
         path_node = path.shift
 
-        type = path_node.node_name
-        attributes = {'cuke_name' => path_node.cuke_name}
-        path_node.attribute_nodes.each do |attr|
-          attributes[attr.name] = attr.value
+        if path_node.is_a? Array
+          type = path_node[0]
+          attributes = {'cuke_name' => path_node[1]}
+        else
+          type = path_node.node_name
+          attributes = {'cuke_name' => path_node.cuke_name}
+          path_node.attribute_nodes.each do |attr|
+            attributes[attr.name] = attr.value
+          end
         end
         # create and add the child node if it's not found among the immediate
         # children of self
         unless( child = find_by(type, attributes) )
           child = Node.new_node(type, document, attributes)
-          #child = path_node.dup(1)
           add_child(child)
         end
 
@@ -118,6 +122,24 @@ module Cuporter
 
       attr_writer :cuke_name
 
+      def get_node(expression)
+        child = at(expression)
+        child.parent if child
+      end
+      def tag_node(tag)
+        get_node(".tag > .cuke_name:contains('#{tag}')")
+      end
+      def scenario_outline_node(scenario_outline)
+        get_node(".scenario_outline > .cuke_name:contains('#{scenario_outline[:cuke_name]}')")
+        
+      end
+      def feature_node(feature)
+        get_node(".feature > .cuke_name:contains('#{feature[:cuke_name]}') + .file:contains('#{feature[:file]}')")
+      end
+      def example_set_node(es)
+        get_node(".examples > .cuke_name:contains('#{es[:cuke_name]}')")
+      end
+
       def file
         inner_text_at("./*[@class='file']")
       end
@@ -128,42 +150,6 @@ module Cuporter
       
       def inner_text_at(expression)
         (e = at(expression)) ? e.inner_text : nil
-      end
-
-      def find_by(node_name, attributes)
-        if has_children?
-          ul.children.find do |c|
-=begin
-STDERR.puts attributes.inspect
-            STDERR.puts "'#{c['class']}' == '#{node_name}'"
-            STDERR.puts "'#{c.cuke_name}' == '#{attributes['cuke_name']}'"
-            STDERR.puts "'#{c.file}' == '#{attributes['file']}'"
-STDERR.puts
-=end
-            c['class'] == node_name && c.cuke_name == attributes['cuke_name']  && c.file == attributes['file']
-          end
-        end
-      end
-
-      def node_at(*path)
-        return self if path.empty?
-
-        # recursive loop ends when last path_node is shifted off the array
-        path_node = path.shift
-
-        type = path_node['class']
-        attributes = {'cuke_name' => path_node.cuke_name}
-        path_node.attribute_nodes.each do |attr|
-          attributes[attr.name] = attr.value
-        end
-        attributes.merge!('file' => path_node.file) if path_node.file
-        attributes.merge!('tags' => path_node.tags) if path_node.tags
-        unless( child = find_by(type, attributes) )
-          child = Node.new_node(type, document, attributes )
-          add_child(child)
-        end
-
-        child.node_at(*path)
       end
 
       def html_node(node_name, attributes = {})
@@ -240,9 +226,7 @@ end
 
 if Cuporter.html?
   Cuporter::Node::BaseMethods.class_eval do 
-      remove_method :cuke_name
-      remove_method :node_at
-      remove_method :find_by
+    remove_method :cuke_name
     include Cuporter::Node::Html 
   end
 end

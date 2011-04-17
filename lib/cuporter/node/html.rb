@@ -27,8 +27,6 @@ module Cuporter
         end
       end
 
-      module Leaf
-      end
       class Report < Parent
         HTML_TAG = :div
       end
@@ -42,6 +40,7 @@ module Cuporter
         include Tagged
         include TaggedHtml
         HTML_TAG = :li
+
       end
 
       class Feature < Parent
@@ -142,10 +141,8 @@ module Cuporter
       end
       Scenarios = Examples
 
-      # Leaf Nodes: won't have children
       class Scenario < NodeBase
         HTML_TAG = :li
-        include Leaf
         include Tagged
         include TaggedHtml
 
