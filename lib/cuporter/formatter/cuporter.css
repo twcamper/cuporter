@@ -1,3 +1,7 @@
+<!--/*--><root><![CDATA[<!--*/-->
+/*******************
+*  Main            *
+********************/
 body {
   margin: 0;
   padding: 0;
@@ -28,14 +32,14 @@ body {
 ul {
   list-style-type: none;
 }
-.main_list {
+.report > ul {
   padding-left: 0.5em; 
 }
 .feature {
   margin-bottom: 0.5em;
   margin-right: 1em;
 }
-.feature_name {
+.feature > .cuke_name {
   padding-top:  0.3em;
   padding-bottom: 0.3em;
   font-weight: bold;
@@ -52,7 +56,7 @@ ul {
   font-weight: bold;
 }
 
-.example td.val {
+.example td {
   padding-left: 0.5em;
 }
 
@@ -61,4 +65,4 @@ ul {
   font-weight: bold;
 }
 
-
+<!--/*-->]]></root><!--*/-->

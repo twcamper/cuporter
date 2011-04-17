@@ -71,6 +71,13 @@ module Cuporter
           unless has_children? #first row ( arg list header)
             other.delete("number")
           end
+          cn = other['cuke_name'].dup
+          cn.sub!(/^\|/, '')
+          cn.split('|').each do |cell_text|
+            cell = Nokogiri::XML::Node.new("span", document)
+            cell.content = cell_text.strip
+            other << cell
+          end
           super(other)
         end
       end
@@ -84,6 +91,7 @@ module Cuporter
 
       class Example < NodeBase
       end
+
     end
   end
 end

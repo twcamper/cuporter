@@ -33,7 +33,7 @@ module DocumentExtensions
   end
 
   def add_report(report_node)
-    root << report_node
+    root.at(:body) << report_node
   end
 
 end

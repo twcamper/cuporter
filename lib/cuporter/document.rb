@@ -16,6 +16,7 @@ module Cuporter
     def self.new_xml
       doc =  Nokogiri::XML::Document.new
       doc << Nokogiri::XML::Node.new('xml', doc)
+      doc.root << Nokogiri::XML::Node.new('body', doc)
       doc
     end
 
