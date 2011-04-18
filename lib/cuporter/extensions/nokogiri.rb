@@ -32,6 +32,10 @@ module DocumentExtensions
     send("to_#{format}".to_sym, :indent => 2, :encoding => 'UTF-8')
   end
 
+  def to_html(options = {})
+    to_xml(options)
+  end
+
   def add_report(report_node)
     root.at(:body) << report_node
   end

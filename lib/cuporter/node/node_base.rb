@@ -118,124 +118,33 @@ module Cuporter
     # this will vary when json comes
     NodeBase = Nokogiri::XML::Node
 
-    module Html
+    # common methods for building either html or xml nodes
+    module InitializeNode
 
-      attr_writer :cuke_name
-
-      def get_node(expression)
-        child = at(expression)
-        child.parent if child
-      end
-      def tag_node(tag)
-        get_node(".tag > .cuke_name:contains('#{tag}')")
-      end
-      def scenario_outline_node(scenario_outline)
-        get_node(".scenario_outline > .cuke_name:contains('#{scenario_outline[:cuke_name]}')")
+      def format_name(name)
+        node_name = name.to_s.gsub(/([a-z])([A-Z])/,'\1_\2').downcase
+        class_name = name.to_s.to_class_name.to_sym
+        return node_name, class_name
       end
 
-      def feature_node(feature)
-        get_node(".feature > .cuke_name:contains('#{feature[:cuke_name]}') + .file:contains('#{feature[:file]}')")
-      end
-      def example_set_node(es)
-        get_node(".examples > .cuke_name:contains('#{es[:cuke_name]}')")
-      end
-
-      def file
-        inner_text_at("./*[@class='file']")
-      end
-
-      def cuke_name
-        inner_text_at('.cuke_name')
-      end
-      
-      def inner_text_at(expression)
-        (e = at(expression)) ? e.inner_text : nil
-      end
-
-      def html_node(node_name, attributes = {})
-        n = NodeBase.new(node_name.to_s, document)
+      def copy_attrs(node, attributes)
         attributes.each do |attr, value|
+          next if attr.to_s.downcase == 'type'
           value = value.is_a?(Array) ?  value.join(",") : value.to_s.strip
-          n[attr.to_s] = value unless value.empty?
+          node[attr.to_s] = value unless value.empty?
         end
-        n
+        node
       end
 
-      def cuke_name_node
-        unless @cuke_name_node
-          if self['cuke_name']  #.nil?
-            @cuke_name_node = html_node('div', 'class' => 'cuke_name')
-            @cuke_name_node.children = delete('cuke_name').value
-            @cuke_name_node['title'] = delete('tags').value if self['tags']
-          end
-        end
-        @cuke_name_node
-      end
-
-      # this gets mixed in to NodeBase/Nokogiri::XML::Node
-      def build(node_name = 'span')
-        self.children = cuke_name_node if cuke_name_node
-        yield if block_given?
+      def new_node(name, doc, attributes = {})
+        node_name, class_name = format_name(name)
+        n = Cuporter::Node::Xml.const_get(class_name).new(node_name, doc)
+        copy_attrs(n, attributes)
       end
     end
-  end
-  #
-  # common methods for building either html or xml nodes
-  module InitializeNode
 
-    def format_name(name)
-      node_name = name.to_s.gsub(/([a-z])([A-Z])/,'\1_\2').downcase
-      class_name = name.to_s.to_class_name.to_sym
-      return node_name, class_name
-    end
-
-    def copy_attrs(node, attributes)
-      attributes.each do |attr, value|
-        next if attr.to_s.downcase == 'type'
-        value = value.is_a?(Array) ?  value.join(",") : value.to_s.strip
-        node[attr.to_s] = value unless value.empty?
-      end
-      node
-    end
-  end
-
-
-  module XMLNode
-    include InitializeNode
-
-    def new_node(name, doc, attributes = {})
-      node_name, class_name = format_name(name)
-      n = Cuporter::Node::Xml.const_get(class_name).new(node_name, doc)
-      copy_attrs(n, attributes)
-    end
-  end
-
-  module HTMLNode
-    include InitializeNode
-
-    def new_node(name, doc, attributes = {})
-      node_name, class_name = format_name(name)
-      node_class = Cuporter::Node::Html.const_get(class_name)
-      n = node_class.new(node_class::HTML_TAG.to_s, doc)
-      n = copy_attrs(n, attributes.merge('class' => node_name))
-      n.build
-      n
-    end
   end
 end
 
-if Cuporter.html?
-  Cuporter::Node::BaseMethods.class_eval do 
-    remove_method :cuke_name
-    include Cuporter::Node::Html 
-  end
-end
+Cuporter::Node.send(:extend, Cuporter::Node::InitializeNode)
 Cuporter::Node::NodeBase.send(:include, Cuporter::Node::BaseMethods)
-
-Cuporter::Node.class_eval do 
-  if Cuporter.html?
-    extend Cuporter::HTMLNode
-  else
-    extend Cuporter::XMLNode
-  end
-end

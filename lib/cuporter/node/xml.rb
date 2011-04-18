@@ -14,9 +14,9 @@ module Cuporter
           at("feature[cuke_name='#{feature[:cuke_name]}'][file='#{feature[:file]}']")
         end
       end
+
       class ScenarioOutline < NodeBase
         include Tagged
-        include TaggedXml
 
         def example_set_node(es)
           at("examples[cuke_name='#{es[:cuke_name]}']")
@@ -26,7 +26,6 @@ module Cuporter
 
       class Feature < NodeBase
         include Tagged
-        include TaggedXml
 
         def scenario_outline_node(scenario_outline)
           at("scenario_outline[cuke_name='#{scenario_outline[:cuke_name]}']")
@@ -60,7 +59,6 @@ module Cuporter
       # The set of examples in a scenario outline
       class Examples < NodeBase
         include Tagged
-        include TaggedXml
 
         # don't sort scenario outline examples
         def sort!
@@ -86,7 +84,6 @@ module Cuporter
       # Leaf Nodes: won't have children
       class Scenario < NodeBase
         include Tagged
-        include TaggedXml
       end
 
       class Example < NodeBase

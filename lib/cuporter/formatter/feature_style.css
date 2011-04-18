@@ -20,7 +20,7 @@
   background-color: #65C400;
 }
 
-.feature_name {
+.feature > .properties > .cuke_name {
   margin-left: 0.5em;
   font-size: 1.5em;
 }
@@ -29,13 +29,13 @@
   font-size: 0.8em;
 }
 
-.scenario_name {
+.scenario > .properties  {
   margin-left: -2.4em;
   padding-left: 4.0em;
   padding-top: 0.1em;
   padding-bottom: 0.2em;
 }
-.scenario_outline_name {
+.scenario_outline  > .properties {
   margin-left: -2.4em;
   padding-left: 4.5em;
   padding-top: 0.1em;
@@ -47,12 +47,12 @@
   background-color:  #65C400;
 }
 
-.example_rows {
+.examples {
   margin-left: -6.0em;
   padding-left: 7.6em;
 }
 
-.scenario_name, .example_rows {
+.scenario > .properties, .examples {
   margin-top: 0.2em;
   margin-bottom: 0.2em;
   background-color: #DBFFB4;

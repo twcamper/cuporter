@@ -1,3 +1,4 @@
+
 <!--/*--><root><![CDATA[<!--*/-->
 /*******************
 *  Main            *
@@ -5,7 +6,7 @@
 body {
   margin: 0;
   padding: 0;
-  font: normal 11px "Lucida Grande", Helvetica, sans-serif
+  font: normal 11px "Lucida Grande", Helvetica, sans-serif;
 }
 .cuporter_header {
   padding-left: 2em; 
@@ -39,7 +40,7 @@ ul {
   margin-bottom: 0.5em;
   margin-right: 1em;
 }
-.feature > .cuke_name {
+.feature > .properties {
   padding-top:  0.3em;
   padding-bottom: 0.3em;
   font-weight: bold;
@@ -66,3 +67,4 @@ ul {
 }
 
 <!--/*-->]]></root><!--*/-->
+

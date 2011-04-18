@@ -16,7 +16,12 @@ module Cuporter
         @options
       end
 
+      def self.args
+        @@args
+      end
+
       def self.parse
+        @@args = ARGV.dup
         @options = {}
         OptionParser.new(ARGV.dup) do |opts|
           opts.banner = "Usage: cuporter [options]\n\n"

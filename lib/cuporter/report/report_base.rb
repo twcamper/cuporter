@@ -4,7 +4,7 @@ module Cuporter
 
     attr_reader :filter, :title, :doc, :root_dir
 
-    def initialize(input_file_pattern, doc, root_dir, filter_args = nil, title = nil)
+    def initialize(input_file_pattern, doc, root_dir, filter_args, title = nil)
       @input_file_pattern = input_file_pattern
       @doc = doc
       @root_dir = root_dir
@@ -16,7 +16,7 @@ module Cuporter
       Dir[@input_file_pattern].collect {|f| File.expand_path f}
     end
 
-    def self.create(type, input_file_pattern, root_dir, filter_args = nil, title = nil, format = nil)
+    def self.create(type, input_file_pattern, root_dir, filter_args, format = nil, title = nil)
       klass = Cuporter.const_get("#{type.downcase}Report".to_class_name)
       doc = Cuporter::Document.new_doc(format, type)
       klass.new(input_file_pattern, doc, root_dir, filter_args, title)

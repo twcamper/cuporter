@@ -9,13 +9,24 @@ report = Cuporter::ReportBase.create(Cuporter::CLI::Options[:report],
                                  Cuporter::CLI::Options.input_file_pattern,
                                  Cuporter::CLI::Options[:input_dir],
                                  filter_args,
-                                 Cuporter::CLI::Options[:title],
-                                 Cuporter::CLI::Options[:format])
+                                 Cuporter::CLI::Options[:format], 
+                                 Cuporter::CLI::Options[:title])
+if Cuporter.html?
+  require 'popen4'
 
-puts report.write
+  # we'll run the xml report and pipe the output to the XSL processor to make
+  # HTML
+  options = Cuporter::CLI::Options.args.join(' ').sub("html", "xml")
+  view    = Cuporter::CLI::Options[:report]
+  xslt    = File.expand_path("../../lib/cuporter/formatter/xml_to_html.xslt", __FILE__)
+  POpen4::popen4("#{__FILE__} #{options} | xsltproc --stringparam view #{view} #{xslt} -") do |stdout, stderr, stdin, pid|
+    puts stdout.read.strip.gsub(/\<\!--[\*\/]{2}--\>/, '')
+    puts stderr.read.strip
+  end
+#  puts `#{__FILE__} #{options} | xsltproc --stringparam view #{view} #{xslt} -`.gsub(/\<\!--[\*\/]{2}--\>/, '')
+else
+  puts report.write
+end
+
 __END__
-formatter = Cuporter::Formatter::Writer.create(Cuporter::CLI::Options[:format],
-                                               report,
-                                               Cuporter::CLI::Options[:output],
-                                               Cuporter::CLI::Options[:numbers])
-formatter.write
+xsltproc --stringparam view feature lib/cuporter/formatter/xml_to_html.xslt new_feature.xml | ruby -e "f = STDIN.read; puts f.gsub(/\<\!--[\*\/]{2}--\>/, '')" | tee xslt_feature.html
