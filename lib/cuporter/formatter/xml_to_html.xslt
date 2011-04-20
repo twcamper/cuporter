@@ -17,9 +17,58 @@
         <xsl:element name="div">
           <xsl:attribute name="class">report</xsl:attribute>
           <xsl:element name="ul">
-            <xsl:apply-templates select="//feature"/>
+
+            <xsl:choose>
+              <xsl:when test="//tag">
+                <xsl:apply-templates select="//tag"/>
+              </xsl:when>
+              <xsl:when test="//dir">
+                <xsl:apply-templates select="//dir"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:apply-templates select="//feature"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          
           </xsl:element>
         </xsl:element>
+      </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="tag">
+    <xsl:element name="li">
+      <xsl:attribute name="class">tag</xsl:attribute>
+      <xsl:element name="div">
+        <xsl:attribute name="class">properties</xsl:attribute>
+        <xsl:apply-templates select="@cuke_name"/>
+        <xsl:apply-templates select="@total"/>
+      </xsl:element>
+
+      <xsl:element name='ul'>
+        <xsl:attribute name="class">children</xsl:attribute>
+        <xsl:apply-templates select="feature"/>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="dir">  <!-- Boh! -->
+    <xsl:element name="li">
+      <xsl:attribute name="class">dir</xsl:attribute>
+      <xsl:element name="div">
+        <xsl:attribute name="class">properties</xsl:attribute>
+        <xsl:apply-templates select="@cuke_name"/>
+        <xsl:apply-templates select="@total"/>
+      </xsl:element>
+
+      <xsl:element name='ul'>
+        <xsl:attribute name="class">children</xsl:attribute>
+        <xsl:if test="./dir">
+          <xsl:apply-templates select="./dir"/>
+        </xsl:if>
+        <xsl:if test="feature">
+          <xsl:apply-templates select="./feature"/>
+        </xsl:if>
+      </xsl:element>
     </xsl:element>
   </xsl:template>
 
@@ -37,7 +86,7 @@
         </xsl:element>
       </xsl:element>
 
-      <xsl:if test="scenario | scenario_outline">
+      <xsl:if test="scenario | scenario_outline"> <!-- TODO:  remove this test if possible. seems redundant since we'll always have at least 1 child -->
         <xsl:element name='ul'>
           <xsl:attribute name="class">children</xsl:attribute>
           <xsl:apply-templates select="scenario | scenario_outline"/>
