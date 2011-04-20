@@ -21,9 +21,9 @@ module Cuporter
       @title || "Cucumber Features, Tag View"
     end
 
-    def write
+    def build
       build_report_node
-      doc.write
+      doc
     end
 
   end

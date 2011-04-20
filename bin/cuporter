@@ -3,29 +3,25 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'cuporter'
 
-filter_args = Cuporter::CLI::FilterArgsBuilder.new(Cuporter::CLI::Options[:tags]).args
+filter_args = Cuporter::CLI::FilterArgsBuilder.new(Cuporter.options[:tags]).args
 
-report = Cuporter::ReportBase.create(Cuporter::CLI::Options[:report], 
+report = Cuporter::ReportBase.create(Cuporter.options[:report], 
                                  Cuporter::CLI::Options.input_file_pattern,
-                                 Cuporter::CLI::Options[:input_dir],
+                                 Cuporter.options[:input_dir],
                                  filter_args,
-                                 Cuporter::CLI::Options[:format], 
-                                 Cuporter::CLI::Options[:title])
-if Cuporter.html?
-  require 'popen4'
+                                 Cuporter.options[:format], 
+                                 Cuporter.options[:title]).build
 
-  # we'll run the xml report and pipe the output to the XSL processor to make
-  # HTML
-  options = Cuporter::CLI::Options.args.join(' ').sub("html", "xml")
-  view    = Cuporter::CLI::Options[:report]
-  xslt    = File.expand_path("../../lib/cuporter/formatter/xml_to_html.xslt", __FILE__)
-  POpen4::popen4("#{__FILE__} #{options} | xsltproc --stringparam view #{view} #{xslt} -") do |stdout, stderr, stdin, pid|
-    puts stdout.read.strip.gsub(/\<\!--[\*\/]{2}--\>/, '')
-    puts stderr.read.strip
-  end
-#  puts `#{__FILE__} #{options} | xsltproc --stringparam view #{view} #{xslt} -`.gsub(/\<\!--[\*\/]{2}--\>/, '')
-else
-  puts report.write
+puts case Cuporter.options[:format]
+when 'xml'
+  report.to_xml(:indent => 2, :encoding => 'UTF-8')
+when 'text', 'csv', 'pretty'
+  report.to_text(:format => Cuporter.options[:format])
+when 'html'
+  html = Cuporter::Document.new_html(Cuporter.options[:report])
+  xslt = Nokogiri::XSLT(File.read("lib/cuporter/formatter/xml_to_html.xslt"))
+  html.add_report(xslt.transform(report).at(:body))
+  html.to_html(:indent => 2, :encoding => 'UTF-8')
 end
 
 __END__

@@ -1,44 +1,11 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:output method="xml"
               indent="yes"
-              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-              doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
-              encoding="UTF-8"
               />
 
 
   <xsl:template match="/">
-    <xsl:element name="html">
-      <xsl:attribute name="xmlns">"http://www.w3.org/1999/xhtml"</xsl:attribute>
-      <xsl:call-template name="head"/>
-
       <xsl:call-template name="body"/>
-
-    </xsl:element>
-  </xsl:template>
-
-  <xsl:template name="head">
-    <xsl:element name="head">
-      <xsl:element name="title">
-        <xsl:apply-templates select="//report"/>
-      </xsl:element>
-      <xsl:element name="style">
-        <xsl:attribute name="type">text/css</xsl:attribute>
-        <xsl:value-of select="document('cuporter.css')" disable-output-escaping="yes" />
-      </xsl:element>
-      <xsl:element name="style">
-        <xsl:attribute name="type">text/css</xsl:attribute>
-        <xsl:value-of disable-output-escaping="yes" select="document(concat($view,'_style.css'))" />
-      </xsl:element>
-
-      <!--
-        <xsl:element name="script">
-          <xsl:attribute name="type">script/javascript</xsl:attribute>
-          <xsl:value-of select="document('../formatter/jquery-min.js')" disable-output-escaping="yes" />
-          <xsl:value-of select="document('expand-collapse.js')" disable-output-escaping="yes" />
-        </xsl:element>
-        -->
-    </xsl:element>
   </xsl:template>
 
   <xsl:template match="report">

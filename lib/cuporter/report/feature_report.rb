@@ -20,9 +20,9 @@ module Cuporter
       @title || "Cucumber Features, List View"
     end
 
-    def write
+    def build
       doc.add_report report_node
-      doc.write
+      doc
     end
 
   end

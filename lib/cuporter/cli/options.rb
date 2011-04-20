@@ -88,4 +88,8 @@ module Cuporter
   def self.html?
     CLI::Options[:format] == 'html'
   end
+
+  def self.options
+    CLI::Options.options
+  end
 end

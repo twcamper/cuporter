@@ -29,6 +29,11 @@ Nokogiri::XML::NodeSet.send(:include, NodeSetExtensions)
 module DocumentExtensions
   attr_accessor :format, :view
   def write
+    return self
+
+
+
+
     send("to_#{format}".to_sym, :indent => 2, :encoding => 'UTF-8')
   end
 
