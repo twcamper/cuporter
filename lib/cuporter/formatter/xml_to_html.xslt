@@ -1,8 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  <xsl:output method="xml"
-    indent="yes"
-    />
-
+  <xsl:output method="xml" indent="yes" />
 
   <xsl:template match="/">
     <xsl:apply-templates select="//report"/>
@@ -12,7 +9,9 @@
     <xsl:element name="div">
       <xsl:attribute name="class">report</xsl:attribute>
       <xsl:attribute name="title"><xsl:value-of select="@title"/></xsl:attribute>
+      <xsl:call-template name="cuporter_header"/>
       <xsl:element name="ul">
+        <xsl:attribute name="class">children</xsl:attribute>
 
         <xsl:choose>
           <xsl:when test="//tag">
@@ -27,6 +26,94 @@
         </xsl:choose>
 
       </xsl:element>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template name="cuporter_header">
+    <xsl:element name="div">
+      <xsl:attribute name="class">cuporter_header</xsl:attribute>
+
+      <xsl:apply-templates select="../filter_summary"/>
+
+      <xsl:element name="div">
+        <xsl:attribute name="id">summary</xsl:attribute>
+        <xsl:choose>
+          <xsl:when test="@view='tag'">
+            <xsl:element name="div">
+              <xsl:attribute name="id">expand-collapse</xsl:attribute>
+              <xsl:element name="p">
+                <xsl:attribute name="id">expand_tags</xsl:attribute>
+                <xsl:text>Expand Tags</xsl:text> 
+              </xsl:element>
+              <xsl:element name="p">
+                <xsl:attribute name="id">expand_all</xsl:attribute>
+                <xsl:text>Expand Features</xsl:text> 
+              </xsl:element>
+              <xsl:element name="p">
+                <xsl:attribute name="id">collapser</xsl:attribute>
+                <xsl:text>Collapse All</xsl:text> 
+              </xsl:element>
+            </xsl:element>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:element name="p">
+              <xsl:attribute name="id">total</xsl:attribute>
+              <xsl:value-of select="@total"/>
+              <xsl:text> Scenarios</xsl:text> 
+            </xsl:element>
+            <xsl:element name="div">
+              <xsl:attribute name="id">expand-collapse</xsl:attribute>
+              <xsl:element name="p">
+                <xsl:attribute name="id">expand_features</xsl:attribute>
+                <xsl:text>Expand All</xsl:text> 
+              </xsl:element>
+              <xsl:element name="p">
+                <xsl:attribute name="id">collapse_features</xsl:attribute>
+                <xsl:text>Collapse All</xsl:text> 
+              </xsl:element>
+            </xsl:element>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:element>
+
+      <xsl:element name="div">
+        <xsl:attribute name="id">label</xsl:attribute>
+        <xsl:element name="h1">
+          <xsl:value-of select="@title"/>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="filter_summary">
+    <xsl:element name="div">
+      <xsl:attribute name="id">filter_summary</xsl:attribute>
+      <xsl:element name="span">Filtering:</xsl:element>
+      <xsl:apply-templates select="all | any | none"/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="all">
+    <xsl:element name="p">
+      <xsl:attribute name="class">all</xsl:attribute>
+      <xsl:text>Include: </xsl:text>
+      <xsl:value-of select="@tags"/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="any">
+    <xsl:element name="p">
+      <xsl:attribute name="class">any</xsl:attribute>
+      <xsl:text>Include: </xsl:text>
+      <xsl:value-of select="@tags"/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="none">
+    <xsl:element name="p">
+      <xsl:attribute name="class">none</xsl:attribute>
+      <xsl:text>Exclude: </xsl:text>
+      <xsl:value-of select="@tags"/>
     </xsl:element>
   </xsl:template>
 

@@ -37,5 +37,11 @@ module DocumentExtensions
     root.at(:body) << report_node
   end
 
+  def add_filter_summary(filter)
+    return if filter.empty?
+    s = Cuporter::Node.new_node(:FilterSummary, self)
+    s.add(filter)
+    root.at(:body) << s
+  end
 end
 Nokogiri::XML::Document.send(:include, DocumentExtensions)

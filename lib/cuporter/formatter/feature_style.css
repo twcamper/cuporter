@@ -5,20 +5,13 @@
   left: 3.0em;
 }
 
-#filter_summary {
-  width: 60em;
-  float: right;
-  padding-top: 1.2em;
-}
-
-#filter_summary p {
-  margin: 0px 0px 0px 2px;
-}
-
 .cuporter_header {
   background-color: #65C400;
 }
 
+.cuporter_header #total {
+  font-weight: bold;
+}
 .feature > .properties > .cuke_name {
   margin-left: 0.5em;
   font-size: 1.5em;

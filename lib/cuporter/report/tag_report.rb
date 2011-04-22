@@ -13,7 +13,8 @@ module Cuporter
 
     def report
       @report ||= begin
-                    r = Cuporter::Node.new_node(:Report, doc, :title => title)
+                    r = Cuporter::Node.new_node(:Report, doc, :title => title, :view => @doc.view)
+                    doc.add_filter_summary(@filter)
                     doc.add_report r
                     r
                   end
@@ -25,7 +26,7 @@ module Cuporter
 
     def build
       build_report_node
-      doc
+      self
     end
 
   end

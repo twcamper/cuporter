@@ -14,20 +14,40 @@ body {
   height: 7em;
 }
 .cuporter_header #label {
-  padding-right: 2em;
-  float: left;
-}
-#summary {
   position: absolute;
   right: 1em;
   text-align: right;
   top: 1.2em;
 }
-
-#summary p {
-  margin: 0px 0px 0px 2px;
+#summary {
+  padding-top: 1.2em;
+  font-size: 1.2em;
 }
 
+#summary p {
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+#filter_summary {
+  width: 70em;
+  float: right;
+  padding-top: 1.2em;
+  font-size: 1.2em;
+}
+
+#filter_summary p {
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+#filter_summary > span {
+  font-weight: bold;
+}
 ul {
   list-style-type: none;
 }

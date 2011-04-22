@@ -3,7 +3,7 @@ module Cuporter
   class FeatureReport < ReportBase
 
     def report_node
-      report = Cuporter::Node.new_node(:Report, @doc, :title => title)
+      report = Cuporter::Node.new_node(:Report, @doc, :title => title, :view => @doc.view)
       files.each do |file|
         feature = FeatureParser.node(file, @doc, @filter, root_dir)
         if feature && feature.has_children?
@@ -21,8 +21,9 @@ module Cuporter
     end
 
     def build
+      doc.add_filter_summary(@filter)
       doc.add_report report_node
-      doc
+      self
     end
 
   end

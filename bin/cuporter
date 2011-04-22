@@ -14,13 +14,13 @@ report = Cuporter::ReportBase.create(Cuporter.options[:report],
 
 puts case Cuporter.options[:format]
 when 'xml'
-  report.to_xml(:indent => 2, :encoding => 'UTF-8')
+  report.doc.to_xml(:indent => 2, :encoding => 'UTF-8')
 when 'text', 'csv', 'pretty'
-  report.to_text(:format => Cuporter.options[:format])
+  report.doc.to_text(:format => Cuporter.options[:format])
 when 'html'
   html = Cuporter::Document.new_html(Cuporter.options[:report])
   xslt = Nokogiri::XSLT(File.read("lib/cuporter/formatter/xml_to_html.xslt"))
-  html.add_report(xslt.transform(report).at('.report'))
+  html.add_report(xslt.transform(report.doc).at('.report'))
   html.to_html
 end
 

@@ -6,7 +6,24 @@ module Cuporter
         def tag_node(tag)
           at("tag[cuke_name='#{tag}']")
         end
+
       end
+
+      class FilterSummary < NodeBase
+        def add(filter)
+          self << filter_node(:all, filter.all.join(' AND ')) unless filter.all.empty?
+          self << filter_node(:any, filter.any.join(' OR ')) unless filter.any.empty?
+          self << filter_node(:none, filter.none.join(', ')) unless filter.none.empty?
+        end
+
+        def filter_node(name, text)
+          fn = NodeBase.new(name.to_s, document)
+          fn['tags'] = text
+          fn
+        end
+
+      end
+
       class Dir < NodeBase
       end
       class Tag < NodeBase

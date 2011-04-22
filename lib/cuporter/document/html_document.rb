@@ -40,7 +40,7 @@ module Cuporter
       end
 
       def script_js(file)
-        script = new_node('script', 'type' => 'javascript')
+        script = new_node('script', 'type' => 'text/javascript')
         script << file_contents("#{assets_dir}/#{file}")
         script
       end

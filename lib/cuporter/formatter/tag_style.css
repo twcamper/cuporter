@@ -5,13 +5,6 @@
   left: 4.5em;
 }
 
-#expand-collapse {
-  position: absolute;
-  right: 1em;
-  text-align: right;
-  top:   0.5em;
-}
-
 .cuporter_header {
   background-color: #24A6C1;
 }
