@@ -22,28 +22,31 @@ module Cuporter
         title = new_node(:title)
         title.content = title_text
         h << title
-        h << inline_css("cuporter.css")
-        h << inline_css("#{view}_style.css")
-        h << inline_js("jquery-min.js")
-        h << inline_js("expand-collapse.js")
+        h << style_css("cuporter.css")
+        h << style_css("#{view}_style.css")
+        h << script_js("jquery-min.js")
+        h << script_js("expand-collapse.js")
         h
       end
 
       def assets_dir
         @assets_dir ||= File.expand_path('formatter', File.dirname(__FILE__) + "/../")
       end
-      def inline_css(style_sheet)
+
+      def style_css(file)
         style = new_node('style', 'type' => 'text/css')
-        file = "#{assets_dir}/#{style_sheet}"
-        style << create_cdata("\n#{File.read(file)}")
+        style << file_contents("#{assets_dir}/#{file}")
         style
       end
 
-      def inline_js(js_file)
+      def script_js(file)
         script = new_node('script', 'type' => 'javascript')
-        file = "#{assets_dir}/#{js_file}"
-        script << create_cdata("\n#{File.read(file)}")
+        script << file_contents("#{assets_dir}/#{file}")
         script
+      end
+
+      def file_contents(file_name)
+        create_cdata("\n#{File.read(file_name)}")
       end
 
       def new_node(name, attributes = {})
