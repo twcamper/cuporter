@@ -130,7 +130,7 @@ module Cuporter
       def copy_attrs(node, attributes)
         attributes.each do |attr, value|
           next if attr.to_s.downcase == 'type'
-          value = value.is_a?(Array) ?  value.join(",") : value.to_s.strip
+          value = value.is_a?(Array) ?  value.join(", ") : value.to_s.strip
           node[attr.to_s] = value unless value.empty?
         end
         node

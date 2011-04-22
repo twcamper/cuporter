@@ -64,3 +64,12 @@ ul {
   font-weight: bold;
 }
 
+.total {
+  margin-left: 1.5em;
+  font-weight: normal;
+}
+
+.tags {
+  margin-left: 1.5em;
+  font-weight: bold;
+}

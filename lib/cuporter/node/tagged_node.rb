@@ -10,7 +10,7 @@ module Cuporter
         tags.size > 0
       end
       def tags
-        @tags ||= attributes["tags"].to_s.split(',') || []
+        @tags ||= attributes["tags"].to_s.split(/,\s*/) || []
       end
       def filter_child(node)
         add_child(node) if @filter.pass?(tags | node.tags)

@@ -108,7 +108,6 @@
       <xsl:element name="div">
         <xsl:attribute name="class">properties</xsl:attribute>
         <xsl:apply-templates select="@cuke_name"/>
-        <xsl:apply-templates select="@total"/>
         <xsl:apply-templates select="@tags"/>
       </xsl:element>
     </xsl:element>
@@ -124,7 +123,6 @@
       <xsl:element name="div">
         <xsl:attribute name="class">properties</xsl:attribute>
         <xsl:apply-templates select="@cuke_name"/>
-        <xsl:apply-templates select="@total"/>
         <xsl:apply-templates select="@tags"/>
       </xsl:element>
       <xsl:element name="table">
@@ -156,7 +154,9 @@
   <xsl:template match="@total">
     <xsl:element name="span">
       <xsl:attribute name="class">total</xsl:attribute>
+      <xsl:text>[</xsl:text>
       <xsl:value-of select="."/>
+      <xsl:text>]</xsl:text>
     </xsl:element>
   </xsl:template>
 

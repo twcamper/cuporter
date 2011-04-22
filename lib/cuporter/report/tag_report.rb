@@ -20,7 +20,7 @@ module Cuporter
     end
 
     def title
-      @title || "Cucumber Features, Tag View"
+      @title || "Cucumber Tags"
     end
 
     def build

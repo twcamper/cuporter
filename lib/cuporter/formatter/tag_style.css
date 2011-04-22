@@ -16,14 +16,13 @@
   background-color: #24A6C1;
 }
 
-.tag > .cuke_name {
+.tag > .properties > .cuke_name {
   font-weight: bold;
   font-size: 1.5em; 
 }
-.total {
-  margin-left: 0.5em;
-  font-weight: normal;
-  font-size: 0.8em;
+
+.tag > .properties > .total {
+  font-size: 1.2em;
 }
 
 .tag {
@@ -35,7 +34,7 @@
   margin-top: 1.0em;
   margin-bottom: 0.5em;
 }
-.feature > .cuke_name {
+.feature > .properties {
   margin-left: -2em;
   padding-left: 1.5em;
   background-color: #24A6C1;
@@ -43,18 +42,17 @@
 }
 
 .file {
-  margin-top: -1.5em;
   font-size: 1.1em;
-  color: white;
+  color: black;
 }
 
-.scenario > .cuke_name {
+.scenario > .properties {
   margin-left: -4.0em;
   padding-left: 4.0em;
   background-color: lightblue;
 }
 
-.scenario_outline > .cuke_name {
+.scenario_outline > .properties {
   margin-left: -4.0em;
   padding-left: 4.5em;
 }
@@ -62,20 +60,18 @@
 .examples {
   margin-left: -7.7em;
   padding-left: 7.7em;
-  background-color: lightblue;
 }
 
 .example {
   background-color:  #26A6C0;
   font-weight: normal;
-  font-size: 0.7em;
 }
 
-.examples > .cuke_name {
+.examples > .properties {
   margin-left: -2em;
 }
 
-.scenario > .cuke_name, .examples {
+.scenario > .properties, .scenario_outline > .properties, .examples {
   margin-top: 0.2em;
   margin-bottom: 0.2em;
   background-color: #lightblue;

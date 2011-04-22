@@ -24,7 +24,8 @@
   font-size: 1.5em;
 }
 
-.file {
+.feature > .properties > .total {
+  font-size: 1.2em;
 }
 
 .scenario > .properties  {
@@ -50,10 +51,14 @@
   padding-left: 7.6em;
 }
 
-.scenario > .properties, .examples {
+.scenario > .properties, .scenario_outline > .properties, .examples {
   margin-top: 0.2em;
   margin-bottom: 0.2em;
   background-color: #DBFFB4;
   border-left: 0.5em solid #65c400;
   border-bottom: 1px solid #65c400;
+}
+
+.tags {
+  color: darkblue; //#246AC1;
 }
