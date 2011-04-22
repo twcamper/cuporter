@@ -1,41 +1,36 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:output method="xml"
-              indent="yes"
-              />
+    indent="yes"
+    />
 
 
   <xsl:template match="/">
-      <xsl:call-template name="body"/>
+    <xsl:apply-templates select="//report"/>
   </xsl:template>
 
   <xsl:template match="report">
-    <xsl:value-of select="@title"/>
+    <xsl:element name="div">
+      <xsl:attribute name="class">report</xsl:attribute>
+      <xsl:attribute name="title"><xsl:value-of select="@title"/></xsl:attribute>
+      <xsl:element name="ul">
+
+        <xsl:choose>
+          <xsl:when test="//tag">
+            <xsl:apply-templates select="//tag"/>
+          </xsl:when>
+          <xsl:when test="//dir">
+            <xsl:apply-templates select="//dir"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="//feature"/>
+          </xsl:otherwise>
+        </xsl:choose>
+
+      </xsl:element>
+    </xsl:element>
   </xsl:template>
 
-  <xsl:template name="body">
-    <xsl:element name="body">
-        <xsl:element name="div">
-          <xsl:attribute name="class">report</xsl:attribute>
-          <xsl:element name="ul">
-
-            <xsl:choose>
-              <xsl:when test="//tag">
-                <xsl:apply-templates select="//tag"/>
-              </xsl:when>
-              <xsl:when test="//dir">
-                <xsl:apply-templates select="//dir"/>
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:apply-templates select="//feature"/>
-              </xsl:otherwise>
-            </xsl:choose>
-          
-          </xsl:element>
-        </xsl:element>
-      </xsl:element>
-    </xsl:template>
-
-    <xsl:template match="tag">
+  <xsl:template match="tag">
     <xsl:element name="li">
       <xsl:attribute name="class">tag</xsl:attribute>
       <xsl:element name="div">

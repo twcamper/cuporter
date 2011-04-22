@@ -20,8 +20,8 @@ when 'text', 'csv', 'pretty'
 when 'html'
   html = Cuporter::Document.new_html(Cuporter.options[:report])
   xslt = Nokogiri::XSLT(File.read("lib/cuporter/formatter/xml_to_html.xslt"))
-  html.add_report(xslt.transform(report).at(:body))
-  html.to_html(:indent => 2, :encoding => 'UTF-8')
+  html.add_report(xslt.transform(report).at('.report'))
+  html.to_html
 end
 
 __END__

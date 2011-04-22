@@ -7,6 +7,7 @@ module Cuporter
         FeatureParser.tag_nodes(file, report, @filter, root_dir)
       end
       report.sort_all_descendants!
+      report.search(:tag).each {|f| f.number_all_descendants }
       report.total
     end
 

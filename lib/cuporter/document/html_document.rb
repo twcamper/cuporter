@@ -5,11 +5,14 @@ module Cuporter
 
       def add_report(report_node)
         root << head(report_node['title'])
-        root << report_node
+        body = new_node('body')
+        body << report_node
+        root << body
       end
 
+      # remove CDATA tags so CSS works
       def to_html(options = {})
-        root.at(:head).to_html + root.at(:body).to_xml(options)
+        to_xhtml(options).gsub(/(<!\[CDATA\[|\]\]>)/,'')
       end
 
       private
@@ -32,14 +35,14 @@ module Cuporter
       def inline_css(style_sheet)
         style = new_node('style', 'type' => 'text/css')
         file = "#{assets_dir}/#{style_sheet}"
-        style.content = "\n#{File.read(file)}"
+        style << create_cdata("\n#{File.read(file)}")
         style
       end
 
       def inline_js(js_file)
         script = new_node('script', 'type' => 'javascript')
         file = "#{assets_dir}/#{js_file}"
-        script.content = "\n#{File.read(file)}"
+        script << create_cdata("\n#{File.read(file)}")
         script
       end
 
