@@ -12,8 +12,8 @@ module Cuporter
       def tags
         @tags ||= attributes["tags"].to_s.split(/,\s*/) || []
       end
-      def filter_child(node)
-        add_child(node) if @filter.pass?(tags | node.tags)
+      def filter_child(node, context_tags = [])
+        add_child(node) if @filter.pass?(context_tags | tags | node.tags)
       end
 
     end

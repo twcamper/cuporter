@@ -10,9 +10,9 @@ module Cuporter
 
     def handle_scenario_line(sub_expression)
       if @filter.pass?(@feature[:tags] | @current_tags)
-        s = {:cuke_name => sub_expression, :tags => (@feature[:tags] | @current_tags), :number => true}
+        s = {:cuke_name => sub_expression, :tags => @current_tags, :number => true}
 
-        s[:tags].each do |tag|
+        (@feature[:tags] | s[:tags]).each do |tag|
           next unless @filter.pass? tag.to_a
           add_scenario(tag, @feature, s)
         end
@@ -20,21 +20,22 @@ module Cuporter
     end
 
     def new_scenario_outline_node(sub_expression)
-      {:cuke_name => sub_expression, :tags => (@feature[:tags] | @current_tags)}
+      {:cuke_name => sub_expression, :tags => @current_tags}
     end
 
     def handle_example_set_line
     end
 
     def new_example_set_node(sub_expression)
-      {:cuke_name => sub_expression.to_s.strip, :tags => (@scenario_outline[:tags] | @current_tags)}
+      {:cuke_name => sub_expression.to_s.strip, :tags => @current_tags}
     end
 
     def new_example_line(sub_expression)
-      if @filter.pass?(@example_set[:tags])
+      context_tags = (@feature[:tags] | @scenario_outline[:tags] | @example_set[:tags])
+      if @filter.pass?(context_tags)
         e = {:cuke_name => sub_expression, :number => true}
 
-        @example_set[:tags].each do |tag|
+        context_tags.each do |tag|
           next unless @filter.pass? tag.to_a
           add_example(tag, @feature, @scenario_outline, @example_set, e)
         end

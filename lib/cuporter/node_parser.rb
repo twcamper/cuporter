@@ -11,21 +11,25 @@ module Cuporter
     end
 
     def handle_scenario_line(sub_expression)
-      @feature.filter_child(Node.new_node(:Scenario, @doc, :cuke_name => sub_expression, :tags => (@feature.tags | @current_tags), :number => true))
+      if @filter.pass?(@current_tags | @feature.tags)
+        @feature.add_child(Node.new_node(:Scenario, @doc, :cuke_name => sub_expression, :tags => @current_tags, :number => true))
+      end
     end
 
     def new_scenario_outline_node(sub_expression)
-      so = Node.new_node(:ScenarioOutline, @doc, :cuke_name => sub_expression, :tags => (@feature.tags | @current_tags))
+      so = Node.new_node(:ScenarioOutline, @doc, :cuke_name => sub_expression, :tags => @current_tags)
       so.filter = @filter
       so
     end
 
     def handle_example_set_line
-      @scenario_outline.filter_child(@example_set)
+      if @filter.pass?(@feature.tags | @scenario_outline.tags | @example_set.tags)
+        @scenario_outline.add_child @example_set
+      end
     end
 
     def new_example_set_node(sub_expression)
-      es = Node.new_node(:Examples, @doc, :cuke_name => sub_expression, :tags => (@scenario_outline.tags | @current_tags))
+      es = Node.new_node(:Examples, @doc, :cuke_name => sub_expression, :tags => @current_tags)
       es.filter = @filter
       es
     end
@@ -37,7 +41,7 @@ module Cuporter
     def close_scenario_outline
       if @scenario_outline
         if @example_set
-          @scenario_outline.filter_child(@example_set)
+          handle_example_set_line
           @example_set = nil
         end
         @feature.add_child(@scenario_outline) if @scenario_outline.has_children?
