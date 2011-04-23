@@ -63,6 +63,17 @@ module Cuporter
             @options[:input_file] = file
           end
           
+          @options[:output_file]
+          opts.on("-o", "--output-file FILE", %Q{Output file path, like 'tmp/cucumber/tag_report.html'.
+          }) do |o|
+            full_path = File.expand_path(o)
+            path = full_path.split(File::SEPARATOR)
+            file = path.pop
+            FileUtils.makedirs(path.join(File::SEPARATOR))
+            
+            @options[:output_file] = full_path
+          end
+
           @options[:tags] = []
           opts.on("-t", "--tags TAG_EXPRESSION", %Q{Filter on tags for name report.
                                          TAG_EXPRESSION rules:
@@ -121,5 +132,13 @@ module Cuporter
 
   def self.options
     CLI::Options.options
+  end
+
+  def self.output
+    if options[:output_file]
+      File.open(options[:output_file], "w")
+    else
+      STDOUT
+    end
   end
 end
