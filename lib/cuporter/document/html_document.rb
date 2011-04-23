@@ -2,6 +2,7 @@
 module Cuporter
   module Document
     module Html
+      attr_accessor :view
 
       def add_report(report_node)
         root << head(report_node['title'])

@@ -12,7 +12,8 @@ module Cuporter
 
         def number(node)
           node.children.each do |child|
-            if child["number"]
+            case child.node_name
+            when 'scenario', 'example'
               child["number"] = (@total += 1).to_s
             end
             number(child)

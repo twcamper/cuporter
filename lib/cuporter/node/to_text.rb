@@ -11,8 +11,7 @@ module Cuporter
       def to_text(options = {})
         indent = '  ' * depth
         s = ""
-        #s = text_line(indent) if self['cuke_name']
-        s = "#{indent}#{self['cuke_name']}\n" if self['cuke_name']
+        s = text_line(indent) if self['cuke_name']
         s += children.map {|n| n.to_text}.to_s
         s
       end

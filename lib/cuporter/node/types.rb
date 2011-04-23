@@ -8,11 +8,18 @@ module Cuporter
         end
 
         # remove leaf nodes, i.e., the scenario and scenario outline children
-        def defoliate
+        def defoliate!
           leaves = search("feature > scenario, feature > scenario_outline")
           leaves.remove
         end
 
+        def remove_files!
+          search(:feature).each {|f| f.delete('file') }
+        end
+
+        def remove_tags!
+          search("*[@tags]").each {|e| e.delete('tags') }
+        end
       end
 
       class FilterSummary < NodeBase
@@ -88,10 +95,12 @@ module Cuporter
           # no op
         end
 
+        # don't total at the example set level
+        def total
+          # no op
+        end
+
         def add_child(other)
-          unless has_children? #first row ( arg list header)
-            other.delete("number")
-          end
           cn = other['cuke_name'].dup
           cn.sub!(/^\|/, '')
           cn.split('|').each do |cell_text|
@@ -110,7 +119,7 @@ module Cuporter
 
         def text_line(indent)
           l = indent
-          l += "%07d. " % self['number'].to_i
+          l += "#{self['number']}. " if self['number']
           l += self['cuke_name']
           l += "\t#{self['tags']}" if self['tags']
           l += "\n"
@@ -121,13 +130,14 @@ module Cuporter
       class Example < NodeBase
         def text_line(indent)
           l = indent
-          l += "#{self['number']}. "
+          l += "#{self['number']}. " if self['number']
           l += self['cuke_name']
           l += "\n"
           l
         end
       end
-
+      class ExampleHeader < NodeBase
+      end
     end
   end
 end

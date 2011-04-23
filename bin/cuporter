@@ -3,15 +3,8 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'cuporter'
 
-filter_args = Cuporter::CLI::FilterArgsBuilder.new(Cuporter.options[:tags]).args
 
-report = Cuporter::ReportBase.create(Cuporter.options[:report], 
-                                 Cuporter::CLI::Options.input_file_pattern,
-                                 Cuporter.options[:input_dir],
-                                 filter_args,
-                                 Cuporter.options[:format], 
-                                 Cuporter.options[:title],
-                                 Cuporter.options[:no_leaves]).build
+report = Cuporter::ReportBase.create(Cuporter.options).build
 
 puts case Cuporter.options[:format]
 when 'xml'

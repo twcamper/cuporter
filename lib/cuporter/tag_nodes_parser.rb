@@ -10,7 +10,7 @@ module Cuporter
 
     def handle_scenario_line(sub_expression)
       if @filter.pass?(@feature[:tags] | @current_tags)
-        s = {:cuke_name => sub_expression, :tags => @current_tags, :number => true}
+        s = {:cuke_name => sub_expression, :tags => @current_tags}
 
         (@feature[:tags] | s[:tags]).each do |tag|
           next unless @filter.pass? tag.to_a
@@ -33,7 +33,7 @@ module Cuporter
     def new_example_line(sub_expression)
       context_tags = (@feature[:tags] | @scenario_outline[:tags] | @example_set[:tags])
       if @filter.pass?(context_tags)
-        e = {:cuke_name => sub_expression, :number => true}
+        e = {:cuke_name => sub_expression}
 
         context_tags.each do |tag|
           next unless @filter.pass? tag.to_a
@@ -70,10 +70,16 @@ module Cuporter
       unless ( so = f.scenario_outline_node(scenario_outline) )
         so = f.add_child(Node.new_node(:ScenarioOutline, @doc, scenario_outline))
       end
+
+      # The first Example is an ExampleHeader, which does not get counted or
+      # numbered.  If the ExampleSet is new, it has no children, and therefore
+      # this is the first and should be an ExampleHeader.
+      example_type = :Example
       unless ( es = so.example_set_node(example_set) )
         es = so.add_child(Node.new_node(:Examples, @doc, example_set))
+        example_type = :ExampleHeader
       end
-      es.add_child(Node.new_node(:Example, @doc, example))
+      es.add_child(Node.new_node(example_type, @doc, example))
     end
 
 

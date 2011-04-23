@@ -27,7 +27,6 @@ end
 Nokogiri::XML::NodeSet.send(:include, NodeSetExtensions)
 
 module DocumentExtensions
-  attr_accessor :format, :view
 
   def to_html(options = {})
     to_xml(options)

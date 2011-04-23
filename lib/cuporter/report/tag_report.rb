@@ -6,15 +6,11 @@ module Cuporter
       files.each do |file|
         FeatureParser.tag_nodes(file, report, @filter, root_dir)
       end
-      report.sort_all_descendants!
-      report.search(:tag).each {|f| f.number_all_descendants }
-      report.total
-      report.defoliate if no_leaves
     end
 
     def report
       @report ||= begin
-                    r = Cuporter::Node.new_node(:Report, doc, :title => title, :view => @doc.view)
+                    r = Cuporter::Node.new_node(:Report, doc, :title => title, :view => view)
                     doc.add_filter_summary(@filter)
                     doc.add_report r
                     r
@@ -27,6 +23,12 @@ module Cuporter
 
     def build
       build_report_node
+      report.sort_all_descendants!                             if sort?
+      report.search(:tag).each {|f| f.number_all_descendants } if number?
+      report.total                                             if total?
+      report.defoliate!                                        if no_leaves?
+      report.remove_files!                                     unless show_files?
+      report.remove_tags!                                      unless show_tags?
       self
     end
 

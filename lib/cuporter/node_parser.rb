@@ -12,7 +12,7 @@ module Cuporter
 
     def handle_scenario_line(sub_expression)
       if @filter.pass?(@current_tags | @feature.tags)
-        @feature.add_child(Node.new_node(:Scenario, @doc, :cuke_name => sub_expression, :tags => @current_tags, :number => true))
+        @feature.add_child(Node.new_node(:Scenario, @doc, :cuke_name => sub_expression, :tags => @current_tags))
       end
     end
 
@@ -35,7 +35,10 @@ module Cuporter
     end
 
     def new_example_line(sub_expression)
-      @example_set.add_child(Node.new_node(:Example, @doc, :cuke_name => sub_expression, :number => true))
+      example_type = :ExampleHeader
+      # if the example set has a child already, then it must be the header
+      example_type = :Example if @example_set.has_children?
+      @example_set.add_child(Node.new_node(example_type, @doc, :cuke_name => sub_expression))
     end
 
     def close_scenario_outline

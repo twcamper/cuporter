@@ -53,7 +53,7 @@ module Cuporter
         end
 
         it 'can total its numerable children' do
-          child = NodeBase.new('child', doc)
+          child = NodeBase.new('scenario', doc)
           child['number'] = 'true'
           node.add_child(child)
           node.total
@@ -82,11 +82,9 @@ module Cuporter
         end
 
         it 'should number numerable descendants' do
-          child = NodeBase.new('child', doc)
-          child['number'] = 'true'
-          grandchild = NodeBase.new('grandchild', doc)
-          greatgrandchild = NodeBase.new('greatgrandchild', doc)
-          greatgrandchild['number'] = 'true'
+          child = NodeBase.new('scenario', doc)
+          grandchild = NodeBase.new('example_header', doc)
+          greatgrandchild = NodeBase.new('example', doc)
           
           grandchild.add_child(greatgrandchild)
           child.add_child(grandchild)
@@ -94,9 +92,9 @@ module Cuporter
 
           node.number_all_descendants
           node['number'].should be_nil
-          node.at(:child)['number'].should == '1'
-          node.at(:grandchild)['number'].should be_nil
-          node.at(:greatgrandchild)['number'].should == '2'
+          child['number'].should == '1'
+          grandchild['number'].should be_nil
+          greatgrandchild['number'].should == '2'
         end
 
       end

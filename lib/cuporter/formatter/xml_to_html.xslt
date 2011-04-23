@@ -162,10 +162,7 @@
         <xsl:apply-templates select="@cuke_name"/>
         <xsl:apply-templates select="@total"/>
         <xsl:apply-templates select="@tags"/>
-        <xsl:element name="span">
-          <xsl:attribute name="class">file</xsl:attribute>
-          <xsl:value-of select="@file"/>
-        </xsl:element>
+        <xsl:apply-templates select="@file"/>
       </xsl:element>
 
       <xsl:if test="scenario | scenario_outline"> <!-- TODO:  remove this test if possible. seems redundant since we'll always have at least 1 child -->
@@ -234,6 +231,13 @@
   <xsl:template match="@tags">
     <xsl:element name="span">
       <xsl:attribute name="class">tags</xsl:attribute>
+      <xsl:value-of select="."/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="@file">
+    <xsl:element name="span">
+      <xsl:attribute name="class">file</xsl:attribute>
       <xsl:value-of select="."/>
     </xsl:element>
   </xsl:template>

@@ -4,7 +4,7 @@ module Cuporter
 
     module Totalling
       def total
-        t = search("*[@number]").size
+        t = search("scenario,example").size
         self["total"] = t.to_s if t > 0
         children.each {|child| child.total }
       end
