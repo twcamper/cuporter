@@ -1,9 +1,12 @@
-# Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
+# Copyright 2011 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
   module Node
 
     module BaseMethods
-      include Comparable
+      include Sorting
+      include Totalling
+      include Numbering
+      include ToText
 
       def has_children?
         children.size > 0
@@ -69,50 +72,10 @@ module Cuporter
         @short_cuke_name ||= (cn = cuke_name) ? cn.split(/:\s*/).last : ""
       end
 
-      def sort_all_descendants!
-        sort!
-        children.each {|child| child.sort_all_descendants! }
-      end
-
-      def sort!
-        return unless has_children?
-        sorted_children = children.sort
-        self.children = sorted_children
-      end
-
-      def <=>(other)
-        (short_cuke_name || name) <=> (other.short_cuke_name || other.name)
-      end
-
       # value equivalence
       def eql?(other)
         node_name == other.node_name && cuke_name == other.cuke_name && children.eql?(other.children)
       end
-
-      def total
-        t = search("*[@number]").size
-        self["total"] = t.to_s if t > 0
-        children.each {|child| child.total }
-      end
-
-      def number_all_descendants
-        @numberer = Numberer.new
-        @numberer.number(self)
-      end
-
-      def depth
-        d = path.sub(/^.*\/report/, 'report').split('/').size - 2
-        d < 0 ? 0 : d
-      end
-
-      def to_text(options = {})
-        indent = '  ' * depth
-        s = ""
-        s = "#{indent}#{self['cuke_name']}\n" if self['cuke_name']
-        s += children.map {|n| n.to_text}.to_s
-        s
-      end
-      alias :to_pretty :to_text
 
     end
     # this will vary when json comes
@@ -138,7 +101,7 @@ module Cuporter
 
       def new_node(name, doc, attributes = {})
         node_name, class_name = format_name(name)
-        n = Cuporter::Node::Xml.const_get(class_name).new(node_name, doc)
+        n = Cuporter::Node::Types.const_get(class_name).new(node_name, doc)
         copy_attrs(n, attributes)
       end
     end

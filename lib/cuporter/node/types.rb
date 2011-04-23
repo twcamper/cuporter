@@ -1,7 +1,7 @@
-# Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
+# Copyright 2011 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
   module Node
-    module Xml
+    module Types
       class Report < NodeBase
         def tag_node(tag)
           at("tag[cuke_name='#{tag}']")
@@ -107,9 +107,25 @@ module Cuporter
       # Leaf Nodes: won't have children
       class Scenario < NodeBase
         include Tagged
+
+        def text_line(indent)
+          l = indent
+          l += "%07d. " % self['number'].to_i
+          l += self['cuke_name']
+          l += "\t#{self['tags']}" if self['tags']
+          l += "\n"
+          l
+        end
       end
 
       class Example < NodeBase
+        def text_line(indent)
+          l = indent
+          l += "#{self['number']}. "
+          l += self['cuke_name']
+          l += "\n"
+          l
+        end
       end
 
     end
