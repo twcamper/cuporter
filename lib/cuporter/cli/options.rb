@@ -26,14 +26,6 @@ module Cuporter
         OptionParser.new(ARGV.dup) do |opts|
           opts.banner = "Usage: cuporter [options]\n\n"
 
-          opts.on("-o", "--out FILE", "Output file path\n\n") do |o|
-            full_path = File.expand_path(o)
-            path = full_path.split(File::SEPARATOR)
-            file = path.pop
-            FileUtils.makedirs(path.join(File::SEPARATOR))
-
-            @options[:output] = full_path
-          end
           @options[:format] = "text"
           opts.on("-f", "--format [xml|html|csv|text]", "Output format: Default: text (it's pretty, though!)\n\n") do |f|
             @options[:format] = f
@@ -59,6 +51,9 @@ module Cuporter
             @options[:report] = r
           end
 
+          opts.on("-l", "--no-leaves", "Show features with counts, but no scenarios or outlines\n\n") do |l|
+            @options[:no_leaves] = !l
+          end
           opts.on("-T", "--title STRING", "title of name report\n\t\t\t\t\tDefault: 'Cucumber Features, [Tag|Tree|List] View'\n\n") do |title|
             @options[:title] = title
           end

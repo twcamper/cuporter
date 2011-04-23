@@ -9,6 +9,7 @@ module Cuporter
       report.sort_all_descendants!
       report.search(:tag).each {|f| f.number_all_descendants }
       report.total
+      report.defoliate if no_leaves
     end
 
     def report

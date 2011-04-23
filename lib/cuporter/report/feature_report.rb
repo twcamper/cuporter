@@ -13,6 +13,7 @@ module Cuporter
       report.sort_all_descendants!
       report.number_all_descendants
       report.total
+      report.defoliate if no_leaves
       report
     end
 

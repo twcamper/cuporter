@@ -7,6 +7,12 @@ module Cuporter
           at("tag[cuke_name='#{tag}']")
         end
 
+        # remove leaf nodes, i.e., the scenario and scenario outline children
+        def defoliate
+          leaves = search("feature > scenario, feature > scenario_outline")
+          leaves.remove
+        end
+
       end
 
       class FilterSummary < NodeBase

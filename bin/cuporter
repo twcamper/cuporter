@@ -10,7 +10,8 @@ report = Cuporter::ReportBase.create(Cuporter.options[:report],
                                  Cuporter.options[:input_dir],
                                  filter_args,
                                  Cuporter.options[:format], 
-                                 Cuporter.options[:title]).build
+                                 Cuporter.options[:title],
+                                 Cuporter.options[:no_leaves]).build
 
 puts case Cuporter.options[:format]
 when 'xml'

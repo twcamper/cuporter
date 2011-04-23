@@ -15,6 +15,7 @@ module Cuporter
       folders.sort_all_descendants!
       folders.number_all_descendants
       folders.total
+      folders.defoliate if no_leaves
       folders
     end
 
