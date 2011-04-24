@@ -29,3 +29,11 @@ Feature: Pretty print report on 3 features
     When I run cuporter --i fixtures/self_test --no-number --no-total --no-show-files --no-show-tags -r feature -t ~@customer -t @smoke,@wip
     Then the output should have the same contents as "features/reports/pretty_compound_or_and_not_filter.txt"
     
+  Scenario: Tree report on fixtures/self_test
+    When I run cuporter --i fixtures/self_test --no-number --no-total --no-show-files --no-show-tags -r tree
+    Then the output should have the same contents as "features/reports/pretty_tree_report.txt"
+
+  Scenario: Tree report on fixtures/one
+    When I run cuporter --i fixtures/one --no-number --no-total --no-show-files --no-show-tags -r tree
+    Then the output should have the same contents as "features/reports/pretty_variable_depth_tree.txt"
+    

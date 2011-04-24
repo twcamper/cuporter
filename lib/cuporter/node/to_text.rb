@@ -12,7 +12,7 @@ module Cuporter
 
       def to_text(options = {})
         s = ""
-        s = text_line if self['cuke_name']
+        s = text_line(self['cuke_name']) if self['cuke_name']
         s += children.map {|n| n.to_text}.to_s
         s
       end
@@ -30,9 +30,9 @@ module Cuporter
         @@terminal_width ||= (`tput cols` || 120).to_i
       end
 
-      def text_line
+      def text_line(name)
         l = indent
-        l += self['cuke_name']
+        l += name
         l += "#{tab_stop * 2}#{self['tags']}" if self['tags']
         
         if self['file']

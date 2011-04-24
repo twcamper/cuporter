@@ -24,12 +24,6 @@ module Cuporter
         @cuke_name ||= self['cuke_name'].to_s
       end
 
-      def find_by(node_name, attributes)
-        children.find do |c|
-          c.node_name == node_name && c.cuke_name == attributes['cuke_name']  && c['file'] == attributes['file']
-        end
-      end
-
       def find(node)
         children.find {|c| c.eql? node}
       end
@@ -37,7 +31,7 @@ module Cuporter
 
       def add_leaf(node, *path)
         parent = node_at(*path)
-        parent.add_child(node.dup(1)) unless parent.has_child? node
+        parent.add_child(node) unless parent.has_child? node
       end
       alias :add_to_end :add_leaf
 
@@ -46,22 +40,15 @@ module Cuporter
         return self if path.empty?
 
         # recursive loop ends when last path_node is shifted off the array
-        path_node = path.shift
+        attributes = {'fs_name' => path.shift}
 
-        if path_node.is_a? Array
-          type = path_node[0]
-          attributes = {'cuke_name' => path_node[1]}
-        else
-          type = path_node.node_name
-          attributes = {'cuke_name' => path_node.cuke_name}
-          path_node.attribute_nodes.each do |attr|
-            attributes[attr.name] = attr.value
-          end
-        end
         # create and add the child node if it's not found among the immediate
         # children of self
-        unless( child = find_by(type, attributes) )
-          child = Node.new_node(type, document, attributes)
+        child = children.find do |c|
+          c.node_name == 'dir' && c.fs_name == attributes['fs_name']
+        end
+        unless child
+          child = Node.new_node('dir', document, attributes)
           add_child(child)
         end
 

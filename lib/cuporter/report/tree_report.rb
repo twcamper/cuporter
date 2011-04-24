@@ -10,7 +10,7 @@ module Cuporter
           if feature && feature.has_children?
             path = feature.file.split(File::SEPARATOR)
             path.pop
-            @folders.add_leaf(feature, *path.map {|dir| [:Dir, dir.upcase]})
+            @folders.add_leaf(feature, *path)
           end
         end
       end

@@ -40,7 +40,24 @@ module Cuporter
 
       class Dir < NodeBase
         include TotalFormatter
+        def to_text(options = {})
+          s = ""
+          s = text_line(fs_name.upcase) if fs_name
+          s += children.map {|n| n.to_text}.to_s
+          s
+        end
+
+        def fs_name
+          @fs_name ||= self['fs_name']
+        end
+
+        # don't sort self, only feature descendants.  we'll rely on the fs
+        # sorting
+        def sort_all_descendants!
+          children.each {|child| child.sort_all_descendants! }
+        end
       end
+
       class Tag < NodeBase
         include TotalFormatter
         def feature_node(feature)
