@@ -18,7 +18,7 @@
             <xsl:apply-templates select="//tag"/>
           </xsl:when>
           <xsl:when test="//dir">
-            <xsl:apply-templates select="//dir"/>
+            <xsl:apply-templates select="./dir"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:apply-templates select="//feature"/>
@@ -138,18 +138,13 @@
       <xsl:attribute name="class">dir</xsl:attribute>
       <xsl:element name="div">
         <xsl:attribute name="class">properties</xsl:attribute>
-        <xsl:apply-templates select="@cuke_name"/>
+        <xsl:apply-templates select="@fs_name"/>
         <xsl:apply-templates select="@total"/>
       </xsl:element>
 
       <xsl:element name='ul'>
         <xsl:attribute name="class">children</xsl:attribute>
-        <xsl:if test="./dir">
-          <xsl:apply-templates select="./dir"/>
-        </xsl:if>
-        <xsl:if test="feature">
-          <xsl:apply-templates select="./feature"/>
-        </xsl:if>
+        <xsl:apply-templates select="./dir | ./feature"/>
       </xsl:element>
     </xsl:element>
   </xsl:template>
@@ -212,7 +207,7 @@
       <xsl:element name="table">
         <xsl:attribute name="class">children</xsl:attribute>
         <xsl:element name="thead">
-          <xsl:apply-templates select="example[1]"/>
+          <xsl:apply-templates select="example_header"/>
         </xsl:element>
         <xsl:element name="tbody">
           <xsl:apply-templates select="example[@number]"/>
@@ -224,6 +219,13 @@
   <xsl:template match="@cuke_name">
     <xsl:element name="span">
       <xsl:attribute name="class">cuke_name</xsl:attribute>
+      <xsl:value-of select="."/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="@fs_name">
+    <xsl:element name="span">
+      <xsl:attribute name="class">fs_name</xsl:attribute>
       <xsl:value-of select="."/>
     </xsl:element>
   </xsl:template>
