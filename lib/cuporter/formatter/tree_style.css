@@ -1,38 +1,43 @@
 /*  Name Report */
+/******************
+*  Feature Report *
+*******************/
 .number {
   left: 3.0em;
-}
-
-#filter_summary {
-  width: 60em;
-  float: right;
-  padding-top: 1.2em;
-}
-
-#filter_summary p {
-  margin: 0px 0px 0px 2px;
 }
 
 .cuporter_header {
   background-color: #65C400;
 }
 
-.feature_name {
+.cuporter_header #total {
+  font-weight: bold;
+}
+.feature > .properties > .cuke_name {
   margin-left: 0.5em;
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
-.file {
-  font-size: 0.8em;
+.dir > .properties > .fs_name {
+  font-size: 1.2em;
+  font-weight: bold;
+  font-style: italic;
 }
 
-.scenario_name {
+.dir > .properties {
+  background-color: gray;
+}
+.feature > .properties > .total {
+  font-size: 1.2em;
+}
+
+.scenario > .properties  {
   margin-left: -2.4em;
   padding-left: 4.0em;
   padding-top: 0.1em;
   padding-bottom: 0.2em;
 }
-.scenario_outline_name {
+.scenario_outline  > .properties {
   margin-left: -2.4em;
   padding-left: 4.5em;
   padding-top: 0.1em;
@@ -44,15 +49,20 @@
   background-color:  #65C400;
 }
 
-.example_rows {
+.examples {
   margin-left: -6.0em;
   padding-left: 7.6em;
 }
 
-.scenario_name, .example_rows {
+.scenario > .properties, .scenario_outline > .properties, .examples {
   margin-top: 0.2em;
   margin-bottom: 0.2em;
   background-color: #DBFFB4;
   border-left: 0.5em solid #65c400;
   border-bottom: 1px solid #65c400;
 }
+
+.tags {
+  color: darkblue;
+}
+
