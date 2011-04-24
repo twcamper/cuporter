@@ -12,19 +12,7 @@
       <xsl:call-template name="cuporter_header"/>
       <xsl:element name="ul">
         <xsl:attribute name="class">children</xsl:attribute>
-
-        <xsl:choose>
-          <xsl:when test="//tag">
-            <xsl:apply-templates select="//tag"/>
-          </xsl:when>
-          <xsl:when test="//dir">
-            <xsl:apply-templates select="./dir"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:apply-templates select="//feature"/>
-          </xsl:otherwise>
-        </xsl:choose>
-
+        <xsl:apply-templates select="./tag | ./dir | ./feature"/>
       </xsl:element>
     </xsl:element>
   </xsl:template>
@@ -210,7 +198,7 @@
           <xsl:apply-templates select="example_header"/>
         </xsl:element>
         <xsl:element name="tbody">
-          <xsl:apply-templates select="example[@number]"/>
+          <xsl:apply-templates select="example"/>
         </xsl:element>
       </xsl:element>
     </xsl:element>
@@ -260,7 +248,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="example[1]">
+  <xsl:template match="example_header">
     <xsl:element name="tr">
       <xsl:attribute name="class">example</xsl:attribute>
       <xsl:element name="th"> <xsl:attribute name="class">number</xsl:attribute> </xsl:element>
@@ -268,7 +256,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="example[@number]">
+  <xsl:template match="example">
     <xsl:element name="tr">
       <xsl:attribute name="class">example</xsl:attribute>
       <xsl:element name="td"> <xsl:attribute name="class">number</xsl:attribute> <xsl:value-of select="@number"/> </xsl:element>
@@ -276,13 +264,13 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="example[1]/span">
+  <xsl:template match="example_header/span">
     <xsl:element name="th">
       <xsl:value-of select="."/>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="example[@number]/span">
+  <xsl:template match="example/span">
     <xsl:element name="td">
       <xsl:value-of select="."/>
     </xsl:element>
