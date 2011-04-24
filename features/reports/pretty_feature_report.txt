@@ -1,27 +1,27 @@
-Feature: feature number 1
-  Scenario: 1 1
-  Scenario: 1 2
-Feature: feature number 3
-  Scenario: 3 1
-  Scenario Outline: 3 2
-    Examples: 3 2 1
-      |foo|bar|dump|
-      | 1 | 2 | 3  |
-      | 4 | 5 | 6  |
-    Examples: 3 2 2
-      |foo|bar|dump|
-      | 1 | 2 | 3  |
-      | 4 | 5 | 6  |
-    Scenarios: 3 2 3
-      |foo|bar|dump|
-      | 1 | 2 | 3  |
-      | 4 | 5 | 6  |
-    Examples: 3 2 4
-      |foo|bar|dump|
-      | 1 | 2 | 3  |
-      | 4 | 5 | 6  |
-  Scenario: 3 3
-Feature: feature number 2
-  Scenario: 2 1
-  Scenario: 2 2
-  Scenario: 2 3
+  Feature: feature number 1
+    Scenario: 1 1
+    Scenario: 1 2
+  Feature: feature number 3
+    Scenario: 3 1
+    Scenario Outline: 3 2
+      Examples: 3 2 1
+        |foo|bar|dump|
+        | 1 | 2 | 3  |
+        | 4 | 5 | 6  |
+      Examples: 3 2 2
+        |foo|bar|dump|
+        | 1 | 2 | 3  |
+        | 4 | 5 | 6  |
+      Scenarios: 3 2 3
+        |foo|bar|dump|
+        | 1 | 2 | 3  |
+        | 4 | 5 | 6  |
+      Examples: 3 2 4
+        |foo|bar|dump|
+        | 1 | 2 | 3  |
+        | 4 | 5 | 6  |
+    Scenario: 3 3
+  Feature: feature number 2
+    Scenario: 2 1
+    Scenario: 2 2
+    Scenario: 2 3

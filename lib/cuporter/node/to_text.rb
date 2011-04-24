@@ -7,8 +7,7 @@ module Cuporter
         @@tab_stop ||= '  '
       end
       def depth
-        d = path.sub(/^.*\/report/, 'report').split('/').size - 2
-        d < 0 ? 0 : d
+        d = parent.path.sub(/^.*\/report/, 'report').split('/').size#- 2
       end
 
       def to_text(options = {})

@@ -9,17 +9,17 @@ module Cuporter
         it "returns 2 tags, 1 with a scenario, 1 with an outline" do
           report = one_feature_name_report( "fixtures/1_scenario_and_1_outline_with_2_examples/1_scenario_tag_1_outline_tag.feature")
           report.should  == <<EOF
-Feature: foo
-  Scenario: oh
-  Scenario Outline: outline
-    Scenarios: another
-      |foo|bar|fan|
-      | 1 | 2 | 3 |
-      | 4 | 5 | 6 |
-    Scenarios: yet
-      |foo|bar|fan|
-      | 1 | 2 | 3 |
-      | 4 | 5 | 6 |
+  Feature: foo
+    Scenario: oh
+    Scenario Outline: outline
+      Scenarios: another
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
+      Scenarios: yet
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
 EOF
         end
       end
@@ -31,22 +31,22 @@ EOF
         it "returns 4 tags" do
           report = one_feature_name_report( "fixtures/2_outlines_1_scenario/2_outline_tags_1_scenario_tag_1_example_tag.feature")
           report.should  == <<EOF
-Feature: foo
-  Scenario: oh
-  Scenario Outline: outline 1
-    Scenarios: example
-      |foo|bar|fan|
-      | 1 | 2 | 3 |
-      | 4 | 5 | 6 |
-  Scenario Outline: outline 2
-    Scenarios: another
-      |foo|bar|fan|
-      | 1 | 2 | 3 |
-      | 4 | 5 | 6 |
-    Scenarios: yet
-      |foo|bar|fan|
-      | 1 | 2 | 3 |
-      | 4 | 5 | 6 |
+  Feature: foo
+    Scenario: oh
+    Scenario Outline: outline 1
+      Scenarios: example
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
+    Scenario Outline: outline 2
+      Scenarios: another
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
+      Scenarios: yet
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
 EOF
         end
       end
@@ -58,30 +58,30 @@ EOF
         it "includes all outlines" do
           report = one_feature_name_report( "fixtures/3_scenario_outlines.feature")
           report.should  == <<EOF
-Feature: foo
-  Scenario Outline: outline 1
-    Scenarios: example
-      |foo|bar|fan|
-      | 1 | 2 | 3 |
-      | 4 | 5 | 6 |
-  Scenario Outline: outline 2
-    Scenarios: another
-      |foo|bar|fan|
-      | 1 | 2 | 3 |
-      | 4 | 5 | 6 |
-    Scenarios: yet
-      |foo|bar|fan|
-      | 1 | 2 | 3 |
-      | 4 | 5 | 6 |
-  Scenario Outline: outline 3
-    Scenarios: another
-      |foo|bar|fan|
-      | 1 | 2 | 3 |
-      | 4 | 5 | 6 |
-    Scenarios: yet
-      |foo|bar|fan|
-      | 1 | 2 | 3 |
-      | 4 | 5 | 6 |
+  Feature: foo
+    Scenario Outline: outline 1
+      Scenarios: example
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
+    Scenario Outline: outline 2
+      Scenarios: another
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
+      Scenarios: yet
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
+    Scenario Outline: outline 3
+      Scenarios: another
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
+      Scenarios: yet
+        |foo|bar|fan|
+        | 1 | 2 | 3 |
+        | 4 | 5 | 6 |
 EOF
         end
       end

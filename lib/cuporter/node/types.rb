@@ -121,7 +121,7 @@ module Cuporter
       module Leaf
         def indent
           if (number = self['number'])
-            total_col + ( "% #{width}s. " %  number)
+            total_col + ( "% #{width}s" %  "#{number}. ")
           else
              super
           end
@@ -135,14 +135,14 @@ module Cuporter
         include Leaf
         
         def width
-          depth + 3
+          (tab_stop * depth).size + 4
         end
       end
 
       class Example < NodeBase
         include Leaf
         def width
-          depth + 1
+          (tab_stop * depth).size
         end
       end
       class ExampleHeader < NodeBase
