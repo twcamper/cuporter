@@ -134,11 +134,9 @@ module Cuporter
     CLI::Options.options
   end
 
-  def self.output
+  def self.output_file
     if options[:output_file]
       File.open(options[:output_file], "w")
-    else
-      STDOUT
     end
   end
 end
