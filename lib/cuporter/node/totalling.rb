@@ -4,9 +4,14 @@ module Cuporter
 
     module Totalling
       def total
+        total!
+        children.each {|child| child.total }
+      end
+
+      def total!
         t = search("scenario,example").size
         self["total"] = t.to_s if t > 0
-        children.each {|child| child.total }
+        nil
       end
     end
 

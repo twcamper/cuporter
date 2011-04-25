@@ -38,8 +38,7 @@ module Cuporter
 
       end
 
-      class Dir < NodeBase
-        include TotalFormatter
+      module FileSystemNode
         def to_text(options = {})
           s = ""
           s = text_line(fs_name.upcase) if fs_name
@@ -50,11 +49,31 @@ module Cuporter
         def fs_name
           @fs_name ||= self['fs_name']
         end
+      end
 
-        # don't sort self, only feature descendants.  we'll rely on the fs
-        # sorting
-        def sort_all_descendants!
-          children.each {|child| child.sort_all_descendants! }
+      class Dir < NodeBase
+        include TotalFormatter
+        include FileSystemNode
+
+        def <=>(other)
+          return -1 if other.is_a? File  # ensure folders sort higher
+          fs_name <=> (other['fs_name'] || other['cuke_name'])
+        end
+
+      end
+
+      class File < NodeBase
+        include FileSystemNode
+
+        # just total self, don't let any children total themselves.  This is so
+        # the feature won't re-total itself when its containing file already has.
+        def total
+          total!
+        end
+
+        def <=>(other)
+          return 1 if other.is_a? Dir # ensure folders sort higher
+          fs_name <=> (other['fs_name'] || other['cuke_name'])
         end
       end
 

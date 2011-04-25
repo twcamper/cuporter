@@ -30,8 +30,10 @@ module Cuporter
       alias :has_child? :find
 
       def add_leaf(node, *path)
+        file_node = Node.new_node("file", document, "fs_name" => path.pop)
+        file_node << node
         parent = node_at(*path)
-        parent.add_child(node) unless parent.has_child? node
+        parent.add_child(file_node) 
       end
       alias :add_to_end :add_leaf
 

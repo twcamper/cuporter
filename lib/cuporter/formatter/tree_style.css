@@ -1,11 +1,6 @@
-/*  Name Report */
-/******************
-*  Feature Report *
-*******************/
-.number {
-  left: 3.0em;
-}
-
+/***************
+*  Tree Report *
+****************/
 .cuporter_header {
   background-color: #65C400;
 }
@@ -13,56 +8,98 @@
 .cuporter_header #total {
   font-weight: bold;
 }
-.feature > .properties > .cuke_name {
-  margin-left: 0.5em;
-  font-size: 1.2em;
+.dir, .tag, .feature, .scenario, .scenario_outline, .examples, .example {
+  margin-left: 2.7em;
+  margin-right: 1.5em;
+  margin-bottom: 0.5em;
+  margin-top: 0.1em;
+  padding-left: 1.0em;
+  padding-right: 1.0em;
+}
+.properties {
+  padding-left: 0.1em;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
 }
 
-.dir > .properties > .fs_name {
-  font-size: 1.2em;
-  font-weight: bold;
-  font-style: italic;
-}
-
-.dir > .properties {
-  background-color: gray;
+.feature {
+  padding-top: 0.75em;
+  background-color: #FFFFFF;
+  border-left: 1px solid #3D5229;
+  border-bottom: 1px solid #3D5229;
+  padding-bottom: 0.3em;
 }
 .feature > .properties > .total {
+  font-size: 1.3em;
+}
+.feature > .properties {
+  color: black;
+  padding-top: 0.1em;
+  padding-bottom: 0.5em;
+  font-weight: bold;
+  padding-right: 0;
+  margin-left: -1.5em;
+}
+.feature > .properties > .cuke_name {
+  font-size: 1.3em;
+}
+
+.file {
   font-size: 1.2em;
+  padding-right: 1.3em;
 }
 
-.scenario > .properties  {
-  margin-left: -2.4em;
-  padding-left: 4.0em;
-  padding-top: 0.1em;
-  padding-bottom: 0.2em;
+.dir {
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+  margin-top: 0.5em;
+  margin-bottom: 1.0em;
+  padding-bottom: 0.5em;
 }
-.scenario_outline  > .properties {
-  margin-left: -2.4em;
-  padding-left: 4.5em;
-  padding-top: 0.1em;
-  padding-bottom: 0.2em;
-
+.dir > .properties {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-left: -2.0em;
+  padding-top: 0.3em;
+  padding-bottom: 0.5em;
+ } 
+.dir > .properties > .fs_name {
+  font-style: italic;
 }
+.report > .dir {
+  margin: 0;
+}
+.dir[depth="3"] {background-color: #ccc}
+.dir[depth="4"] {background-color: #AAA;}
+.dir[depth="5"] {background-color: #777;color: #EEE}
+.dir[depth="6"] {background-color: #444;color: #ccc;}
+.dir[depth="7"] {background-color: #333;color: #ccc;}
+.dir[depth="8"] {background-color: #222;color: #FFF;}
+.dir[depth="9"] {background-color: #111;color: #FFF;}
+.dir[depth="10"] {background-color: #000;color: #FFF;}
 
+.scenario, .scenario_outline   {
+  background-color: #DBFFB4;
+  color: black;
+  border-left: 0.5em solid #65c400;
+  border-bottom: 1px solid #65c400;
+  border-top: none;
+  border-right: none;
+}
 .example {
   background-color:  #65C400;
 }
 
 .examples {
-  margin-left: -6.0em;
-  padding-left: 7.6em;
+  background-color: #DBFFBf;
+  border: none;
 }
 
-.scenario > .properties, .scenario_outline > .properties, .examples {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-  background-color: #DBFFB4;
-  border-left: 0.5em solid #65c400;
-  border-bottom: 1px solid #65c400;
-}
 
 .tags {
-  color: darkblue;
+ color: darkblue;
+}
+.number {
+  left: 1.5em;
 }
 

@@ -23,10 +23,13 @@ module Cuporter
         title = new_node(:title)
         title.content = title_text
         h << title
-        h << style_css("cuporter.css")
-        h << style_css("#{view}_style.css")
+        h << new_node(:base, :href => "http://jquery.bassistance.de/treeview/")
+ #       h << style_css("cuporter.css")
+ #       h << style_css("#{view}_style.css")
         h << script_js("jquery-min.js")
-        h << script_js("expand-collapse.js")
+        h << script_js("jquery.treeview.js")
+        h << style_css("jquery.treeview.css")
+        h << treeview_loader
         h
       end
 
@@ -46,6 +49,23 @@ module Cuporter
         script
       end
 
+      def treeview_loader
+        script = new_node('script', 'type' => 'text/javascript')
+        script << create_cdata(%Q[
+           $(document).ready( function() {
+             $(".report > ul").addClass("filetree");
+             $(".report > ul > li").addClass("open");
+             $(".dir > .properties").addClass("folder");
+             $(".file > .properties").addClass("file");
+             $(".report > ul.children").treeview({
+                 collapsed: true,
+                 animated: 50,
+                 control:"#expand-collapse"
+                 });
+           });
+        ])
+        script
+      end
       def file_contents(file_name)
         create_cdata("\n#{File.read(file_name)}")
       end

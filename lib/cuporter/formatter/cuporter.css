@@ -48,16 +48,24 @@ body {
 #filter_summary > span {
   font-weight: bold;
 }
-ul {
-  list-style-type: none;
+.report {
+  margin: 0;
+  background-color: #DBFFB4;
 }
-.report > ul {
-  padding-left: 0.5em; 
+.report > .children > .dir{
+  margin-top: 0.5em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+.report > .children > .dir > .properties {
+  padding-top: 0.5em;
+  padding-bottom: 0.1em;
 }
 .feature {
   margin-bottom: 0.5em;
   margin-right: 1em;
 }
+
 .feature > .properties {
   padding-top:  0.3em;
   padding-bottom: 0.3em;
@@ -82,6 +90,9 @@ ul {
 .number {
   position: absolute;
   font-weight: bold;
+}
+.scenario .number {
+  padding-left: 0.5em;
 }
 
 .total {

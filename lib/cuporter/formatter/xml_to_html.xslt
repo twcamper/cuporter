@@ -9,7 +9,7 @@
     <xsl:element name="div">
       <xsl:attribute name="class">report</xsl:attribute>
       <xsl:attribute name="title"><xsl:value-of select="@title"/></xsl:attribute>
-      <xsl:call-template name="cuporter_header"/>
+      <xsl:call-template name="cuporter_header"/> 
       <xsl:element name="ul">
         <xsl:attribute name="class">children</xsl:attribute>
         <xsl:apply-templates select="./tag | ./dir | ./feature"/>
@@ -51,13 +51,15 @@
             </xsl:element>
             <xsl:element name="div">
               <xsl:attribute name="id">expand-collapse</xsl:attribute>
-              <xsl:element name="p">
-                <xsl:attribute name="id">expand_features</xsl:attribute>
-                <xsl:text>Expand All</xsl:text> 
-              </xsl:element>
-              <xsl:element name="p">
+              <xsl:element name="a">
+                <xsl:attribute name="href">?#</xsl:attribute>
                 <xsl:attribute name="id">collapse_features</xsl:attribute>
                 <xsl:text>Collapse All</xsl:text> 
+              </xsl:element>
+              <xsl:element name="a">
+                <xsl:attribute name="href">?#</xsl:attribute>
+                <xsl:attribute name="id">expand_features</xsl:attribute>
+                <xsl:text>Expand All</xsl:text> 
               </xsl:element>
             </xsl:element>
           </xsl:otherwise>
@@ -114,25 +116,40 @@
         <xsl:apply-templates select="@total"/>
       </xsl:element>
 
-      <xsl:element name='ul'>
+      <xsl:element name="ul">
         <xsl:attribute name="class">children</xsl:attribute>
         <xsl:apply-templates select="feature"/>
       </xsl:element>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="dir">  <!-- Boh! -->
+  <xsl:template match="dir">
     <xsl:element name="li">
       <xsl:attribute name="class">dir</xsl:attribute>
-      <xsl:element name="div">
+      <xsl:element name="span">
         <xsl:attribute name="class">properties</xsl:attribute>
-        <xsl:apply-templates select="@fs_name"/>
         <xsl:apply-templates select="@total"/>
+        <xsl:apply-templates select="@fs_name"/>
       </xsl:element>
 
-      <xsl:element name='ul'>
+      <xsl:element name="ul">
         <xsl:attribute name="class">children</xsl:attribute>
-        <xsl:apply-templates select="./dir | ./feature"/>
+        <xsl:apply-templates select="./dir | ./file | ./feature"/>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="file">
+    <xsl:element name="li">
+      <xsl:attribute name="class">file</xsl:attribute>
+      <xsl:element name="span">
+        <xsl:attribute name="class">properties</xsl:attribute>
+        <xsl:apply-templates select="@total"/>
+        <xsl:apply-templates select="@fs_name"/>
+      </xsl:element>
+
+      <xsl:element name="ul">
+        <xsl:apply-templates select="./feature"/>
       </xsl:element>
     </xsl:element>
   </xsl:template>
@@ -140,16 +157,16 @@
   <xsl:template match="feature">
     <xsl:element name="li">
       <xsl:attribute name="class">feature</xsl:attribute>
-      <xsl:element name="div">
+      <xsl:element name="span">
         <xsl:attribute name="class">properties</xsl:attribute>
         <xsl:apply-templates select="@cuke_name"/>
-        <xsl:apply-templates select="@total"/>
         <xsl:apply-templates select="@tags"/>
         <xsl:apply-templates select="@file"/>
+        <xsl:apply-templates select="@total"/>
       </xsl:element>
 
       <xsl:if test="scenario | scenario_outline"> <!-- TODO:  remove this test if possible. seems redundant since we'll always have at least 1 child -->
-        <xsl:element name='ul'>
+        <xsl:element name="ul">
           <xsl:attribute name="class">children</xsl:attribute>
           <xsl:apply-templates select="scenario | scenario_outline"/>
         </xsl:element>
@@ -177,10 +194,10 @@
         <xsl:apply-templates select="@cuke_name"/>
         <xsl:apply-templates select="@tags"/>
       </xsl:element>
-    </xsl:element>
-    <xsl:element name="ul">
-      <xsl:attribute name="class">children</xsl:attribute>
-      <xsl:apply-templates select="examples"/>
+      <xsl:element name="ul">
+        <xsl:attribute name="class">children</xsl:attribute>
+        <xsl:apply-templates select="examples"/>
+      </xsl:element>
     </xsl:element>
   </xsl:template>
 
@@ -227,7 +244,7 @@
 
   <xsl:template match="@file">
     <xsl:element name="span">
-      <xsl:attribute name="class">file</xsl:attribute>
+      <xsl:attribute name="class">file_path</xsl:attribute>
       <xsl:value-of select="."/>
     </xsl:element>
   </xsl:template>
