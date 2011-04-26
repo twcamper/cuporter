@@ -35,8 +35,8 @@ module Cuporter
         l += name
         l += "#{tab_stop * 2}#{self['tags']}" if self['tags']
         
-        if self['file']
-          l += "#{tab_stop}##{self['file']}#{tab_stop * 2}".rjust(terminal_width - l.size)
+        if self['file_path']
+          l += "#{tab_stop}##{self['file_path']}#{tab_stop * 2}".rjust(terminal_width - l.size)
         end
         l += "\n"
         l
