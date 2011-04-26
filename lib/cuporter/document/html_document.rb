@@ -24,14 +24,14 @@ module Cuporter
         title.content = title_text
         h << title
 
-        h << script_js("jquery-min.js")
         case view
         when "tree"
-          h << new_node(:base, :href => "http://jquery.bassistance.de/treeview/")
-          h << script_js("jquery.treeview.js")
-          h << style_css("jquery.treeview.css")
-          h << script_js("treeview-loader.js")
+          h << link_js("jquery-min.js")
+          h << link_js("jquery.treeview.js")
+          h << link_css("jquery.treeview.css")
+          h << link_js("treeview-loader.js")
         else
+          h << script_js("jquery-min.js")
           h << style_css("cuporter.css")
           h << style_css("#{view}_style.css")
           h << script_js("expand-collapse.js")
@@ -53,6 +53,14 @@ module Cuporter
         script = new_node('script', 'type' => 'text/javascript')
         script << file_contents("#{assets_dir}/javascripts/#{file}")
         script
+      end
+
+      def link_css(file)
+        new_node('link', 'type' => 'text/css', 'rel' => 'stylesheet', 'href' => "#{assets_dir}/stylesheets/#{file}")
+      end
+
+      def link_js(file)
+        new_node('script', 'type' => 'text/javascript', 'src' => "#{assets_dir}/javascripts/#{file}")
       end
 
       def file_contents(file_name)
