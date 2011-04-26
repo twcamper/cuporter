@@ -30,6 +30,8 @@ module Cuporter
           h << link_js("jquery.treeview.js")
           h << link_css("jquery.treeview.css")
           h << link_js("treeview-loader.js")
+          h << link_css("cuporter.css")
+          h << link_css("#{view}_style.css")
         else
           h << script_js("jquery-min.js")
           h << style_css("cuporter.css")

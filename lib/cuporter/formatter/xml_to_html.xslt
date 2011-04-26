@@ -43,7 +43,7 @@
               </xsl:element>
             </xsl:element>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@view='tree'">
             <xsl:element name="p">
               <xsl:attribute name="id">total</xsl:attribute>
               <xsl:value-of select="@total"/>
@@ -58,6 +58,24 @@
               </xsl:element>
               <xsl:element name="a">
                 <xsl:attribute name="href">?#</xsl:attribute>
+                <xsl:attribute name="id">expand_features</xsl:attribute>
+                <xsl:text>Expand All</xsl:text> 
+              </xsl:element>
+            </xsl:element>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:element name="p">
+              <xsl:attribute name="id">total</xsl:attribute>
+              <xsl:value-of select="@total"/>
+              <xsl:text> Scenarios</xsl:text> 
+            </xsl:element>
+            <xsl:element name="div">
+              <xsl:attribute name="id">expand-collapse</xsl:attribute>
+              <xsl:element name="p">
+                <xsl:attribute name="id">collapse_features</xsl:attribute>
+                <xsl:text>Collapse All</xsl:text> 
+              </xsl:element>
+              <xsl:element name="p">
                 <xsl:attribute name="id">expand_features</xsl:attribute>
                 <xsl:text>Expand All</xsl:text> 
               </xsl:element>
@@ -157,11 +175,11 @@
   <xsl:template match="feature">
     <xsl:element name="li">
       <xsl:attribute name="class">feature</xsl:attribute>
-      <xsl:element name="span">
+      <xsl:element name="div">
         <xsl:attribute name="class">properties</xsl:attribute>
         <xsl:apply-templates select="@cuke_name"/>
         <xsl:apply-templates select="@tags"/>
-        <xsl:apply-templates select="@file"/>
+        <xsl:apply-templates select="@file_path"/>
         <xsl:apply-templates select="@total"/>
       </xsl:element>
 
@@ -242,7 +260,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="@file">
+  <xsl:template match="@file_path">
     <xsl:element name="span">
       <xsl:attribute name="class">file_path</xsl:attribute>
       <xsl:value-of select="."/>
@@ -253,7 +271,7 @@
     <xsl:element name="span">
       <xsl:attribute name="class">total</xsl:attribute>
       <xsl:text>[</xsl:text>
-      <xsl:value-of select="."/>
+      <xsl:value-of select="format-number(.,'00')"/>
       <xsl:text>]</xsl:text>
     </xsl:element>
   </xsl:template>

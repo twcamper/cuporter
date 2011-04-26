@@ -10,9 +10,14 @@ body {
   padding-left: 2em; 
   padding-bottom: 0.3em; 
   padding-top: 0.05em; 
+  background-color: #65C400;
   color: white;
   height: 7em;
 }
+.cuporter_header #total {
+  font-weight: bold;
+}
+
 .cuporter_header #label {
   position: absolute;
   right: 1em;
@@ -48,18 +53,12 @@ body {
 #filter_summary > span {
   font-weight: bold;
 }
+
+ul {
+  list-style: none;
+}
 .report {
   margin: 0;
-  background-color: #DBFFB4;
-}
-.report > .children > .dir{
-  margin-top: 0.5em;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-}
-.report > .children > .dir > .properties {
-  padding-top: 0.5em;
-  padding-bottom: 0.1em;
 }
 .feature {
   margin-bottom: 0.5em;
@@ -72,15 +71,11 @@ body {
   font-weight: bold;
 }
 
-.file {
+.file_path {
   float: right;
   padding-right: 0.5em;
   font-weight: normal;
   color: black;
-}
-
-.file .dir {
-  font-weight: bold;
 }
 
 .example td {
@@ -89,7 +84,7 @@ body {
 
 .number {
   position: absolute;
-  font-weight: bold;
+  font-weight: normal;
 }
 .scenario .number {
   padding-left: 0.5em;
