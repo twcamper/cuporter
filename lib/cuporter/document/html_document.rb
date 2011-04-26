@@ -4,10 +4,10 @@ module Cuporter
     module Html
       attr_accessor :view
 
-      def add_report(report_node)
-        root << head(report_node['title'])
+      def add_report(node)
+        root << head(node['title'])
         body = new_node('body')
-        body << report_node
+        body << node
         root << body
       end
 
@@ -23,49 +23,38 @@ module Cuporter
         title = new_node(:title)
         title.content = title_text
         h << title
-        h << new_node(:base, :href => "http://jquery.bassistance.de/treeview/")
- #       h << style_css("cuporter.css")
- #       h << style_css("#{view}_style.css")
+
         h << script_js("jquery-min.js")
-        h << script_js("jquery.treeview.js")
-        h << style_css("jquery.treeview.css")
-        h << treeview_loader
+        case view
+        when "tree"
+          h << new_node(:base, :href => "http://jquery.bassistance.de/treeview/")
+          h << script_js("jquery.treeview.js")
+          h << style_css("jquery.treeview.css")
+          h << script_js("treeview-loader.js")
+        else
+          h << style_css("cuporter.css")
+          h << style_css("#{view}_style.css")
+          h << script_js("expand-collapse.js")
+        end
         h
       end
 
       def assets_dir
-        @assets_dir ||= File.expand_path('formatter', File.dirname(__FILE__) + "/../")
+        @assets_dir ||= File.expand_path('public', File.dirname(__FILE__) + "/../../../")
       end
 
       def style_css(file)
         style = new_node('style', 'type' => 'text/css')
-        style << file_contents("#{assets_dir}/#{file}")
+        style << file_contents("#{assets_dir}/stylesheets/#{file}")
         style
       end
 
       def script_js(file)
         script = new_node('script', 'type' => 'text/javascript')
-        script << file_contents("#{assets_dir}/#{file}")
+        script << file_contents("#{assets_dir}/javascripts/#{file}")
         script
       end
 
-      def treeview_loader
-        script = new_node('script', 'type' => 'text/javascript')
-        script << create_cdata(%Q[
-           $(document).ready( function() {
-             $(".report > ul").addClass("filetree");
-             $(".report > ul > li").addClass("open");
-             $(".dir > .properties").addClass("folder");
-             $(".file > .properties").addClass("file");
-             $(".report > ul.children").treeview({
-                 collapsed: true,
-                 animated: 50,
-                 control:"#expand-collapse"
-                 });
-           });
-        ])
-        script
-      end
       def file_contents(file_name)
         create_cdata("\n#{File.read(file_name)}")
       end

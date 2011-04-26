@@ -37,8 +37,8 @@ module Cuporter
           n1 = Types::Feature.new('herbert', doc)
           n2 = Types::Feature.new('herbert', doc)
           n1.should eql n2
-          n1['file'] = "a.feature"
-          n2['file'] = "b.feature"
+          n1['file_path'] = "a.feature"
+          n2['file_path'] = "b.feature"
           n1.should_not eql n2
         end
       end

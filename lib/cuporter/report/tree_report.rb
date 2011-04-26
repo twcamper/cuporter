@@ -8,7 +8,7 @@ module Cuporter
         files.each do |file|
           feature = FeatureParser.node(file, @doc, @filter, root_dir)
           if feature && feature.has_children?
-            path = feature.file.split(File::SEPARATOR)
+            path = feature.file_path.split(File::SEPARATOR)
             @folders.add_leaf(feature, *path)
           end
         end

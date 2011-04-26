@@ -32,8 +32,8 @@ module Cuporter
           root.add_child(Cuporter::Node::Types::Feature.new('zebra', doc))
           root.add_child(Cuporter::Node::Types::Feature.new('aardvark', doc))
 
-          root.at('zebra')['file']    = "features/big_files/important_thing.feature"
-          root.at('aardvark')['file'] = "features/small_files/important_thing.feature"
+          root.at('zebra')['file_path']    = "features/big_files/important_thing.feature"
+          root.at('aardvark')['file_path'] = "features/small_files/important_thing.feature"
 
           root.sort_all_descendants!
           root.names.should == %w[zebra aardvark]
@@ -44,7 +44,7 @@ module Cuporter
           root.add_child(Cuporter::Node::Types::Feature.new('zebra', doc))
           root.add_child(new_node('aardvark'))
 
-          root.at('zebra')['file']    = "features/big_files/important_thing.feature"
+          root.at('zebra')['file_path']    = "features/big_files/important_thing.feature"
 
           root.sort_all_descendants!
           root.names.should == %w[aardvark zebra]

@@ -5,7 +5,7 @@ module Cuporter
 
     # ++sub_expression++ is the paren group in the regex, dereferenced with $1 in the caller
     def new_feature_node(sub_expression, file)
-      {:cuke_name => sub_expression, :tags => @current_tags, :file => file}
+      {:cuke_name => sub_expression, :tags => @current_tags, :file_path => file}
     end
 
     def handle_scenario_line(sub_expression)

@@ -73,7 +73,9 @@
             
             if (!settings.prerendered) {
                 // handle closed ones first
-                this.filter(":has(>ul:hidden)")
+                        // ** This patch (the '.not()' call) from a bug report  **
+                        // https://github.com/jzaefferer/jquery-treeview/issues/2
+                this.filter(":has(>ul:hidden)").not("." + CLASSES.open)
                         .addClass(CLASSES.expandable)
                         .replaceClass(CLASSES.last, CLASSES.lastExpandable);
                         
@@ -82,6 +84,14 @@
                         .addClass(CLASSES.collapsable)
                         .replaceClass(CLASSES.last, CLASSES.lastCollapsable);
                         
+                // handle fully openned ones
+                        // ** This patch from a bug report  **
+                        // https://github.com/jzaefferer/jquery-treeview/issues/2
+                this.filter("." + CLASSES.open)
+                  .addClass(CLASSES.collapsable)
+                  .replaceClass(CLASSES.last, CLASSES.lastCollapsable);
+
+                // create hitarea if not present
                 // create hitarea if not present
                 var hitarea = this.find("div." + CLASSES.hitarea);
                 if (!hitarea.length)

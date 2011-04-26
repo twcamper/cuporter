@@ -15,7 +15,7 @@ module Cuporter
         end
 
         def remove_files!
-          search(:feature).each {|f| f.delete('file') }
+          search(:feature).each {|f| f.delete('file_path') }
         end
 
         def remove_tags!
@@ -80,7 +80,7 @@ module Cuporter
       class Tag < NodeBase
         include TotalFormatter
         def feature_node(feature)
-          at("feature[cuke_name='#{feature[:cuke_name]}'][file='#{feature[:file]}']")
+          at("feature[cuke_name='#{feature[:cuke_name]}'][file_path='#{feature[:file_path]}']")
         end
       end
 
@@ -102,26 +102,26 @@ module Cuporter
           at("scenario_outline[cuke_name='#{scenario_outline[:cuke_name]}']")
         end
 
-        def file
-          self["file"]
+        def file_path
+          self["file_path"]
         end
 
         def file_name
-          file.split(/\//).last
+          file_path.split(/\//).last
         end
 
         # sort on: file path, name, substring of name after any ':'
         def <=>(other)
-          if other.respond_to?(:file)
-            file <=> other.file
+          if other.respond_to?(:file_path)
+            file_path <=> other.file_path
           else
             super(other)
           end
         end
 
         def eql?(other)
-          if other.respond_to? :file
-            return false if file != other.file
+          if other.respond_to? :file_path
+            return false if file_path != other.file_path
           end
           super(other)
         end

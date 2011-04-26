@@ -20,7 +20,7 @@ EOF
           File.should_receive(:read).with(file).and_return(content)
           feature = NodeParser.new(file, doc, Filter.new).parse_feature
           feature.should be_a Cuporter::Node::NodeBase
-          feature.file.should == file
+          feature.file_path.should == file
           feature.cuke_name.should == "Feature: just one scenario"
           feature.should have_children
           feature.children.first.cuke_name.should == "Scenario: the scenario in question"
