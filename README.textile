@@ -1,40 +1,73 @@
 h1. Cuporter
 
-Scrapes your feature files and shows 2 possible reports:
+h3. A Cucumber Reporter
 
-# Tag Report: scenarios and examples per tag
-** in Feature and Scenario Outline context, as appropriate
-** sorted alphbetically by file path, scenario name, scenario outline name, example name
-** optionally numbered*, counting scenarios and outline examples per tag
-# Inventory Report: feature, scenario and example names
-** may be filtered by tags, using same CLI syntax as Cucumber
-** sorted alphbetically by file path, scenario name, scenario outline name, example name
-** optionally numbered*, using 1 count of all scenarios and outline examples for the report
+Scrapes your feature files to show test counts and tag relationships.
 
-<notextile>*</notextile> _HTML reports are always numbered._
+h3. 3 Views
 
-Either report may be formatted in HTML, CSV, or Pretty Text.
+# Tag Report
+** Tags listed with all features and scenarios associated with them
+** Each scenario shows all of its tags, for simple cross referencing
+# Feature Report
+** Simple list of all Cucumber features, sorted by name and file name.
+** Collapsable scenario and scenario outline breakdowns
+** Totals, subtotals, scenario numbering
+# Tree Report
+** Expandy-collapsy jquery.treeview of your @features/**@ dir
+** Same feature data as above
+** Subtotals on folders
 
-* HTML reports do jQuery expand-collapse, with acklowedgment due to the Cucumber HTML formatter.
+h3. 4 Output Formats
 
-Consider this a stop-gap until we get this functionality in a proper cucumber formatter.
+# html
+# xml
+# pretty-print text
+# csv
+
+h3. A bunch of configuration options
+
+See the help output below.
 
 ---------
-h3. Example Tag Report Output: numbered pretty text
+
+h3. Example Tag Report Ouput
+
+
+h4. xml of single test
+
+<notextile>
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;xml&gt;
+  &lt;body&gt;
+    &lt;report view="tag" title="Cucumber Tags" total="1"&gt;
+      &lt;tag cuke_name="@just_me" total="1"&gt;
+        &lt;feature cuke_name="Feature: Pretty print report on 3 features" file_path="features/pretty_print.feature" total="1"&gt;
+          &lt;scenario cuke_name="Scenario: Tag report on everything in fixtures/self_test" tags="@just_me" number="1"/&gt;
+        &lt;/feature&gt;
+      &lt;/tag&gt;
+    &lt;/report&gt;
+  &lt;/body&gt;
+&lt;/xml&gt;
+</pre>
+</notextile>
+
+h4. numbered pretty text
 
 <pre>
 @failing
-   Feature: Abominable Aardvark
+   Feature: Abominable Aardvark            @failing, @zoology
    1. Scenario: An Aardvark eats ants
    2. Scenario: Zee Zebra eats zee aardvark
-   Feature: Wired
-   3. Scenario: Everybody's Wired
+   Feature: Wired                          
+   3. Scenario: Everybody's Wired          @failing
       Scenario Outline: Why is everybody so wired?
          Examples: loosely wired
             | arg1 | arg2 |
    4.       | foo  | bar  |
    5.       | shif | fish |
-         Examples: tightly wired
+         Examples: tightly wired           @ignore
             | arg1  | arg2  |
    6.       | foo   | bar   |
    7.       | frotz | knurl |
@@ -66,6 +99,9 @@ h3. Install
   $ gem install cuporter
 </pre>
 
+Once installed, you can run @$ cuporter@ anywhere on your system.  In any project dir, it will read your @features/**@ by default.
+If you clone the repo, you can run @$ ./bin/cuporter@ from within it.
+
 ---------
 
 h3. Command Lines
@@ -73,45 +109,88 @@ h3. Command Lines
 h4. help
 
 <pre>
-  $ ./bin/cuporter -h
+  $ cuporter -h
 
   Usage: cuporter [options]
-
-      -i, --in DIR                     directory of *.feature files
-    					Default: features/**/*.feature
-
-      -I, --input-file FILE            full file name with extension: 'path/to/file.feature'
-
-      -o, --out FILE                   Output file path
-
-      -f, --format [pretty|html|csv]   Output format
-					Default: pretty text
-
-      -n, --numbers                    number scenarios and examples
-
+  
+      -r, --report [tag|feature|tree]  View, or type of report.
+                                           Default: "tag"
+            
+      -f, --format [xml|html|csv|text] Output format.
+                                           Default: text (it's pretty, though!)
+            
+      -i, --input-dir DIR              Root directory of *.feature files.
+                                           Default: "features"
+       
+                                           Used to build the glob pattern '[--in]/**/*.feature', which is really most likely
+                                           "features/**/*.features" and finds all feature files anywhere under "features" or
+                                           your custom root supplied with this option.
+                                           Overridden by "--file-input'.
+            
+      -I, --file-input FILE            Single *.feature file.  Full name with extension, like 'path/to/file.feature.'
+                                           Overrides "--input-dir" and used mostly for testing.
+            
+      -o, --output-file FILE           Output file path, like 'tmp/cucumber/tag_report.html'.
+            
       -t, --tags TAG_EXPRESSION        Filter on tags for name report.
-  					TAG_EXPRESSION rules: see '$ cucumber --help' and http://github.com/aslakhellesoy/cucumber/wiki/Tags
-
-      -r, --report [tag|name]          type of report
-					Default: tag
-
-      -T, --title STRING               title of name report
-					Default: 'Cucumber Scenario Inventory'
+                                           TAG_EXPRESSION rules:
+                                               1. $ cucumber --help
+                                               2. http://github.com/aslakhellesoy/cucumber/wiki/Tags
+            
+      -T, --title STRING               Override report default title, which is different for each view/report.
+                                           This affects the xml 'report' node title and the html head > title attributes.
+            
+  Reporting options: on by default but can be turned off:
+  
+          --no-sort                    Do not sort tags, features, scenarios, or outlines
+          --no-number                  Do not get or show scenario or example numbers, (i.e., do not number the leaf nodes).
+          --no-total                   Do not get or show totals
+          --no-show-tags               Do not show cucumber tags at the feature, scenario, or outline level.
+          --no-show-files              Do not show feature file paths.
+          --no-leaves                  Show features only, with no scenarios or outlines.
+  
 
 </pre>
 
-h4. run script directly
+h4. Examples
 
 <pre>
   #  pretty-print demo report to stdout
-  $ ./bin/cuporter -i fixtures/self_text
+  $ ./bin/cuporter -i fixtures/self_test
 
-  #  same, but number the scenarios and example rows
-  $ ./bin/cuporter -i fixtures/self_text -n
+  #  same, XML to console
+  $ ./bin/cuporter -i fixtures/self_test -f xml
 
-  #  default input features/**/*.feature to named html output file
-  $ ./bin/cuporter -f html -o feature_tag_report.html
+  #  List View: html without totals, xml without leaves (scenarios and examples)
+  $ cuporter -i fixtures/ -r feature -f html --no-total  > redirecting_is_ok_too.html
+  $ cuporter -i fixtures/ -r feature -f xml -o fixtures_demo.xml --no-leaves
 
-  #  filtered html name report, with non-default title
-  $ ./bin/cuporter -f html -o active_customer.html -r name -T "Active Customer Test Inventory" -t ~@wip -t @customer,@client
+  #  Tree View of default input features/**/*.feature to 
+  $ cuporter -f html -r tree -o feature_tree_view.html
+
+  #  filtered html feature report, with non-default title
+  $ cuporter -f html -o active_customer.html -r feature -T "Active Customer Test Inventory" -t ~@wip -t @customer,@client
 </pre>
+
+----
+
+h3. Dependencies
+
+# Nokogiri 1.4.4 or above
+** For all things Nodular: XML document building and XSL transformation into HTML
+** Not tested on earlier versions yet but I'd guess you'll be fine with anything recent.
+** @libxml2@ and @libxslt@ are required by this gem, which *should* handle them smoothly.  However, @libxml@ and cousins
+can at times present installation difficulties in the form of clashes with already-installed C resources.  It has to do with very specific
+lib versioning and installation order issues.  It's not always the same problem,
+so there's no prescription for it but Google, unfortunately.
+# jQuery and jQueryTreeview
+** packaged with the gem
+** jquery.treeview relies on image files, so our tree view requires the HTML to link to its resources rather than copying them to the &lt;head&gt;.
+
+h3. Acknowledgements
+
+* Acknowledgements remain due to the Cucumber HTML formatter, and to the human one, too!.
+* Thanks to everyone involved in Nokogiri, jQuery and the Treeview plugin.
+
+  I used to _"Consider this a stop-gap until we get this functionality in a proper cucumber formatter"_, but now I'm not so sure.  Megalomania?
+
