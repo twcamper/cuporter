@@ -6,7 +6,6 @@ module Cuporter
       include Sorting
       include Totalling
       include Numbering
-      include ToText
 
       def has_children?
         children.size > 0
@@ -64,6 +63,19 @@ module Cuporter
       # value equivalence
       def eql?(other)
         node_name == other.node_name && cuke_name == other.cuke_name && children.eql?(other.children)
+      end
+
+      def to_text
+        s = Cuporter::Formatters::Text.build_line(self)
+        s += children.map {|n| n.to_text}.to_s
+        s
+      end
+      alias :to_pretty :to_text
+
+      def to_csv
+        s = Cuporter::Formatters::Csv.build_line(self)
+        s += children.map {|n| n.to_csv}.to_s
+        s
       end
 
     end

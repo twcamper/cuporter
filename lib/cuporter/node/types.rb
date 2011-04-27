@@ -3,7 +3,6 @@ module Cuporter
   module Node
     module Types
       class Report < NodeBase
-        include TotalFormatter
         def tag_node(tag)
           at("tag[cuke_name='#{tag}']")
         end
@@ -39,20 +38,12 @@ module Cuporter
       end
 
       module FileSystemNode
-        def to_text(options = {})
-          s = ""
-          s = text_line(fs_name.upcase) if fs_name
-          s += children.map {|n| n.to_text}.to_s
-          s
-        end
-
         def fs_name
           @fs_name ||= self['fs_name']
         end
       end
 
       class Dir < NodeBase
-        include TotalFormatter
         include FileSystemNode
 
         def <=>(other)
@@ -78,14 +69,12 @@ module Cuporter
       end
 
       class Tag < NodeBase
-        include TotalFormatter
         def feature_node(feature)
           at("feature[cuke_name='#{feature[:cuke_name]}'][file_path='#{feature[:file_path]}']")
         end
       end
 
       class ScenarioOutline < NodeBase
-        include TotalFormatter
         include Tagged
 
         def example_set_node(es)
@@ -95,7 +84,6 @@ module Cuporter
       end
 
       class Feature < NodeBase
-        include TotalFormatter
         include Tagged
 
         def scenario_outline_node(scenario_outline)
@@ -154,33 +142,14 @@ module Cuporter
       end
       Scenarios = Examples
 
-      module Leaf
-        def indent
-          if (number = self['number'])
-            total_col + ( "% #{width}s" %  "#{number}. ")
-          else
-             super
-          end
-        end
-
-      end
-
       # Leaf Nodes: won't have children
       class Scenario < NodeBase
         include Tagged
-        include Leaf
-        
-        def width
-          (tab_stop * depth).size + 4
-        end
       end
 
       class Example < NodeBase
-        include Leaf
-        def width
-          (tab_stop * depth).size
-        end
       end
+
       class ExampleHeader < NodeBase
       end
     end

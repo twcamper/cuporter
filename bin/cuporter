@@ -9,14 +9,16 @@ report = Cuporter::ReportBase.create(Cuporter.options).build
 (Cuporter.output_file || STDOUT).puts case Cuporter.options[:format]
 when 'xml'
   report.doc.to_xml(:indent => 2, :encoding => 'UTF-8')
-when 'text', 'csv', 'pretty'
-  report.doc.to_text(:format => Cuporter.options[:format])
+when 'csv'
+  report.doc.to_csv
+when 'text', 'pretty'
+  report.doc.to_text
 when 'html'
   html = Cuporter::Document.new_html(Cuporter.options[:report])
-  xslt = Nokogiri::XSLT(File.read("lib/cuporter/formatter/xml_to_html.xslt"))
+  xslt = Nokogiri::XSLT(File.read("lib/cuporter/formatters/xml_to_html.xslt"))
   html.add_report(xslt.transform(report.doc).at('.report'))
   html.to_html
 end
 
 __END__
-xsltproc --stringparam view feature lib/cuporter/formatter/xml_to_html.xslt new_feature.xml | ruby -e "f = STDIN.read; puts f.gsub(/\<\!--[\*\/]{2}--\>/, '')" | tee xslt_feature.html
+xsltproc --stringparam view feature lib/cuporter/formatters/xml_to_html.xslt new_feature.xml | ruby -e "f = STDIN.read; puts f.gsub(/\<\!--[\*\/]{2}--\>/, '')" | tee xslt_feature.html
