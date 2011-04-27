@@ -35,7 +35,7 @@ module Cuporter
           opts.on("-r", "--report [tag|feature|tree]", %Q{View, or type of report.
                                          Default: "tag"
           }) do |r|
-            @options[:report] = r
+            @options[:report] = (r == 'name' ? 'feature' : r) 
           end
 
           @options[:format] = "text"
