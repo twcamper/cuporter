@@ -9,6 +9,7 @@ module Cuporter
     SCENARIO_SET_LINE     = /^\s*(Scenarios:[^#]*)$/
     EXAMPLE_SET_LINE      = /^\s*(Examples:[^#]*)$/
     EXAMPLE_LINE          = /^\s*(\|.*\|)\s*$/
+    PY_STRING_LINE        = /^\s*"""\s*$/
 
     # adds a node to the doc for each cucumber '@' tag, populated with features and
     # scenarios
@@ -37,33 +38,40 @@ module Cuporter
     end
 
     def parse_feature
+      @open_comment_block = false
+
       @lines.each do |line|
+        next if @open_comment_block && line !~ PY_STRING_LINE
+
         case line
-        when FeatureParser::TAG_LINE
+        when PY_STRING_LINE
+          # toggle, to declare the multiline comment 'heredoc' open or closed
+          @open_comment_block = !@open_comment_block
+        when TAG_LINE
           # may be more than one tag line
           @current_tags |= $1.strip.split(/\s+/)
-        when FeatureParser::FEATURE_LINE
+        when FEATURE_LINE
           @feature = new_feature_node($1.strip, file_relative_path)
           @current_tags = []
-        when FeatureParser::SCENARIO_LINE
+        when SCENARIO_LINE
           # How do we know when we have read all the lines from a "Scenario Outline:"?
           # One way is when we encounter a "Scenario:"
           close_scenario_outline
 
           handle_scenario_line($1.strip)
           @current_tags = []
-        when FeatureParser::SCENARIO_OUTLINE_LINE
+        when SCENARIO_OUTLINE_LINE
           # ... another is when we hit a subsequent "Scenario Outline:"
           close_scenario_outline
 
           @scenario_outline  = new_scenario_outline_node($1.strip)
           @current_tags = []
-        when FeatureParser::EXAMPLE_SET_LINE, FeatureParser::SCENARIO_SET_LINE
+        when EXAMPLE_SET_LINE, SCENARIO_SET_LINE
           handle_example_set_line if @example_set
 
           @example_set = new_example_set_node($1.strip)
           @current_tags = []
-        when @example_set && FeatureParser::EXAMPLE_LINE
+        when @example_set && EXAMPLE_LINE
           new_example_line($1.strip)
         end
       end

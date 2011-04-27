@@ -56,7 +56,7 @@ namespace :cuporter do
 
   spec = Gem::Specification.new do |s|
     s.name = 'cuporter'
-    s.version = '0.3.2'
+    s.version = '0.3.3'
     s.rubyforge_project = s.name
 
     s.platform = Gem::Platform::RUBY
@@ -69,12 +69,12 @@ namespace :cuporter do
     s.email = 'twcamper@thoughtworks.com'
     s.homepage = 'http://github.com/twcamper/cuporter'
     s.required_ruby_version = '>= 1.8.7'
-    s.add_dependency('builder', '>= 2.1.2')
+    s.add_dependency('nokogiri', '>= 1.4.4')
     s.default_executable = "cuporter"
     s.executables = [s.default_executable]
 
     s.files =  %w(LICENSE README.textile Rakefile) + 
-      FileList["lib/**/*.{rb,css,js}", "bin/*"].to_a
+      FileList["lib/**/*.{rb,xslt}", "bin/*", "public/**/*.{css,js,gif}"].to_a
 
     s.require_path = "lib"
   end
