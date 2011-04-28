@@ -31,8 +31,11 @@ See the help output below.
 
 ---------
 
-h3. Example Tag Report Ouput
+h3. Example Report Output
 
+h4. html samples
+
+See the @sample_*.html@ files.
 
 h4. xml of single test
 
@@ -122,7 +125,7 @@ h4. help
       -i, --input-dir DIR              Root directory of *.feature files.
                                            Default: "features"
        
-                                           Used to build the glob pattern '[--in]/**/*.feature', which is really most likely
+                                           Used to build the glob pattern '[--input-dir]/**/*.feature', which is really most likely
                                            "features/**/*.features" and finds all feature files anywhere under "features" or
                                            your custom root supplied with this option.
                                            Overridden by "--file-input'.

@@ -49,7 +49,7 @@ module Cuporter
           opts.on("-i", "--input-dir DIR", %Q{Root directory of *.feature files.
                                          Default: "features"
      
-                                         Used to build the glob pattern '[--in]/**/*.feature', which is really most likely
+                                         Used to build the glob pattern '[--input-dir]/**/*.feature', which is really most likely
                                          "features/**/*.features" and finds all feature files anywhere under "features" or
                                          your custom root supplied with this option.
                                          Overridden by "--file-input'.
