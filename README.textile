@@ -34,8 +34,8 @@ See the help output below.
 h3. Example Report Output
 
 h4. html samples
-
-See the @sample_*.html@ files.
+ 
+See "http://twcamper.github.com/cuporter/":http://twcamper.github.com/cuporter/
 
 h4. xml of single test
 
