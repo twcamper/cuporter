@@ -1,0 +1,57 @@
+/******************
+*  Feature Report *
+*******************/
+.number {
+  left: 3.0em;
+}
+
+.cuporter_header {
+  background-color: #65C400;
+}
+
+.cuporter_header #total {
+  font-weight: bold;
+}
+.feature > .properties > .cuke_name {
+  margin-left: 0.5em;
+  font-size: 1.5em;
+}
+
+.feature > .properties > .total {
+  font-size: 1.2em;
+}
+
+.scenario > .properties  {
+  margin-left: -2.4em;
+  padding-left: 4.0em;
+  padding-top: 0.1em;
+  padding-bottom: 0.2em;
+}
+.scenario_outline  > .properties {
+  margin-left: -2.4em;
+  padding-left: 4.5em;
+  padding-top: 0.1em;
+  padding-bottom: 0.2em;
+
+}
+
+.example {
+  background-color:  #65C400;
+}
+
+.examples {
+  margin-left: -6.0em;
+  padding-left: 7.6em;
+}
+
+.scenario > .properties, .scenario_outline > .properties, .examples {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  background-color: #DBFFB4;
+  border-left: 0.5em solid #65c400;
+  border-bottom: 1px solid #65c400;
+}
+
+.tags {
+  color: darkblue; //#246AC1;
+}

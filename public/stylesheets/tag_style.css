@@ -1,0 +1,73 @@
+/********************************
+**      Tag Report             **
+*********************************/
+.number {
+  left: 4.5em;
+}
+
+.cuporter_header {
+  background-color: #24A6C1;
+}
+
+.tag > .properties > .cuke_name {
+  font-weight: bold;
+  font-size: 1.5em; 
+}
+
+.tag > .properties > .total {
+  font-size: 1.2em;
+}
+
+.tag {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.tag > ul {
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+.feature > .properties {
+  margin-left: -2em;
+  padding-left: 1.5em;
+  background-color: #24A6C1;
+  color: white;
+}
+
+.file_path {
+  font-size: 1.1em;
+  color: black;
+}
+
+.scenario > .properties {
+  margin-left: -4.0em;
+  padding-left: 4.0em;
+  background-color: lightblue;
+}
+
+.scenario_outline > .properties {
+  margin-left: -4.0em;
+  padding-left: 4.5em;
+}
+
+.examples {
+  margin-left: -7.7em;
+  padding-left: 7.7em;
+}
+
+.example {
+  background-color:  #26A6C0;
+  font-weight: normal;
+}
+
+.examples > .properties {
+  margin-left: -2em;
+}
+
+.scenario > .properties, .scenario_outline > .properties, .examples {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  background-color: #lightblue;
+  border-left: 0.5em solid #26A6C0;
+  border-bottom: 1px solid #26A6C0;
+}

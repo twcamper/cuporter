@@ -24,7 +24,7 @@
     a { color: #6e56c5; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
+    pre { background: #000; color: #fff; padding: 1em; font-size: 0.8em;}
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
     .footer { text-align:center; padding-top:30px; font-style: italic; }
   </style>
@@ -48,7 +48,28 @@
     <div class="description">
       Scrape Cucumber feature files to report on tag usage, listing Feature and Scenario names per tag.
     </div>
+    <div >
+      <a href="sample_tag_report.html"><h2>Sample Tag Report</h2></a>
+      <pre style="margin-left: 3em;">
+      $ ./bin/cuporter -i fixtures -f html -o sample_tag_report.html </pre>
+    </div>
+    <div >
+      <a href="sample_tree_view.html"><h2>Sample Tree View</h2></a>
+      <pre style="margin-left: 3em;">
+      $ ./bin/cuporter -i fixtures -f html -r tree -t ~@blocked -o sample_tree_view.html </pre>
+    </div>
+    <div >
+      <a href="sample_list_view.html"><h2>Sample List View</h2></a>
+      <pre style="margin-left: 3em;">
+      $ ./bin/cuporter -i fixtures -f html -r feature -o sample_list_view.html</pre>
+    </div>
 
+    <div>
+      <a href="the_help.html"><h2>Command Line Help</h2></a>
+  <pre style="margin-left: 3em;">
+    $ cuporter -h
+  </pre>
+    </div>
     <h2>Authors</h2>
 <p>Tim Camper (twcamper@thoughtworks.com)<br/><br/>      </p>
 <h2>Contact</h2>

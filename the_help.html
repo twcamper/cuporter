@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+
+  <title>Command Line Help</title>
+
+  <style type="text/css">
+    body {
+      margin-top: 1.0em;
+      background-color: #91a93a;
+      font-family: Helvetica, Arial, FreeSans, san-serif;
+      color: #ffffff;
+    }
+    h2 { font-size: 1.5em; color: #6e56c5; }
+    pre { background: #000; color: #fff; padding: 1em; font-size: 1.0em;}
+  </style>
+</head>
+
+<body>
+  <h2>Command Line Help</h2>
+<pre>
+$ cuporter -h
+Usage: cuporter [options]
+
+    -r, --report [tag|feature|tree]  View, or type of report.
+                                         Default: "tag"
+          
+    -f, --format [xml|html|csv|text] Output format.
+                                         Default: text (it's pretty, though!)
+          
+    -i, --input-dir DIR              Root directory of *.feature files.
+                                         Default: "features"
+     
+                                         Used to build the glob pattern '[--in]/**/*.feature', which is really most likely
+                                         "features/**/*.features" and finds all feature files anywhere under "features" or
+                                         your custom root supplied with this option.
+                                         Overridden by "--file-input'.
+          
+    -I, --file-input FILE            Single *.feature file.  Full name with extension, like 'path/to/file.feature.'
+                                         Overrides "--input-dir" and used mostly for testing.
+          
+    -o, --output-file FILE           Output file path, like 'tmp/cucumber/tag_report.html'.
+          
+    -t, --tags TAG_EXPRESSION        Filter on tags for name report.
+                                         TAG_EXPRESSION rules:
+                                             1. $ cucumber --help
+                                             2. http://github.com/aslakhellesoy/cucumber/wiki/Tags
+          
+    -T, --title STRING               Override report default title, which is different for each view/report.
+                                         This affects the xml 'report' node title and the html head > title attributes.
+          
+Reporting options: on by default but can be turned off:
+
+        --no-sort                    Do not sort tags, features, scenarios, or outlines
+        --no-number                  Do not get or show scenario or example numbers, (i.e., do not number the leaf nodes).
+        --no-total                   Do not get or show totals
+        --no-show-tags               Do not show cucumber tags at the feature, scenario, or outline level.
+        --no-show-files              Do not show feature file paths.
+        --no-leaves                  Show features only, with no scenarios or outlines.
+
+</pre>
+  </body>
+</html>

@@ -1,0 +1,101 @@
+/*******************
+*  Main            *
+********************/
+body {
+  margin: 0;
+  padding: 0;
+  font: normal 11px "Lucida Grande", Helvetica, sans-serif;
+}
+.cuporter_header {
+  padding-left: 2em; 
+  padding-bottom: 0.3em; 
+  padding-top: 0.05em; 
+  background-color: #65C400;
+  color: white;
+  height: 7em;
+}
+.cuporter_header #total {
+  font-weight: bold;
+}
+
+.cuporter_header #label {
+  position: absolute;
+  right: 1em;
+  text-align: right;
+  top: 1.2em;
+}
+#summary {
+  padding-top: 1.2em;
+  font-size: 1.2em;
+}
+
+#summary p {
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+#filter_summary {
+  width: 70em;
+  float: right;
+  padding-top: 1.2em;
+  font-size: 1.2em;
+}
+
+#filter_summary p {
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+#filter_summary > span {
+  font-weight: bold;
+}
+
+ul {
+  list-style: none;
+}
+.report {
+  margin: 0;
+}
+.feature {
+  margin-bottom: 0.5em;
+  margin-right: 1em;
+}
+
+.feature > .properties {
+  padding-top:  0.3em;
+  padding-bottom: 0.3em;
+  font-weight: bold;
+}
+
+.file_path {
+  float: right;
+  padding-right: 0.5em;
+  font-weight: normal;
+  color: black;
+}
+
+.example td {
+  padding-left: 0.5em;
+}
+
+.number {
+  position: absolute;
+  font-weight: normal;
+}
+.scenario .number {
+  padding-left: 0.5em;
+}
+
+.total {
+  margin-left: 1.5em;
+  font-weight: normal;
+}
+
+.tags {
+  margin-left: 1.5em;
+  font-weight: bold;
+}

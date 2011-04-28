@@ -1,0 +1,104 @@
+/***************
+*  Tree Report *
+****************/
+.dir, .tag, .feature, .scenario, .scenario_outline, .examples, .example {
+//  margin-left: 2.7em;
+//  margin-right: 1.5em;
+//  margin-bottom: 0.5em;
+//  margin-top: 0.1em;
+//  padding-left: 1.0em;
+//  padding-right: 1.0em;
+}
+.properties {
+//  padding-left: 0.1em;
+//  padding-top: 0.1em;
+//  padding-bottom: 0.1em;
+}
+
+.feature {
+//  padding-top: 0.75em;
+//  padding-bottom: 0.3em;
+}
+.feature > .properties > .total {
+  font-size: 1.3em;
+}
+.feature > .properties, .feature > .children {
+  color: black;
+//  padding-top: 0.1em;
+//  padding-bottom: 0.5em;
+  font-weight: bold;
+  margin-left: 1.2em;
+  margin-right: 0.5em;
+  margin-bottom: 0.0em;
+  padding-right: 0;
+}
+.feature > .properties > .cuke_name {
+  font-size: 1.2em;
+}
+
+.file_path {
+  padding-right: 0.5em;
+}
+
+.file > ul {
+  margin-left: 2.2em;
+}
+.dir {
+//  margin-top: 0.5em;
+//  margin-bottom: 1.0em;
+//  padding-bottom: 0.5em;
+}
+.dir > .properties {
+  font-weight: bold;
+//  margin-left: -2.0em;
+//  padding-top: 0.3em;
+//  padding-bottom: 0.5em;
+ } 
+.dir > .properties > .fs_name {
+}
+
+.report > ul.children .dir {
+}
+.report > .children > .dir{
+  padding-top: 0.5em;
+  margin-right: 0.5em;
+   margin-left: 2.7em;
+}
+.report > .children > .dir > .properties {
+}
+
+.scenario, .scenario_outline   {
+  color: black;
+  border-left: 0.5em solid #65c400;
+  border-bottom: 1px solid #65c400;
+  border-top: none;
+  border-right: none;
+}
+.example {
+}
+
+.examples {
+  border: none;
+}
+
+
+.tags {
+ color: darkblue;
+}
+.number {
+  left: 0.80em;
+}
+
+.total {
+  margin-left: 0.25em;
+}
+
+
+/*     Background Colors  */
+// .filetree .dir {background-color: #E6E6E6}
+//  .filetree .file {background-color: #E6E6E6}
+.filetree .feature {background-color: #cacaca}
+.filetree .scenario {background-color: #DBFFB4}
+.filetree .scenario_outline {background-color: #DBFFB4}
+.filetree .examples {background-color: #DBFFBf}
+.filetree .example {background-color: #65C400}
