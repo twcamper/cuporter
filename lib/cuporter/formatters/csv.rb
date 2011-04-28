@@ -35,7 +35,7 @@ module Cuporter
       end
 
       def cuke_name(value)
-        "#{value},"
+        "#{value ? value.unescape_apostrophe : nil},"
       end
 
       def fs_name(value)

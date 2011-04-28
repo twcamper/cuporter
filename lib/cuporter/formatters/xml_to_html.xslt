@@ -242,7 +242,7 @@
   <xsl:template match="@cuke_name">
     <xsl:element name="span">
       <xsl:attribute name="class">cuke_name</xsl:attribute>
-      <xsl:value-of select="."/>
+      <xsl:value-of select="." disable-output-escaping="yes"/>
     </xsl:element>
   </xsl:template>
 

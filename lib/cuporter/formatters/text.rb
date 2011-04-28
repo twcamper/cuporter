@@ -131,7 +131,8 @@ module Cuporter
         l
       end
       def cuke_name(value)
-        value || ""
+        return "" unless value
+        value.unescape_apostrophe
       end
       def fs_name(value)
         return "" unless value

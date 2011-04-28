@@ -40,6 +40,24 @@ EOF
       end
     end
 
+    context "difficult input: the apostrophe" do
+
+      it "raises no error if a cuke name has a single quote" do
+        report = ""
+        expect do
+          report = one_feature("fixtures/apostrophe.feature")
+        end.to_not raise_error
+        report.should == <<EOF
+  @apostrophe
+    Feature: What's the point of it all, Charlie?
+      Scenario: I sport an apostrophe this evening, Sir!
+  @encoding
+    Feature: What's the point of it all, Charlie?
+      Scenario: I sport an apostrophe this evening, Sir!
+EOF
+      end
+    end
+
   end
 end
 
