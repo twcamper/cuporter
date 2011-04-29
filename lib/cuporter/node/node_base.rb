@@ -79,8 +79,6 @@ module Cuporter
       end
 
     end
-    # this will vary when json comes
-    NodeBase = Nokogiri::XML::Node
 
     # common methods for building either html or xml nodes
     module InitializeNode
@@ -111,4 +109,3 @@ module Cuporter
 end
 
 Cuporter::Node.send(:extend, Cuporter::Node::InitializeNode)
-Cuporter::Node::NodeBase.send(:include, Cuporter::Node::BaseMethods)

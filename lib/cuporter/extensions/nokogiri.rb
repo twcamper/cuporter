@@ -1,10 +1,9 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
-require 'rubygems'
-require 'nokogiri'
 Nokogiri::XML::Node.class_eval do
   # undefine the spaceship (comparison operator used by sort)
   # so our mixed-in versions get used.
   remove_method :<=>
+  include(Cuporter::Node::BaseMethods)
 end
 
 module NodeSetExtensions
@@ -27,10 +26,6 @@ end
 Nokogiri::XML::NodeSet.send(:include, NodeSetExtensions)
 
 module DocumentExtensions
-
-  def to_html(options = {})
-    to_xml(options)
-  end
 
   def add_report(report_node)
     root.at(:body) << report_node

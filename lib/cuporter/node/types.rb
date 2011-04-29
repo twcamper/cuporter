@@ -1,6 +1,7 @@
 # Copyright 2011 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
   module Node
+    NodeBase = Nokogiri::XML::Node
     module Types
       class Report < NodeBase
         def tag_node(tag)

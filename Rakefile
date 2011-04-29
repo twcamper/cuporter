@@ -5,6 +5,7 @@ require 'rake/rdoctask'
 require 'rake/gempackagetask'
 
 task :default do
+  Rake::Task["cuporter:load_test:safe_nokogiri"].invoke  # MUST RUN THIS FIRST
   Rake.application.tasks_in_scope(["cuporter:test"]).each do |t|
     t.invoke
   end
@@ -21,6 +22,14 @@ namespace :cuporter do
   task :readme do
     require 'redcloth'
     puts RedCloth.new(File.read("README.textile")).to_html
+  end
+
+  namespace :load_test do
+    desc "RUN ME FIRST: I depend on cuporter NOT having run"
+    RSpec::Core::RakeTask.new(:safe_nokogiri) do |t|
+      t.pattern = "spec/cuporter/load_time/safe_nokogiri_spec.rb"
+      t.rspec_opts = ["--color" , "--format" , "doc" ]
+    end
   end
 
   namespace :test do
@@ -56,7 +65,7 @@ namespace :cuporter do
 
   spec = Gem::Specification.new do |s|
     s.name = 'cuporter'
-    s.version = '0.3.4'
+    s.version = '0.3.5'
     s.rubyforge_project = s.name
 
     s.platform = Gem::Platform::RUBY

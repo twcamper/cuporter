@@ -1,7 +1,6 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
 $LOAD_PATH.unshift( File.expand_path("#{File.dirname(__FILE__)}"))
 $LOAD_PATH.unshift( File.expand_path("#{File.dirname(__FILE__)}/.."))
-require 'cuporter/extensions/nokogiri'
 require 'cuporter/extensions/string'
 require 'cuporter/cli/options'
 require 'cuporter/cli/filter_args_builder'

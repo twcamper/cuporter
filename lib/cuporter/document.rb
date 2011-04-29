@@ -3,6 +3,7 @@ module Cuporter
   module Document
 
     def self.new_xml
+      require 'cuporter/extensions/nokogiri'
       doc =  Nokogiri::XML::Document.new
       doc << Nokogiri::XML::Node.new('xml', doc)
       doc.root << Nokogiri::XML::Node.new('body', doc)
