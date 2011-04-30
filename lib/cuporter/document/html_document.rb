@@ -26,17 +26,17 @@ module Cuporter
 
         case view
         when "tree"
-          h << link_js("jquery-min.js")
-          h << link_js("jquery.treeview.js")
-          h << link_css("jquery.treeview.css")
-          h << link_js("treeview-loader.js")
-          h << link_css("cuporter.css")
-          h << link_css("#{view}_style.css")
+          h << link_js("javascripts/jquery-min.js")
+          h << link_js("jquery.treeview/jquery.treeview.js")
+          h << link_css("jquery.treeview/jquery.treeview.css")
+          h << link_js("javascripts/treeview-loader.js")
+          h << link_css("stylesheets/cuporter.css")
+          h << link_css("stylesheets/#{view}_style.css")
         else
-          h << script_js("jquery-min.js")
-          h << style_css("cuporter.css")
-          h << style_css("#{view}_style.css")
-          h << script_js("expand-collapse.js")
+          h << script_js("javascripts/jquery-min.js")
+          h << style_css("stylesheets/cuporter.css")
+          h << style_css("stylesheets/#{view}_style.css")
+          h << script_js("javascripts/expand-collapse.js")
         end
         h
       end
@@ -47,22 +47,22 @@ module Cuporter
 
       def style_css(file)
         style = new_node('style', 'type' => 'text/css')
-        style << file_contents("#{assets_dir}/stylesheets/#{file}")
+        style << file_contents("#{assets_dir}/#{file}")
         style
       end
 
       def script_js(file)
         script = new_node('script', 'type' => 'text/javascript')
-        script << file_contents("#{assets_dir}/javascripts/#{file}")
+        script << file_contents("#{assets_dir}/#{file}")
         script
       end
 
       def link_css(file)
-        new_node('link', 'type' => 'text/css', 'rel' => 'stylesheet', 'href' => "#{assets_dir}/stylesheets/#{file}")
+        new_node('link', 'type' => 'text/css', 'rel' => 'stylesheet', 'href' => "#{assets_dir}/#{file}")
       end
 
       def link_js(file)
-        new_node('script', 'type' => 'text/javascript', 'src' => "#{assets_dir}/javascripts/#{file}")
+        new_node('script', 'type' => 'text/javascript', 'src' => "#{assets_dir}/#{file}")
       end
 
       def file_contents(file_name)
