@@ -25,6 +25,15 @@ module Cuporter
         @@args
       end
 
+      
+      def self.full_path(path)
+        expanded_path = File.expand_path(path)
+        path_nodes = expanded_path.split(File::SEPARATOR)
+        file = path_nodes.pop
+        FileUtils.makedirs(path_nodes.join(File::SEPARATOR))
+        expanded_path
+      end
+
       def self.parse
         @@args = ARGV.dup
         @options = {}
@@ -63,15 +72,9 @@ module Cuporter
             @options[:input_file] = file
           end
           
-          @options[:output_file]
           opts.on("-o", "--output-file FILE", %Q{Output file path, like 'tmp/cucumber/tag_report.html'.
           }) do |o|
-            full_path = File.expand_path(o)
-            path = full_path.split(File::SEPARATOR)
-            file = path.pop
-            FileUtils.makedirs(path.join(File::SEPARATOR))
-            
-            @options[:output_file] = full_path
+            @options[:output_file] = full_path(o)
           end
 
           @options[:tags] = []
@@ -87,6 +90,24 @@ module Cuporter
                                          This affects the xml 'report' node title and the html head > title attributes.
           }) do |title|
             @options[:title] = title
+          end
+
+          opts.separator "CSS and Javascript asset options:\n\n"
+          opts.on("-a", "--assets-dir PATH", %Q{Path to folder for CSS and Javascript assets.
+                                           Only applies with '--link-assets', which is off by default.
+                                           Setting this will cause assets to be copied from 'public';
+                                           otherwise, the html will link to the files under 'cuporter/public' in
+                                           your gempath.
+          }) do |a|
+            @options[:assets_dir] = full_path(a)
+          end
+
+          opts.on("-l", "--link-assets", %Q{Do not inline CSS and js in <style/> and <script/> tags, but link to
+                                       external files instead.
+                                           Default:  'false' for the tag and feature views, not optional for the
+                                                     tree view, which requires external gifs.
+          }) do |l|
+            @options[:link_assets] = l
           end
 
           opts.separator "Reporting options: on by default but can be turned off:\n\n"

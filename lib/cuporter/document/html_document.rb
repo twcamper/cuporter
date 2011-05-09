@@ -2,7 +2,7 @@
 module Cuporter
   module Document
     module Html
-      attr_accessor :view
+      attr_accessor :view, :link_assets, :assets_dir
 
       def add_report(node)
         root << head(node['title'])
@@ -33,16 +33,19 @@ module Cuporter
           h << link_css("stylesheets/cuporter.css")
           h << link_css("stylesheets/#{view}_style.css")
         else
-          h << script_js("javascripts/jquery-min.js")
-          h << style_css("stylesheets/cuporter.css")
-          h << style_css("stylesheets/#{view}_style.css")
-          h << script_js("javascripts/expand-collapse.js")
+          if link_assets
+            h << link_js("javascripts/jquery-min.js")
+            h << link_css("stylesheets/cuporter.css")
+            h << link_css("stylesheets/#{view}_style.css")
+            h << link_js("javascripts/expand-collapse.js")
+          else
+            h << script_js("javascripts/jquery-min.js")
+            h << style_css("stylesheets/cuporter.css")
+            h << style_css("stylesheets/#{view}_style.css")
+            h << script_js("javascripts/expand-collapse.js")
+          end
         end
         h
-      end
-
-      def assets_dir
-        @assets_dir ||= File.expand_path('public', File.dirname(__FILE__) + "/../../../")
       end
 
       def style_css(file)

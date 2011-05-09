@@ -10,10 +10,20 @@ module Cuporter
       doc
     end
 
-    def self.new_html(view)
+    def self.new_html(view, link_assets, assets_dir)
       Nokogiri::XML::Document.send(:include, Cuporter::Document::Html)
       doc =  Nokogiri::XML::Document.new
       doc.view = view
+      doc.link_assets = link_assets
+      project_assets = File.expand_path( "public", File.dirname(__FILE__) + "../../../")
+
+      # we count on the dirs being created by the option parser
+      if assets_dir
+        FileUtils.cp_r("#{project_assets}/.", assets_dir)
+        doc.assets_dir = assets_dir
+      else
+        doc.assets_dir = project_assets
+      end
       root = Nokogiri::XML::Node.new('html', doc)
       root.create_internal_subset( 'html', "-//W3C//DTD XHTML 1.0 Strict//EN", "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd")
       doc << root
