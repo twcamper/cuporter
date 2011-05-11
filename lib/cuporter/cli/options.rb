@@ -102,8 +102,7 @@ module Cuporter
             @options[:assets_dir] = full_path(a)
           end
 
-          opts.on("-l", "--link-assets", %Q{Do not inline CSS and js in <style/> and <script/> tags, but link to
-                                       external files instead.
+          opts.on("-l", "--link-assets", %Q{Do not inline CSS and js in <style/> and <script/> tags, but link to external files instead.
                                            Default:  'false' for the tag and feature views, not optional for the
                                                      tree view, which requires external gifs.
           }) do |l|

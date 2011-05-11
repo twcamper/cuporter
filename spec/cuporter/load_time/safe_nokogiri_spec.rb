@@ -4,7 +4,7 @@ require 'rspec'
 describe Object do
   describe "loading cuporter files without running it does not change Nokogiri" do
     it "requiring cuporter does not alter Nokogiri::XML::Node" do
-      gem "nokogiri", ">= 1.0.0"
+      gem "nokogiri"
 
       load('nokogiri.rb').should be_true
       instance_methods_before = Nokogiri::XML::Node.instance_methods.sort
@@ -21,7 +21,7 @@ describe Object do
     end
 
     it "requiring cuporter does not alter Nokogiri::XML::Document" do
-      gem "nokogiri", ">= 1.0.0"
+      gem "nokogiri"
       load('nokogiri.rb').should be_true
       instance_methods_before = Nokogiri::XML::Document.instance_methods.sort
       singletons_before = Nokogiri::XML::Document.singleton_methods.sort

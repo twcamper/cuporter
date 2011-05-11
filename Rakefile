@@ -65,7 +65,7 @@ namespace :cuporter do
 
   spec = Gem::Specification.new do |s|
     s.name = 'cuporter'
-    s.version = '0.3.6'
+    s.version = '0.3.7'
     s.rubyforge_project = s.name
 
     s.platform = Gem::Platform::RUBY
@@ -78,7 +78,7 @@ namespace :cuporter do
     s.email = 'twcamper@thoughtworks.com'
     s.homepage = 'http://github.com/twcamper/cuporter'
     s.required_ruby_version = '>= 1.8.7'
-    s.add_dependency('nokogiri', '>= 1.4.4')
+    s.add_dependency('nokogiri', '>= 1.4.1')
     s.default_executable = "cuporter"
     s.executables = [s.default_executable]
 

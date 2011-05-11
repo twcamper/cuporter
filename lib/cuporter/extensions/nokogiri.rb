@@ -4,6 +4,22 @@ Nokogiri::XML::Node.class_eval do
   # so our mixed-in versions get used.
   remove_method :<=>
   include(Cuporter::Node::BaseMethods)
+
+  # Nokogiri 1.4.1 backwards compatability
+  unless instance_methods.include?("children=")
+
+    # defined in 1.4.4
+    def children=(node_or_tags)
+      children.unlink
+      if node_or_tags.is_a?(Nokogiri::XML::NodeSet)
+        node_or_tags.each { |n| add_child_node n }
+      else
+        add_child_node node_or_tags 
+      end
+      node_or_tags
+    end
+
+  end
 end
 
 module NodeSetExtensions
@@ -38,4 +54,15 @@ module DocumentExtensions
     root.at(:body) << s
   end
 end
-Nokogiri::XML::Document.send(:include, DocumentExtensions)
+Nokogiri::XML::Document.class_eval do
+
+  # Nokogiri 1.4.1 backwards compatability
+  unless instance_methods.include?("create_cdata")
+    # defined in 1.4.4
+    def create_cdata(text)
+      Nokogiri::XML::CDATA.new(self, text.to_s)
+    end
+  end
+
+  include(DocumentExtensions)
+end
