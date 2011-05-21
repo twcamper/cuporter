@@ -13,7 +13,7 @@ module Cuporter
         s = {:cuke_name => sub_expression, :tags => @current_tags}
 
         (@feature[:tags] | s[:tags]).each do |tag|
-          next unless @filter.pass? tag.to_a
+          next unless @filter.pass?([tag])
           add_scenario(tag, @feature, s)
         end
       end
@@ -36,7 +36,7 @@ module Cuporter
         e = {:cuke_name => sub_expression}
 
         context_tags.each do |tag|
-          next unless @filter.pass? tag.to_a
+          next unless @filter.pass?([tag])
           add_example(tag, @feature, @scenario_outline, @example_set, e)
         end
       end

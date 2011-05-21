@@ -77,7 +77,7 @@ namespace :cuporter do
     s.author = "Tim Camper"
     s.email = 'twcamper@thoughtworks.com'
     s.homepage = 'http://github.com/twcamper/cuporter'
-    s.required_ruby_version = '>= 1.8.7'
+    s.required_ruby_version = '>= 1.8.6'
     s.add_dependency('nokogiri', '>= 1.4.1')
     s.default_executable = "cuporter"
     s.executables = [s.default_executable]

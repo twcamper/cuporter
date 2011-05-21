@@ -67,14 +67,14 @@ module Cuporter
 
       def to_text
         s = Cuporter::Formatters::Text.build_line(self)
-        s += children.map {|n| n.to_text}.to_s
+        s += children.map {|n| n.to_text}.join
         s
       end
       alias :to_pretty :to_text
 
       def to_csv
         s = Cuporter::Formatters::Csv.build_line(self)
-        s += children.map {|n| n.to_csv}.to_s
+        s += children.map {|n| n.to_csv}.join
         s
       end
 
