@@ -99,7 +99,7 @@ module Cuporter
                                            otherwise, the html will link to the files under 'cuporter/public' in
                                            your gempath.
           }) do |a|
-            @options[:assets_dir] = full_path(a)
+            @options[:assets_dir] = a
           end
 
           opts.on("-l", "--link-assets", %Q{Do not inline CSS and js in <style/> and <script/> tags, but link to external files instead.

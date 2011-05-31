@@ -18,7 +18,7 @@ module Cuporter
       project_assets = File.expand_path( "public", File.dirname(__FILE__) + "../../../")
 
       # we count on the dirs being created by the option parser
-      if assets_dir
+      if link_assets
         FileUtils.cp_r("#{project_assets}/.", assets_dir)
         doc.assets_dir = assets_dir
       else
