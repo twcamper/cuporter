@@ -2,7 +2,64 @@ When /^I run cuporter (.*)$/ do |cuporter_opts|
   @output = `bin#{File::SEPARATOR}cuporter #{cuporter_opts}`
 end
 
+Then /save the output$/ do
+  @doc = Nokogiri::HTML(@output)
+end
 
 Then /^.* should have the same contents as "([^"]*)"$/ do |expected_file|
   @output.should == IO.read(File.expand_path(expected_file))
 end
+
+Given /^output directory "([^"]*)"$/ do |path|
+  @output_dir = path
+  FileUtils.mkdir_p(@output_dir) unless File.exist?(@output_dir) and File.directory?(@output_dir)
+end
+
+Given /output file "([^\"]+)"$/ do |path|
+  @output_file_path = path
+end
+
+Then /^the head element should not have "([^"]*)" tags$/ do |tag_name|
+  result = doc.search("head #{tag_name}")
+  result.should be_empty
+end
+
+Then /^the head element should have "([^"]*)" tags of type "([^"]*)"$/ do |tag_name, type_value|
+  result = doc.search("head #{tag_name}[@type='#{type_value}']")
+  result.should_not be_empty
+end
+
+Then /^the head element should have "([^"]*)" tags of type "([^"]*)" whose "([^\"]+)" exists$/ do |tag_name, type_value, file_attr|
+  result = doc.search("head #{tag_name}[@type='#{type_value}']")
+  result.should_not be_empty
+  result.each do |e|
+    File.exist?(e[file_attr.to_sym]).should be_true
+  end
+end
+
+Then /^the head element should have "([^"]*)" tags of type "([^"]*)" with no "([^"]*)" attribute$/ do |tag_name, type_value, black_attr|
+  result = doc.search("head #{tag_name}[@type='#{type_value}']")
+  actual_count = result.select { |e| e[black_attr.to_sym].nil? }.size
+  actual_count.should > 0
+end
+
+Then /^dir "([^"]*)" should exist$/ do |path|
+  File.exist?(path).should be_true
+end
+
+Then /^"([^"]*)" files should exist$/ do |glob_pattern|
+  asset_files = Dir[glob_pattern]
+  asset_files.should_not be_empty
+  asset_files.each do |f|
+    File.exist?(f).should be_true
+  end
+end
+
+Then /^the head element should have "([^"]*)" tags of type "([^"]*)" whose "([^"]*)" is relative$/ do |tag_name, type_value, file_attr|
+  result = doc.search("head #{tag_name}[@type='#{type_value}']")
+  result.should_not be_empty
+  result.each do |e|
+    File.exist?(e[file_attr.to_sym]).should be_true
+  end
+end
+
