@@ -2,10 +2,6 @@ When /^I run cuporter (.*)$/ do |cuporter_opts|
   @output = `bin#{File::SEPARATOR}cuporter #{cuporter_opts}`
 end
 
-Then /save the output$/ do
-  @doc = Nokogiri::HTML(@output)
-end
-
 Then /^.* should have the same contents as "([^"]*)"$/ do |expected_file|
   @output.should == IO.read(File.expand_path(expected_file))
 end
@@ -13,10 +9,6 @@ end
 Given /^output directory "([^"]*)"$/ do |path|
   @output_dir = path
   FileUtils.mkdir_p(@output_dir) unless File.exist?(@output_dir) and File.directory?(@output_dir)
-end
-
-Given /output file "([^\"]+)"$/ do |path|
-  @output_file_path = path
 end
 
 Then /^the head element should not have "([^"]*)" tags$/ do |tag_name|

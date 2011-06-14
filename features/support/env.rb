@@ -3,7 +3,7 @@ require 'cuporter'
 
 module Support
   def doc
-    @doc ||= Nokogiri::HTML(File.open(@output_file_path))
+    @doc ||= Nokogiri::HTML(@output)
   end
 end
 
