@@ -25,7 +25,6 @@ module Cuporter
         @@args
       end
 
-      
       def self.full_path(path)
         expanded_path = File.expand_path(path)
         path_nodes = expanded_path.split(File::SEPARATOR)
@@ -34,27 +33,40 @@ module Cuporter
         expanded_path
       end
 
+      def self.defaults
+        { :report => "tag",
+          :format => "text",
+          :input_dir => "features",
+          :tags => [],
+          :copy_public_assets => false,
+          :sort => true,
+          :number => true,
+          :total => true,
+          :show_tags => true,
+          :show_files => true,
+          :leaves => true
+        }
+      end
+
       def self.parse
         @@args = ARGV.dup
-        @options = {}
+        @options = defaults
+
         OptionParser.new(ARGV.dup) do |opts|
           opts.banner = "Usage: cuporter [options]\n\n"
 
-          @options[:report] = "tag"
           opts.on("-r", "--report [tag|feature|tree]", %Q{View, or type of report.
                                          Default: "tag"
           }) do |r|
             @options[:report] = (r == 'name' ? 'feature' : r) 
           end
 
-          @options[:format] = "text"
           opts.on("-f", "--format [xml|html|csv|text]", %Q{Output format.
                                          Default: text (it's pretty, though!)
           }) do |f|
             @options[:format] = f
           end
 
-          @options[:input_dir] = "features"
           opts.on("-i", "--input-dir DIR", %Q{Root directory of *.feature files.
                                          Default: "features"
      
@@ -77,7 +89,6 @@ module Cuporter
             @options[:output_file] = full_path(o)
           end
 
-          @options[:tags] = []
           opts.on("-t", "--tags TAG_EXPRESSION", %Q{Filter on tags for name report.
                                          TAG_EXPRESSION rules:
                                              1. $ cucumber --help
@@ -101,7 +112,6 @@ module Cuporter
             @options[:link_assets] = l
           end
 
-          @options[:copy_public_assets] = false
           opts.on("-c", "--copy-public-assets", %Q{If --output-file is supplied, and you're linking to external 
                                            CSS and JavaScript assets, copy them from 'public/' to 'cuporter_public'
                                            in the same dir as the output file.
@@ -113,32 +123,26 @@ module Cuporter
           end
 
           opts.separator "Reporting options: on by default but can be turned off:\n\n"
-          @options[:sort] = true
           opts.on("--no-sort", "Do not sort tags, features, scenarios, or outlines\n") do |n|
             @options[:sort] = n
           end
 
-          @options[:number] = true
           opts.on("--no-number", "Do not get or show scenario or example numbers, (i.e., do not number the leaf nodes).\n") do |n|
             @options[:number] = n
           end
 
-          @options[:total] = true
           opts.on("--no-total", "Do not get or show totals\n") do |n|
             @options[:total] = n
           end
 
-          @options[:show_tags] = true
           opts.on("--no-show-tags", "Do not show cucumber tags at the feature, scenario, or outline level.\n") do |show_tags|
             @options[:show_tags] = show_tags
           end
 
-          @options[:show_files] = true
           opts.on("--no-show-files", "Do not show feature file paths.\n") do |show_files|
             @options[:show_files] = show_files
           end
 
-          @options[:leaves] = true
           opts.on("--no-leaves", "Show features only, with no scenarios or outlines.\n\n\n") do |l|
             @options[:leaves] = l
           end
