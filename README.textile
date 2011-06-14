@@ -191,7 +191,7 @@ h4. Examples
 
 h3. Dependencies
 
-# Nokogiri 1.4.4 or above
+# Nokogiri 1.4.1 or above
 ** For all things Nodular: XML document building and XSL transformation into HTML
 ** Not tested on earlier versions yet but I'd guess you'll be fine with anything recent.
 ** @libxml2@ and @libxslt@ are required by this gem, which *should* handle them smoothly.  However, @libxml@ and cousins
@@ -206,6 +206,3 @@ h3. Acknowledgements
 
 * Acknowledgements remain due to the Cucumber HTML formatter, and to the human one, too!.
 * Thanks to everyone involved in Nokogiri, jQuery and the Treeview plugin.
-
-  I used to _"Consider this a stop-gap until we get this functionality in a proper cucumber formatter"_, but now I'm not so sure.  Megalomania?
-
