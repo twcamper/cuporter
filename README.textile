@@ -114,56 +114,56 @@ h4. help
 <pre>
   $ cuporter -h
 
-  Usage: cuporter [options]
+Usage: cuporter [options]
 
-      -r, --report [tag|feature|tree]  View, or type of report.
-                                           Default: "tag"
-
-      -f, --format [xml|html|csv|text] Output format.
-      Default: text (it's pretty, though!)
-
-      -i, --input-dir DIR              Root directory of *.feature files.
-                                           Default: "features"
-
-                                           Used to build the glob pattern '[--input-dir]/**/*.feature', which is really most likely
-                                           "features/**/*.features" and finds all feature files anywhere under "features" or
-                                           your custom root supplied with this option.
-                                           Overridden by "--file-input'.
-
-      -I, --file-input FILE            Single *.feature file.  Full name with extension, like 'path/to/file.feature.'
-                                           Overrides "--input-dir" and used mostly for testing.
-
-      -o, --output-file FILE           Output file path, like 'tmp/cucumber/tag_report.html'.
-
-      -t, --tags TAG_EXPRESSION        Filter on tags for name report.
-                                           TAG_EXPRESSION rules:
-                                               1. $ cucumber --help
-                                               2. http://github.com/aslakhellesoy/cucumber/wiki/Tags
-
-      -T, --title STRING               Override report default title, which is different for each view/report.
-                                           This affects the xml 'report' node title and the html head > title attributes.
+    -r, --report [tag|feature|tree]  View, or type of report.
+                                         Default: "tag"
+          
+    -f, --format [xml|html|csv|text] Output format.
+                                         Default: text (it's pretty, though!)
+          
+    -i, --input-dir DIR              Root directory of *.feature files.
+                                         Default: "features"
+     
+                                         Used to build the glob pattern '[--input-dir]/**/*.feature', which is really most likely
+                                         "features/**/*.features" and finds all feature files anywhere under "features" or
+                                         your custom root supplied with this option.
+                                         Overridden by "--file-input'.
+          
+    -I, --file-input FILE            Single *.feature file.  Full name with extension, like 'path/to/file.feature.'
+                                         Overrides "--input-dir" and used mostly for testing.
+          
+    -o, --output-file FILE           Output file path, like 'tmp/cucumber/tag_report.html'.
+          
+    -t, --tags TAG_EXPRESSION        Filter on tags for name report.
+                                         TAG_EXPRESSION rules:
+                                             1. $ cucumber --help
+                                             2. http://github.com/aslakhellesoy/cucumber/wiki/Tags
+          
+    -T, --title STRING               Override report default title, which is different for each view/report.
+                                         This affects the xml 'report' node title and the html head > title attributes.
+          
 CSS and Javascript asset options:
 
-    -a, --assets-dir PATH            Path to folder for CSS and Javascript assets.
-                                           Only applies with '--link-assets', which is off by default.
-                                           Setting this will cause assets to be copied from 'public';
-                                           otherwise, the html will link to the files under 'cuporter/public' in
-                                           your gempath.
-
-    -l, --link-assets                Do not inline CSS and js in <style/> and <script/> tags, but link to
-                                       external files instead.
+    -l, --link-assets                Do not inline CSS and js in <style/> and <script/> tags, but link to external files instead.
                                            Default:  'false' for the tag and feature views, not optional for the
                                                      tree view, which requires external gifs.
+          
+    -c, --copy-public-assets         If --output-file is supplied, and you're linking to external 
+                                           CSS and JavaScript assets, copy them from 'public/' to 'cuporter_public'
+                                           in the same dir as the output file.
+                                           The html report will link to these files by relative path.
 
-  Reporting options: on by default but can be turned off:
-  
-          --no-sort                    Do not sort tags, features, scenarios, or outlines
-          --no-number                  Do not get or show scenario or example numbers, (i.e., do not number the leaf nodes).
-          --no-total                   Do not get or show totals
-          --no-show-tags               Do not show cucumber tags at the feature, scenario, or outline level.
-          --no-show-files              Do not show feature file paths.
-          --no-leaves                  Show features only, with no scenarios or outlines.
-  
+                                           Default: 'false'
+          
+Reporting options: on by default but can be turned off:
+
+        --no-sort                    Do not sort tags, features, scenarios, or outlines
+        --no-number                  Do not get or show scenario or example numbers, (i.e., do not number the leaf nodes).
+        --no-total                   Do not get or show totals
+        --no-show-tags               Do not show cucumber tags at the feature, scenario, or outline level.
+        --no-show-files              Do not show feature file paths.
+        --no-leaves                  Show features only, with no scenarios or outlines.
 
 </pre>
 

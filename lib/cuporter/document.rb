@@ -19,7 +19,7 @@ module Cuporter
       doc.assets_base_path = doc.assets_src
 
       # we count on the dirs being created by the option parser
-      if Cuporter.output_file && copy_public_assets
+      if Cuporter.options[:output_file] && copy_public_assets
         assets_target = File.dirname(Cuporter.options[:output_file]) + "/cuporter_public"
         FileUtils.rm_rf(assets_target) if File.exists?(assets_target)
 
