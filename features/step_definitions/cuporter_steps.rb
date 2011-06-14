@@ -29,6 +29,14 @@ Then /^the head element should have "([^"]*)" tags of type "([^"]*)" whose "([^\
   end
 end
 
+Then /^the head element should have "([^"]*)" tags of type "([^"]*)" whose "([^\"]+)" begins "([^\"]+)"$/ do |tag_name, type_value, file_attr, base_path_substring|
+  result = doc.search("head #{tag_name}[@type='#{type_value}']")
+  result.should_not be_empty
+  result.each do |e|
+    e[file_attr.to_sym].should =~ /^#{Regexp.escape(base_path_substring)}/
+  end
+end
+
 Then /^the head element should have "([^"]*)" tags of type "([^"]*)" with no "([^"]*)" attribute$/ do |tag_name, type_value, black_attr|
   result = doc.search("head #{tag_name}[@type='#{type_value}']")
   actual_count = result.select { |e| e[black_attr.to_sym].nil? }.size
@@ -55,3 +63,6 @@ Then /^the head element should have "([^"]*)" tags of type "([^"]*)" whose "([^"
   end
 end
 
+When /I read file "([^\"]+)"$/ do |path|
+  @output = File.read(path)
+end

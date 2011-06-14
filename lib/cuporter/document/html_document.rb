@@ -2,7 +2,11 @@
 module Cuporter
   module Document
     module Html
-      attr_accessor :view, :link_assets, :assets_dir
+      attr_accessor :view, :link_assets, :assets_src, :assets_base_path
+      
+      def assets_base_path
+        @assets_base_path ||= assets_target || assets_src
+      end
 
       def add_report(node)
         root << head(node['title'])
@@ -50,22 +54,22 @@ module Cuporter
 
       def style_css(file)
         style = new_node('style', 'type' => 'text/css')
-        style << file_contents("#{assets_dir}/#{file}")
+        style << file_contents("#{assets_src}/#{file}")
         style
       end
 
       def script_js(file)
         script = new_node('script', 'type' => 'text/javascript')
-        script << file_contents("#{assets_dir}/#{file}")
+        script << file_contents("#{assets_src}/#{file}")
         script
       end
 
       def link_css(file)
-        new_node('link', 'type' => 'text/css', 'rel' => 'stylesheet', 'href' => "#{assets_dir}/#{file}")
+        new_node('link', 'type' => 'text/css', 'rel' => 'stylesheet', 'href' => "#{assets_base_path}/#{file}")
       end
 
       def link_js(file)
-        new_node('script', 'type' => 'text/javascript', 'src' => "#{assets_dir}/#{file}")
+        new_node('script', 'type' => 'text/javascript', 'src' => "#{assets_base_path}/#{file}")
       end
 
       def file_contents(file_name)

@@ -17,7 +17,6 @@ module Cuporter
           @options[:input_file_pattern] = @options.delete(:input_file) || "#{@options.delete(:input_dir)}/**/*.feature"
           @options[:root_dir] = @options[:input_file_pattern].split(File::SEPARATOR).first
           @options[:filter_args] = Cuporter::CLI::FilterArgsBuilder.new(@options.delete(:tags)).args
-          @options[:assets_dir]  = path(@options[:assets_dir]) if @options[:assets_dir]
         end
         @options
       end
@@ -33,17 +32,6 @@ module Cuporter
         file = path_nodes.pop
         FileUtils.makedirs(path_nodes.join(File::SEPARATOR))
         expanded_path
-      end
-
-      def self.path(relative_path)
-        p path_nodes = File.expand_path(relative_path).split(File::SEPARATOR)
-        file = path_nodes.pop
-        p original_wd = Dir.pwd
-        FileUtils.cd(@options[:working_dir_html])
-        p Dir.pwd
-        FileUtils.makedirs(path_nodes.join(File::SEPARATOR))
-        FileUtils.cd(original_wd)
-        relative_path
       end
 
       def self.parse
@@ -106,27 +94,22 @@ module Cuporter
 
           opts.separator "CSS and Javascript asset options:\n\n"
 
-          @options[:working_dir_html] = '.'
-          opts.on("--working-dir-html PATH", %Q{Needed when '--assets-dir' is a relative path.
-                                           Default:  '.'
-          }) do |d|
-            @options[:working_dir_html] = d
-          end
-
-          opts.on("-a", "--assets-dir PATH", %Q{Path to folder for CSS and Javascript assets.
-                                           Only applies with '--link-assets', which is off by default.
-                                           Setting this will cause assets to be copied from 'public';
-                                           otherwise, the html will link to the files under 'cuporter/public' in
-                                           your gempath.
-          }) do |a|
-            @options[:assets_dir] = a
-          end
-
           opts.on("-l", "--link-assets", %Q{Do not inline CSS and js in <style/> and <script/> tags, but link to external files instead.
                                            Default:  'false' for the tag and feature views, not optional for the
                                                      tree view, which requires external gifs.
           }) do |l|
             @options[:link_assets] = l
+          end
+
+          @options[:copy_public_assets] = false
+          opts.on("-c", "--copy-public-assets", %Q{If --output-file is supplied, and you're linking to external 
+                                           CSS and JavaScript assets, copy them from 'public/' to 'cuporter_public'
+                                           in the same dir as the output file.
+                                           The html report will link to these files by relative path.
+
+                                           Default: 'false'
+          }) do |c|
+            @options[:copy_public_assets] = c
           end
 
           opts.separator "Reporting options: on by default but can be turned off:\n\n"
