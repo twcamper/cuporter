@@ -17,6 +17,10 @@ module Cuporter
           @options[:input_file_pattern] = @options.delete(:input_file) || "#{@options.delete(:input_dir)}/**/*.feature"
           @options[:root_dir] = @options[:input_file_pattern].split(File::SEPARATOR).first
           @options[:filter_args] = Cuporter::CLI::FilterArgsBuilder.new(@options.delete(:tags)).args
+          unless @options[:output_file]
+            @options[:copy_public_assets] = false
+            @options[:use_copied_public_assets] = false
+          end
         end
         @options
       end
@@ -39,6 +43,7 @@ module Cuporter
           :input_dir => "features",
           :tags => [],
           :copy_public_assets => false,
+          :use_copied_public_assets => false,
           :sort => true,
           :number => true,
           :total => true,
@@ -115,11 +120,22 @@ module Cuporter
           opts.on("-c", "--copy-public-assets", %Q{If --output-file is supplied, and you're linking to external 
                                            CSS and JavaScript assets, copy them from 'public/' to 'cuporter_public'
                                            in the same dir as the output file.
-                                           The html report will link to these files by relative path.
+                                           Sets --use-copied-public-assets to 'true', and
+                                           the html report will link to these files by relative path.
 
                                            Default: 'false'
           }) do |c|
             @options[:copy_public_assets] = c
+            @options[:use_copied_public_assets] = c
+          end
+
+          opts.on("-u", "--use-copied-public-assets", %Q{When running batches of reports, and the assets folder has already been
+                                           created by another call to cuporter with '--copy-public-assets'.
+                                           Set to 'true' automatically along with --copy-public-assets.
+
+                                           Default: 'false'
+          }) do |u|
+            @options[:use_copied_public_assets] = u
           end
 
           opts.separator "Reporting options: on by default but can be turned off:\n\n"

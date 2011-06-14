@@ -14,7 +14,12 @@ when 'csv'
 when 'text', 'pretty'
   report.doc.to_text
 when 'html'
-  html = Cuporter::Document.new_html(Cuporter.options[:report], Cuporter.options[:link_assets], Cuporter.options[:copy_public_assets])
+  if Cuporter.options[:copy_public_assets]
+    Cuporter::Document::Assets.copy(Cuporter.options[:output_file])
+  end
+  html = Cuporter::Document.new_html(Cuporter.options[:report],
+                                     Cuporter.options[:link_assets], 
+                                     Cuporter.options[:use_copied_public_assets])
   formatters = File.expand_path("../lib/cuporter/formatters", File.dirname(__FILE__))
   xslt = Nokogiri::XSLT(File.read("#{formatters}/xml_to_html.xslt"))
   html.add_report(xslt.transform(report.doc).at('.report'))
