@@ -152,9 +152,24 @@ CSS and Javascript asset options:
     -c, --copy-public-assets         If --output-file is supplied, and you're linking to external 
                                            CSS and JavaScript assets, copy them from 'public/' to 'cuporter_public'
                                            in the same dir as the output file.
-                                           The html report will link to these files by relative path.
+                                           Sets --use-copied-public-assets to 'true', and
+                                           the html report will link to these files by relative path.
 
                                            Default: 'false'
+          
+    -u, --use-copied-public-assets   When running batches of reports, and the assets folder has already been
+                                           created by another call to cuporter with '--copy-public-assets'.
+                                           Set to 'true' automatically along with --copy-public-assets.
+
+                                           Default: 'false'
+          
+        --config-file PATH           Specify any of these options in a yml file.
+                                           Order of precedence:
+                                              1 - command line
+                                              2 - yaml file
+                                              3 - these defaults
+
+                                           Default: 'cuporter.yml'
           
 Reporting options: on by default but can be turned off:
 
