@@ -65,7 +65,7 @@ namespace :cuporter do
 
   spec = Gem::Specification.new do |s|
     s.name = 'cuporter'
-    s.version = '0.3.8'
+    s.version = '0.3.9'
     s.rubyforge_project = s.name
 
     s.platform = Gem::Platform::RUBY
@@ -83,7 +83,7 @@ namespace :cuporter do
     s.executables = [s.default_executable]
 
     s.files =  %w(LICENSE README.textile Rakefile) + 
-      FileList["lib/**/*.{rb,xslt}", "bin/*", "public/**/*.{css,js,gif}"].to_a
+      FileList["config/**/*", "lib/**/*.{rb,xslt}", "bin/*", "public/**/*.{css,js,gif}"].to_a
 
     s.require_path = "lib"
   end
