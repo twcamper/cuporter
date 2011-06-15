@@ -1,4 +1,4 @@
-# Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
+# Copyright 2011 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
   module Document
     module Assets

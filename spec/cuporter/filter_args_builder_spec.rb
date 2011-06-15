@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Cuporter::CLI
+module Cuporter::Config::CLI
   describe FilterArgsBuilder do
     context "maps command line args to hash args" do
       context "empty command line args" do

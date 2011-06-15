@@ -2,8 +2,6 @@
 $LOAD_PATH.unshift( File.expand_path("#{File.dirname(__FILE__)}"))
 $LOAD_PATH.unshift( File.expand_path("#{File.dirname(__FILE__)}/.."))
 require 'cuporter/extensions/string'
-require 'cuporter/cli/options'
-require 'cuporter/cli/filter_args_builder'
 require 'cuporter/node'
 require 'cuporter/formatters/text'
 require 'cuporter/formatters/csv'
