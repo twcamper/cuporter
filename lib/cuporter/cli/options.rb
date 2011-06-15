@@ -13,20 +13,43 @@ module Cuporter
 
       def self.options
         unless @options
-          self.parse 
-          @options[:input_file_pattern] = @options.delete(:input_file) || "#{@options.delete(:input_dir)}/**/*.feature"
-          @options[:root_dir] = @options[:input_file_pattern].split(File::SEPARATOR).first
-          @options[:filter_args] = Cuporter::CLI::FilterArgsBuilder.new(@options.delete(:tags)).args
-          unless @options[:output_file]
-            @options[:copy_public_assets] = false
-            @options[:use_copied_public_assets] = false
-          end
+          parse 
+
+          file_config = config_file(@options[:config_file] || "cuporter.yml")
+          @options = post_process(defaults.merge(file_config.merge(@options.dup)))
         end
         @options
       end
 
+      def self.post_process(options)
+        options[:input_file_pattern] = options.delete(:input_file) || "#{options.delete(:input_dir)}/**/*.feature"
+        options[:root_dir] = options[:input_file_pattern].split(File::SEPARATOR).first
+        options[:filter_args] = Cuporter::CLI::FilterArgsBuilder.new(options.delete(:tags)).args
+        unless options[:output_file]
+          options[:copy_public_assets] = false
+          options[:use_copied_public_assets] = false
+        end
+        options
+      end
+
       def self.args
         @@args
+      end
+
+      def self.config_file(path)
+        return {} unless File.exists?(path)
+
+        require 'yaml'
+        pairs = {}
+        YAML.load_file(path).each do |key, value|
+          pairs[key.to_sym] = case value
+                              when /^true$/i
+                                true
+                              when /^false$/i
+                                false
+                              end || value
+        end
+        pairs
       end
 
       def self.full_path(path)
@@ -55,7 +78,7 @@ module Cuporter
 
       def self.parse
         @@args = ARGV.dup
-        @options = defaults
+        @options = {}
 
         OptionParser.new(ARGV.dup) do |opts|
           opts.banner = "Usage: cuporter [options]\n\n"
@@ -94,6 +117,7 @@ module Cuporter
             @options[:output_file] = full_path(o)
           end
 
+          @options[:tags] = []
           opts.on("-t", "--tags TAG_EXPRESSION", %Q{Filter on tags for name report.
                                          TAG_EXPRESSION rules:
                                              1. $ cucumber --help
@@ -136,6 +160,17 @@ module Cuporter
                                            Default: 'false'
           }) do |u|
             @options[:use_copied_public_assets] = u
+          end
+
+          opts.on("--config-file PATH", %Q{Specify any of these options in a yml file.
+                                           Order of precedence:
+                                              1 - command line
+                                              2 - yaml file
+                                              3 - these defaults
+
+                                           Default: 'cuporter.yml'
+          }) do |path|
+            @options[:config_file] = path
           end
 
           opts.separator "Reporting options: on by default but can be turned off:\n\n"
