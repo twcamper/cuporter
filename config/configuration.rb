@@ -10,8 +10,9 @@ module Cuporter
     module Options
 
       DEFAULTS = { :report => "tag",
-                   :format => "text",
+                   :format => ["text"],
                    :input_dir => "features",
+                   :output_file => [],
                    :tags => [],
                    :copy_public_assets => false,
                    :use_copied_public_assets => false,
@@ -42,12 +43,14 @@ module Cuporter
         options[:input_file_pattern] = options.delete(:input_file) || "#{options.delete(:input_dir)}/**/*.feature"
         options[:root_dir] = options[:input_file_pattern].split(File::SEPARATOR).first
         options[:filter_args] = Cuporter::Config::CLI::FilterArgsBuilder.new(options.delete(:tags)).args
-        if options[:output_file]
-          options[:output_file] = full_path(options[:output_file].dup)
-        else
-          options[:copy_public_assets] = false
-          options[:use_copied_public_assets] = false
+        options[:output_file].each_with_index do |file_path, i|
+          options[:output_file][i] = full_path(file_path.dup)
         end
+
+        unless options[:output_file].find {|f| f =~ /\.html$/ }
+          options[:copy_public_assets] = options[:use_copied_public_assets] = false
+        end
+
         options
       end
 
@@ -86,9 +89,18 @@ module Cuporter
     Config::Options.options
   end
 
-  def self.output_file
-    if options[:output_file]
-      File.open(options[:output_file], "w")
+  def self.ext_for(format)
+    case format
+    when 'text', 'pretty'
+      /\.txt$/
+    else
+      /\.#{format}$/
+    end
+  end
+
+  def self.output_file(format)
+    if (file = options[:output_file].find {|f| f =~ ext_for(format) })
+      File.open(file, "w")
     end
   end
 end

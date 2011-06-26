@@ -37,7 +37,8 @@ module Cuporter
             opts.on("-f", "--format [xml|html|csv|text]", %Q{Output format.
                                          Default: text (it's pretty, though!)
             }) do |f|
-              @options[:format] = f
+              @options[:format] = [] unless @options[:format]
+              @options[:format] << f
             end
 
             opts.on("-i", "--input-dir DIR", %Q{Root directory of *.feature files.
@@ -57,9 +58,10 @@ module Cuporter
               @options[:input_file] = file
             end
 
+            @options[:output_file] = []
             opts.on("-o", "--output-file FILE", %Q{Output file path, like 'tmp/cucumber/tag_report.html'.
             }) do |o|
-              @options[:output_file] = o
+              @options[:output_file] << o
             end
 
             @options[:tags] = []
