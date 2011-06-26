@@ -54,7 +54,7 @@ namespace :cuporter do
   RDOC_OPTS = ["--all" , "--quiet" , "--line-numbers" , "--inline-source", 
     "--main", "README.textile", 
     "--title", "Cuporter: cucumber tag reporting"]
-  XTRA_RDOC = %w{README.textile LICENSE }
+  XTRA_RDOC = %w{bin/* README.textile LICENSE }
 
   Rake::RDocTask.new do |rd|
     rd.rdoc_dir = "doc/rdoc"
