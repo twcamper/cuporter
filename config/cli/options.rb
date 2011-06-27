@@ -58,18 +58,18 @@ module Cuporter
               @options[:input_file] = file
             end
 
-            @options[:output_file] = []
             opts.on("-o", "--output-file FILE", %Q{Output file path, like 'tmp/cucumber/tag_report.html'.
             }) do |o|
+              @options[:output_file] = [] unless @options[:output_file]
               @options[:output_file] << o
             end
 
-            @options[:tags] = []
             opts.on("-t", "--tags TAG_EXPRESSION", %Q{Filter on tags for name report.
                                          TAG_EXPRESSION rules:
                                              1. $ cucumber --help
                                              2. http://github.com/aslakhellesoy/cucumber/wiki/Tags
             }) do |t|
+              @options[:tags] = [] unless @options[:tags]
               @options[:tags] << t
             end
 
@@ -118,6 +118,10 @@ module Cuporter
                                            Default: 'cuporter.yml'
             }) do |path|
               @options[:config_file] = path
+            end
+
+            opts.on("--text-summary", "Add a summary to the text format.\n") do |ts|
+              @options[:text_summary] = ts
             end
 
             opts.separator "Reporting options: on by default but can be turned off:\n\n"

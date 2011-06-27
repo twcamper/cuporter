@@ -7,39 +7,83 @@ require 'cli/filter_args_builder'
 module Cuporter
   module Config
 
-    module Options
+    class OptionSetCollection
 
-      DEFAULTS = { :report => "tag",
-                   :format => ["text"],
-                   :input_dir => "features",
-                   :output_file => [],
-                   :tags => [],
-                   :copy_public_assets => false,
-                   :use_copied_public_assets => false,
-                   :sort => true,
-                   :number => true,
-                   :total => true,
-                   :show_tags => true,
-                   :show_files => true,
-                   :leaves => true
-      }
-
-      def self.options
-        unless @options
-          # empty hash if no file
-          file_config = config_file(Cuporter::Config::CLI::Options[:config_file] || "cuporter.yml")
-
-          # CLI options replace any found in the file
-          cli_options_over_file_options = file_config.merge(Cuporter::Config::CLI::Options.options)
-
-          # defaults will be used for anything not so far specified in the file
-          # or CLI
-          @options = post_process(DEFAULTS.merge(cli_options_over_file_options))
-        end
-        @options
+      def self.path
+        Cuporter::Config::CLI::Options[:config_file] || "cuporter.yml"
       end
 
-      def self.post_process(options)
+      def self.config_file
+        return [] unless File.exists?(path)
+
+        require 'yaml'
+        yaml = YAML.load_file(path)
+        if yaml["option_sets"]
+          yaml["option_sets"].map do |option_set|
+            cast(option_set["options"])
+          end
+        else
+          yaml["defaults"].empty? ? [] : [cast(yaml["defaults"])]
+        end
+      end
+
+      def self.cast(option_set)
+        pairs = {}
+        option_set.each do |key, value|
+          pairs[key.to_sym] = case key
+                              when /^(tags|output_file|format)$/i
+                                value.is_a?(Array) ? value : [value]
+                              else
+                                value
+                              end
+        end
+ 
+        return pairs
+      end
+    end
+
+    class OptionSet
+
+      DEFAULTS = { :report                   => "tag",
+                   :format                   => ["text"],
+                   :input_dir                => "features",
+                   :output_file              => [],
+                   :tags                     => [],
+                   :link_assets              => false,
+                   :copy_public_assets       => false,
+                   :use_copied_public_assets => false,
+                   :sort                     => true,
+                   :number                   => true,
+                   :total                    => true,
+                   :show_tags                => true,
+                   :show_files               => true,
+                   :leaves                   => true
+      }
+
+      attr_reader :options
+
+      def initialize(file_config = {})
+        # CLI options replace any found in the file
+        cli_options_over_file_options = file_config.merge(Cuporter::Config::CLI::Options.options)
+
+        # defaults will be used for anything not so far specified in the file
+        # or CLI
+        @options = post_process(DEFAULTS.merge(cli_options_over_file_options))
+      end
+
+      def [](key)
+        @options[key]
+      end
+
+      def output_file(format)
+        if (file = @options[:output_file].find {|f| f =~ ext_for(format) })
+          File.open(file, "w")
+        end
+      end
+
+      private
+
+      def post_process(options)
         options[:input_file_pattern] = options.delete(:input_file) || "#{options.delete(:input_dir)}/**/*.feature"
         options[:root_dir] = options[:input_file_pattern].split(File::SEPARATOR).first
         options[:filter_args] = Cuporter::Config::CLI::FilterArgsBuilder.new(options.delete(:tags)).args
@@ -54,23 +98,7 @@ module Cuporter
         options
       end
 
-      def self.config_file(path)
-        return {} unless File.exists?(path)
-
-        require 'yaml'
-        pairs = {}
-        YAML.load_file(path).each do |key, value|
-          pairs[key.to_sym] = case value
-                              when /^true$/i
-                                true
-                              when /^false$/i
-                                false
-                              end || value
-        end
-        pairs
-      end
-
-      def self.full_path(path)
+      def full_path(path)
         expanded_path = File.expand_path(path)
         path_nodes = expanded_path.split(File::SEPARATOR)
         file = path_nodes.pop
@@ -78,29 +106,24 @@ module Cuporter
         expanded_path
       end
 
+      def ext_for(format)
+        case format
+        when 'text', 'pretty'
+          /\.txt$/
+        else
+          /\.#{format}$/
+        end
+      end
     end
   end
 
-  def self.html?
-    Config::Options[:format] == 'html'
-  end
-
-  def self.options
-    Config::Options.options
-  end
-
-  def self.ext_for(format)
-    case format
-    when 'text', 'pretty'
-      /\.txt$/
+  def self.option_sets
+    if (yaml_hashes = Config::OptionSetCollection.config_file).any?
+      yaml_hashes.map {|set| Config::OptionSet.new(set) }
     else
-      /\.#{format}$/
+      [Config::OptionSet.new]
     end
   end
 
-  def self.output_file(format)
-    if (file = options[:output_file].find {|f| f =~ ext_for(format) })
-      File.open(file, "w")
-    end
-  end
+
 end

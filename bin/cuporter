@@ -5,29 +5,73 @@ $LOAD_PATH.unshift File.expand_path('../lib', File.dirname(__FILE__))
 require 'configuration'
 require 'cuporter'
 
-report = Cuporter::ReportBase.create(Cuporter.options).build
+module Cuporter
 
-Cuporter.options[:format].each do |format|
-  (Cuporter.output_file(format) || STDOUT).puts case format
-  when 'xml'
-    report.doc.to_xml(:indent => 2, :encoding => 'UTF-8')
-  when 'csv'
-    report.doc.to_csv
-  when 'text', 'pretty'
-    report.doc.to_text
-  when 'html'
-    if Cuporter.options[:copy_public_assets]
-      Cuporter::Document::Assets.copy(Cuporter.options[:output_file].first)
+  #=Default:
+  # 
+  # Single tag report of everything under "features/", formatted as
+  # indented text, showing feature names, scenario names, tags, file names, as well as scenario totals and sequence numbers.
+  #
+  # Configuration:
+  # 
+  # Use the command line options and/or yaml file to turn off everything but
+  # the feature names, and also to supply filtering tags (cucumber
+  # syntax and logical rules).
+  #
+  #
+  # Split output:
+  # 
+  # Note that a given report can be sent to multiple output targets.  For
+  # example, html to a file and pretty text or xml to <tt>stdout</tt>.  Specify
+  # multiple output files, and Cuporter will associate each of their names with the correct
+  # format/output stream, but if you get the file extension wrong it will fall
+  # back on <tt>stdout</tt>.  The possible extensions are <tt>.txt</tt>,
+  # <tt>.xml</tt>, <tt>.html</tt>, and <tt>.csv</tt>.
+  #
+  #
+  # Batch reporting:
+  #
+  # Use the yaml file to specify options for as many reports or views as you
+  # like to produce at once.
+  def self.run
+    Cuporter.option_sets.each do |options|
+
+#     options.options.each do |key, value|
+#       puts "#{key.inspect} : #{value.inspect}"
+#     end
+#     puts
+
+      report = Cuporter::ReportBase.create(options).build
+
+      options[:format].each do |format|
+        (options.output_file(format) || STDOUT).puts case format
+      when 'xml'
+        report.doc.to_xml(:indent => 2, :encoding => 'UTF-8')
+      when 'csv'
+        Cuporter::Formatters::NodeFormatters.total = options[:total]
+        report.doc.to_csv
+      when 'text', 'pretty'
+        Cuporter::Formatters::NodeFormatters.total = options[:total]
+        Cuporter::Formatters::NodeFormatters.text_summary = options[:text_summary]
+        report.doc.to_text
+      when 'html'
+        if options[:copy_public_assets]
+          Cuporter::Document::Assets.copy(options[:output_file].first)
+        end
+        html = Cuporter::Document.new_html(options[:report],
+                                           options[:link_assets], 
+                                           options[:use_copied_public_assets])
+        formatters = File.expand_path("../lib/cuporter/formatters", File.dirname(__FILE__))
+        xslt = Nokogiri::XSLT(File.read("#{formatters}/xml_to_html.xslt"))
+        html.add_report(xslt.transform(report.doc).at('.report'))
+        html.to_html
+      end
     end
-    html = Cuporter::Document.new_html(Cuporter.options[:report],
-                                       Cuporter.options[:link_assets], 
-                                       Cuporter.options[:use_copied_public_assets])
-    formatters = File.expand_path("../lib/cuporter/formatters", File.dirname(__FILE__))
-    xslt = Nokogiri::XSLT(File.read("#{formatters}/xml_to_html.xslt"))
-    html.add_report(xslt.transform(report.doc).at('.report'))
-    html.to_html
+    end
   end
 end
+
+Cuporter.run
 
 __END__
 xsltproc --stringparam view feature lib/cuporter/formatters/xml_to_html.xslt new_feature.xml | ruby -e "f = STDIN.read; puts f.gsub(/\<\!--[\*\/]{2}--\>/, '')" | tee xslt_feature.html

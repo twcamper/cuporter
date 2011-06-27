@@ -1,7 +1,7 @@
 # Copyright 2011 ThoughtWorks, Inc. Licensed under the MIT License
 module Cuporter
   module Document
-    module Html
+    class Html < Nokogiri::XML::Document
       attr_accessor :view, :link_assets, :assets_src, :assets_base_path
       
       def assets_base_path

@@ -14,8 +14,16 @@ module Cuporter
     end
 
     module NodeFormatters
+      class << self
+        attr_accessor :total, :text_summary
+      end
+
+      def total_column_spacer
+        @@total_column_spacer ||= NodeFormatters.total ? tab_stop : ""
+      end
+
       def report(l, node)
-        return l unless Cuporter.options[:text_summary]
+        return l unless NodeFormatters.text_summary
         l += total(node)
         l += cuke_name(node['cuke_name'])
         l += title(node['title'])
@@ -89,19 +97,14 @@ module Cuporter
     module Text
       extend Util
       extend NodeFormatters
-      
 
       SPACER  = " "
       def tab_stop
         @@tab_stop ||= SPACER * 2
       end
 
-      def total_column_spacer
-        @@total_column_spacer ||= Cuporter.options[:total] ? tab_stop : ""
-      end
-
       def total_column
-        @@total_column ||= Cuporter.options[:total] ? tab_stop * 2: ""
+        @@total_column ||= NodeFormatters.total  ? tab_stop * 2: ""
       end
 
       def total(node)

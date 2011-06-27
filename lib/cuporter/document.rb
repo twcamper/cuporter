@@ -11,8 +11,7 @@ module Cuporter
     end
 
     def self.new_html(view, link_assets, use_copied_public_assets)
-      Nokogiri::XML::Document.send(:include, Cuporter::Document::Html)
-      doc =  Nokogiri::XML::Document.new
+      doc =  Cuporter::Document::Html.new
       doc.view = view
       doc.link_assets = link_assets
       doc.assets_src = Assets::PUBLIC_SOURCE_PATH

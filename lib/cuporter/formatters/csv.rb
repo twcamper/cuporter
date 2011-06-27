@@ -12,10 +12,6 @@ module Cuporter
         @@tab_stop ||= COMMA
       end
 
-      def total_column_spacer
-        @@total_column_spacer ||= Cuporter.options[:total] ? tab_stop : ""
-      end
-
       def total_column
         @@total_column ||= total_column_spacer
       end
