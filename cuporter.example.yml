@@ -1,4 +1,4 @@
-# use this file to run mulitple reports/views at once.
+# use a set of defaults like this to support primarily command line usage.
 ---
 defaults:  &base
   report: tree
@@ -6,39 +6,3 @@ defaults:  &base
   link_assets: true
   use_copied_public_assets: true
 
-option_sets:
-  - options:  &tag_report
-      <<: *base
-      report: tag
-      output_file: tmp/cucumber_tags.html
-      copy_public_assets: true
-
-  # 'split' the output stream to more than one formatter
-  # with no file name for the text format, we print to stdout, most likely on the console.
-  - options: &tree_split
-      <<: *base
-      format: [html, text]
-      output_file: tmp/active_tests.html
-      tags: [~@wip, ~@blocked]
-      number: false
-      title:  Active Scenarios
-
-  
-  - options: &inactive_split
-      <<: *base
-      format: [html, csv]
-      output_file: [tmp/inactive_tests.html, tmp/inactive_tests.csv]
-      tags: [@wip, @blocked]
-      input_dir: fixtures
-      title: Inactive Scenarios
-
-  - options: &tag_syntax_demo
-      <<: *base
-      format: text
-      tags:
-        - @all                # AND
-        - @of                 # AND
-        - @these              # AND
-        - "@one, @the_other"  # ( OR )
-  #   one line version: "@all AND @of AND @these AND (@one OR @the_other)"
-  #   tags: [@all, @of, @these, "@one, @or_the_other"]
