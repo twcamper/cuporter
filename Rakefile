@@ -65,7 +65,7 @@ namespace :cuporter do
 
   spec = Gem::Specification.new do |s|
     s.name = 'cuporter'
-    s.version = '0.3.9'
+    s.version = '0.3.10'
     s.rubyforge_project = s.name
 
     s.platform = Gem::Platform::RUBY
