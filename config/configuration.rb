@@ -52,6 +52,7 @@ module Cuporter
                    :link_assets              => false,
                    :copy_public_assets       => false,
                    :use_copied_public_assets => false,
+                   :dry_run                  => false,
                    :sort                     => true,
                    :number                   => true,
                    :total                    => true,
@@ -79,6 +80,17 @@ module Cuporter
         if (file = @options[:output_file].find {|f| f =~ ext_for(format) })
           File.open(file, "w")
         end
+      end
+
+      def dump
+        col_1_max = @options.keys.max_by {|i| i.to_s.length }.to_s.size
+        @options.each do |key, value|
+          puts ":#{key.to_s.ljust(col_1_max, ' ')} => #{value.inspect}"
+        end
+      end
+
+      def dry_run?
+        @options[:dry_run]
       end
 
       private

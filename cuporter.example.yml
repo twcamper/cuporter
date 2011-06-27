@@ -1,6 +1,6 @@
 # use a set of defaults like this to support primarily command line usage.
 ---
-defaults:  &base
+defaults:
   report: tree
   format: html
   link_assets: true

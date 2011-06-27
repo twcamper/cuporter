@@ -79,6 +79,27 @@ module Cuporter
               @options[:title] = title
             end
 
+            opts.on("--config-file PATH", %Q{Specify any of these options in a yml file.
+                                           Order of precedence:
+                                              1 - command line
+                                              2 - yaml file
+                                              3 - these defaults
+
+                                           Default: 'cuporter.yml'
+            }) do |path|
+              @options[:config_file] = path
+            end
+
+            opts.on("-d", "--dry-run", %Q{Print the configuration without running any reports.
+            }) do |d|
+              @options[:dry_run] = d
+            end
+
+            opts.on("--text-summary", %Q{Add a summary to the text format.
+            }) do |ts|
+              @options[:text_summary] = ts
+            end
+
             opts.separator "CSS and Javascript asset options:\n\n"
 
             opts.on("-l", "--link-assets", %Q{Do not inline CSS and js in <style/> and <script/> tags, but link to external files instead.
@@ -107,21 +128,6 @@ module Cuporter
                                            Default: 'false'
             }) do |u|
               @options[:use_copied_public_assets] = u
-            end
-
-            opts.on("--config-file PATH", %Q{Specify any of these options in a yml file.
-                                           Order of precedence:
-                                              1 - command line
-                                              2 - yaml file
-                                              3 - these defaults
-
-                                           Default: 'cuporter.yml'
-            }) do |path|
-              @options[:config_file] = path
-            end
-
-            opts.on("--text-summary", "Add a summary to the text format.\n") do |ts|
-              @options[:text_summary] = ts
             end
 
             opts.separator "Reporting options: on by default but can be turned off:\n\n"
