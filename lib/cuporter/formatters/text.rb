@@ -18,10 +18,6 @@ module Cuporter
         attr_accessor :total, :text_summary
       end
 
-      def total_column_spacer
-        @@total_column_spacer ||= NodeFormatters.total ? tab_stop : ""
-      end
-
       def report(l, node)
         return l unless NodeFormatters.text_summary
         l += total(node)
@@ -101,6 +97,10 @@ module Cuporter
       SPACER  = " "
       def tab_stop
         @@tab_stop ||= SPACER * 2
+      end
+
+      def total_column_spacer
+        @@total_column_spacer ||= NodeFormatters.total ? tab_stop : ""
       end
 
       def total_column
