@@ -74,9 +74,7 @@ module Cuporter
   end
 end
 
-if __FILE__ == $0
-  Cuporter.run
-end
+Cuporter.run
 
 __END__
 xsltproc --stringparam view feature lib/cuporter/formatters/xml_to_html.xslt new_feature.xml | ruby -e "f = STDIN.read; puts f.gsub(/\<\!--[\*\/]{2}--\>/, '')" | tee xslt_feature.html
