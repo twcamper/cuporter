@@ -66,3 +66,22 @@ end
 When /I read file "([^\"]+)"$/ do |path|
   @output = File.read(path)
 end
+
+Then /^file "([^"]*)" should not exist$/ do |file_path|
+  File.exist?(file_path).should be_false
+end
+
+Then /^file "([^"]*)" should exist$/ do |file_path|
+  File.exist?(file_path).should be_true
+  @output = File.read(file_path).strip
+end
+
+Then /^it should have "([^"]*)" nodes$/ do |css|
+  our_nodes = Nokogiri.HTML(@output).search(css)
+  our_nodes.should_not be_empty
+end
+
+Then /^it should end with "([^\"]+)"$/ do |expected_tail|
+  @output.should =~ /#{expected_tail}$/
+end
+
