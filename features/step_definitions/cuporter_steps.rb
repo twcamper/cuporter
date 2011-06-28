@@ -81,7 +81,7 @@ Then /^it should have "([^"]*)" nodes$/ do |css|
   our_nodes.should_not be_empty
 end
 
-Then /^it should end with "([^\"]+)"$/ do |expected_tail|
+Then /^(?:it|the output) should end with "([^\"]+)"$/ do |expected_tail|
   @output.should =~ /#{expected_tail}$/
 end
 
