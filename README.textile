@@ -25,9 +25,25 @@ h3. 4 Output Formats
 # pretty-print text
 # csv
 
+Splitting the output among multiple formats is supported, so you could run a single report and write it 
+to an html file, a csv file, and show the xml or text on @stdout@ in the terminal.
+
 h3. A bunch of configuration options
 
-See the help output below.
+See the help output below for all of the options, which can be supplied in to ways:
+
+# Command Line
+# Yaml File
+** use it to add to or override the program defaults
+** *Batch mode:* run multiple reports at once simply by specifying an option set for each in @cuporter.yml@
+** the file name itself is a configurable option
+** See the samples.
+
+h4. option override precedence
+
+# Highest Precedence (overrides all): command line
+# Middle Precedence: yaml file
+# Lowest Precedence: @Cuporter::Config::OptionSet::DEFAULTS@
 
 ---------
 
@@ -113,73 +129,77 @@ h4. help
 
 <pre>
   $ cuporter -h
-
-Usage: cuporter [options]
-
-    -r, --report [tag|feature|tree]  View, or type of report.
-                                         Default: "tag"
-          
-    -f, --format [xml|html|csv|text] Output format.
-                                         Default: text (it's pretty, though!)
-          
-    -i, --input-dir DIR              Root directory of *.feature files.
-                                         Default: "features"
-     
-                                         Used to build the glob pattern '[--input-dir]/**/*.feature', which is really most likely
-                                         "features/**/*.features" and finds all feature files anywhere under "features" or
-                                         your custom root supplied with this option.
-                                         Overridden by "--file-input'.
-          
-    -I, --file-input FILE            Single *.feature file.  Full name with extension, like 'path/to/file.feature.'
-                                         Overrides "--input-dir" and used mostly for testing.
-          
-    -o, --output-file FILE           Output file path, like 'tmp/cucumber/tag_report.html'.
-          
-    -t, --tags TAG_EXPRESSION        Filter on tags for name report.
-                                         TAG_EXPRESSION rules:
-                                             1. $ cucumber --help
-                                             2. http://github.com/aslakhellesoy/cucumber/wiki/Tags
-          
-    -T, --title STRING               Override report default title, which is different for each view/report.
-                                         This affects the xml 'report' node title and the html head > title attributes.
-          
-CSS and Javascript asset options:
-
-    -l, --link-assets                Do not inline CSS and js in <style/> and <script/> tags, but link to external files instead.
-                                           Default:  'false' for the tag and feature views, not optional for the
-                                                     tree view, which requires external gifs.
-          
-    -c, --copy-public-assets         If --output-file is supplied, and you're linking to external 
-                                           CSS and JavaScript assets, copy them from 'public/' to 'cuporter_public'
-                                           in the same dir as the output file.
-                                           Sets --use-copied-public-assets to 'true', and
-                                           the html report will link to these files by relative path.
-
-                                           Default: 'false'
-          
-    -u, --use-copied-public-assets   When running batches of reports, and the assets folder has already been
-                                           created by another call to cuporter with '--copy-public-assets'.
-                                           Set to 'true' automatically along with --copy-public-assets.
-
-                                           Default: 'false'
-          
-        --config-file PATH           Specify any of these options in a yml file.
-                                           Order of precedence:
-                                              1 - command line
-                                              2 - yaml file
-                                              3 - these defaults
-
-                                           Default: 'cuporter.yml'
-          
-Reporting options: on by default but can be turned off:
-
-        --no-sort                    Do not sort tags, features, scenarios, or outlines
-        --no-number                  Do not get or show scenario or example numbers, (i.e., do not number the leaf nodes).
-        --no-total                   Do not get or show totals
-        --no-show-tags               Do not show cucumber tags at the feature, scenario, or outline level.
-        --no-show-files              Do not show feature file paths.
-        --no-leaves                  Show features only, with no scenarios or outlines.
-
+  
+  Usage: cuporter [options]
+  
+      -r, --report [tag|feature|tree]  View, or type of report.
+                                           Default: "tag"
+  
+      -f, --format [xml|html|csv|text] Output format.
+                                           Default: text (it's pretty, though!)
+              
+      -i, --input-dir DIR              Root directory of *.feature files.
+                                           Default: "features"
+  
+                                           Used to build the glob pattern '[--input-dir]/**/*.feature', which is really most likely
+                                           "features/**/*.features" and finds all feature files anywhere under "features" or
+                                           your custom root supplied with this option.
+                                           Overridden by "--file-input'.
+              
+      -I, --file-input FILE            Single *.feature file.  Full name with extension, like 'path/to/file.feature.'
+                                           Overrides "--input-dir" and used mostly for testing.
+              
+      -o, --output-file FILE           Output file path, like 'tmp/cucumber/tag_report.html'.
+              
+      -t, --tags TAG_EXPRESSION        Filter on tags for name report.
+                                           TAG_EXPRESSION rules:
+                                               1. $ cucumber --help
+                                               2. http://github.com/aslakhellesoy/cucumber/wiki/Tags
+              
+      -T, --title STRING               Override report default title, which is different for each view/report.
+                                           This affects the xml 'report' node title and the html head > title attributes.
+              
+          --config-file PATH           Specify any of these options in a yml file.
+                                             Order of precedence:
+                                                1 - command line
+                                                2 - yaml file
+                                                3 - these defaults
+  
+                                             Default: 'cuporter.yml'
+              
+      -d, --dry-run                    Print the configuration without running any reports.
+              
+          --text-summary               Add a summary to the text format.
+              
+  CSS and Javascript asset options:
+  
+      -l, --link-assets                Do not inline CSS and js in <style/> and <script/> tags, but link to external files instead.
+                                             Default:  'false' for the tag and feature views, not optional for the
+                                                       tree view, which requires external gifs.
+              
+      -c, --copy-public-assets         If --output-file is supplied, and you're linking to external 
+                                             CSS and JavaScript assets, copy them from 'public/' to 'cuporter_public'
+                                             in the same dir as the output file.
+                                             Sets --use-copied-public-assets to 'true', and
+                                             the html report will link to these files by relative path.
+  
+                                             Default: 'false'
+              
+      -u, --use-copied-public-assets   When running batches of reports, and the assets folder has already been
+                                             created by another call to cuporter with '--copy-public-assets'.
+                                             Set to 'true' automatically along with --copy-public-assets.
+  
+                                             Default: 'false'
+              
+  Reporting options: on by default but can be turned off:
+  
+          --no-sort                    Do not sort tags, features, scenarios, or outlines
+          --no-number                  Do not get or show scenario or example numbers, (i.e., do not number the leaf nodes).
+          --no-total                   Do not get or show totals
+          --no-show-tags               Do not show cucumber tags at the feature, scenario, or outline level.
+          --no-show-files              Do not show feature file paths.
+          --no-leaves                  Show features only, with no scenarios or outlines.
+  
 </pre>
 
 h4. Examples
