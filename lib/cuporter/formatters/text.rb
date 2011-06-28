@@ -103,13 +103,9 @@ module Cuporter
         @@total_column_spacer ||= NodeFormatters.total ? tab_stop : ""
       end
 
-      def total_column
-        @@total_column ||= NodeFormatters.total  ? tab_stop * 2: ""
-      end
-
       def total(node)
         format_number(node, 'total') do |indent_length, value|
-          "[#{value}]".ljust(total_column.size, SPACER)
+          "[#{value}]".ljust(indent_length, SPACER)
         end
       end
 
