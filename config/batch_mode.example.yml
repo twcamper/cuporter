@@ -6,12 +6,13 @@ defaults:  &base
   format: html
   link_assets: true
   use_copied_public_assets: true
+  output_home: tmp
 
 option_sets:
   - options:  &tag_report
       <<: *base
       report: tag
-      output_file: tmp/cucumber_tags.html
+      output_file: cucumber_tags.html
       copy_public_assets: true
 
   # 'split' the output stream to more than one formatter
@@ -19,7 +20,7 @@ option_sets:
   - options: &tree_split
       <<: *base
       format: [html, text]
-      output_file: tmp/active_tests.html
+      output_file: active_tests.html
       tags: [~@wip, ~@blocked]
       number: false
       title:  Active Scenarios
@@ -28,7 +29,7 @@ option_sets:
   - options: &inactive_split
       <<: *base
       format: [html, csv]
-      output_file: [tmp/inactive_tests.html, tmp/inactive_tests.csv]
+      output_file: [inactive_tests.html, inactive_tests.csv]
       tags: [@wip, @blocked]
       input_dir: fixtures
       title: Inactive Scenarios

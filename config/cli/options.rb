@@ -41,13 +41,13 @@ module Cuporter
               @options[:format] << f
             end
 
-            opts.on("-i", "--input-dir DIR", %Q{Root directory of *.feature files.
+            opts.on("-i", "--input-dir DIR", %Q{Root directory of *.feature files to be read.
                                          Default: "features"
 
                                          Used to build the glob pattern '[--input-dir]/**/*.feature', which is really most likely
                                          "features/**/*.features" and finds all feature files anywhere under "features" or
                                          your custom root supplied with this option.
-                                         Overridden by "--file-input'.
+                                         Overridden by "--file-input".
             }) do |i|
               @options[:input_dir] = i.sub(/#{File::SEPARATOR}$/,'')
             end
@@ -56,6 +56,15 @@ module Cuporter
                                          Overrides "--input-dir" and used mostly for testing.
             }) do |file|
               @options[:input_file] = file
+            end
+
+            opts.on("-H", "--output-home PATH", %Q{Root directory for the output files, like 'tmp/cucumber'.
+                                         Optional, because the path can also be specified along with the 
+                                         file name in "--output-file"
+
+                                         Default: ""
+            }) do |h|
+              @options[:output_home] = h
             end
 
             opts.on("-o", "--output-file FILE", %Q{Output file path, like 'tmp/cucumber/tag_report.html'.
@@ -85,7 +94,7 @@ module Cuporter
                                               2 - yaml file
                                               3 - these defaults
 
-                                           Default: 'cuporter.yml'
+                                           Default: 'config/cuporter.yml'
             }) do |path|
               @options[:config_file] = path
             end

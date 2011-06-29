@@ -48,6 +48,7 @@ module Cuporter
                    :format                   => ["text"],
                    :input_dir                => "features",
                    :output_file              => [],
+                   :output_home              => "",
                    :tags                     => [],
                    :link_assets              => false,
                    :copy_public_assets       => false,
@@ -100,7 +101,7 @@ module Cuporter
         options[:root_dir] = options[:input_file_pattern].split(File::SEPARATOR).first
         options[:filter_args] = Cuporter::Config::CLI::FilterArgsBuilder.new(options.delete(:tags)).args
         options[:output_file].each_with_index do |file_path, i|
-          options[:output_file][i] = full_path(file_path.dup)
+          options[:output_file][i] = full_path(options[:output_home], file_path.dup )
         end
 
         unless options[:output_file].find {|f| f =~ /\.html$/ }
@@ -110,7 +111,8 @@ module Cuporter
         options
       end
 
-      def full_path(path)
+      def full_path(root_dir, file_path)
+        path = root_dir.empty? ? file_path : File.join(root_dir, file_path)
         expanded_path = File.expand_path(path)
         path_nodes = expanded_path.split(File::SEPARATOR)
         file = path_nodes.pop
