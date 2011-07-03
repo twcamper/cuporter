@@ -6,9 +6,9 @@ require 'rake/gempackagetask'
 
 task :default do
   Rake::Task["cuporter:load_test:safe_nokogiri"].invoke  # MUST RUN THIS FIRST
-  Rake.application.tasks_in_scope(["cuporter:test"]).each do |t|
-    t.invoke
-  end
+  Rake::Task["cuporter:test:unit"].invoke
+  Rake::Task["cuporter:test:functional"].invoke
+  Rake::Task["cuporter:test:cucumber"].invoke
 end
 
 namespace :cuporter do
@@ -47,7 +47,7 @@ namespace :cuporter do
 
     desc "cucumber features"
     task :cucumber do
-      sh "cucumber"
+      sh "cucumber --quiet"
     end
   end
 
@@ -65,7 +65,7 @@ namespace :cuporter do
 
   spec = Gem::Specification.new do |s|
     s.name = 'cuporter'
-    s.version = '0.3.10'
+    s.version = '0.3.11'
     s.rubyforge_project = s.name
 
     s.platform = Gem::Platform::RUBY
@@ -79,6 +79,7 @@ namespace :cuporter do
     s.homepage = 'http://github.com/twcamper/cuporter'
     s.required_ruby_version = '>= 1.8.6'
     s.add_dependency('nokogiri', '>= 1.4.1')
+    s.add_dependency('gherkin', '>= 1.0.0')
     s.default_executable = "cuporter"
     s.executables = [s.default_executable]
 
