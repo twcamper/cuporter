@@ -4,7 +4,7 @@ module Cuporter
   module Node
     describe NodeBase do
       def doc
-        @doc ||= Nokogiri::XML::Document.new
+        @doc ||= Cuporter::Document.new_xml
       end
       def new_node(node_name)
         NodeBase.new(node_name, doc)

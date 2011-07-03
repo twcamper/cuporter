@@ -3,7 +3,7 @@ require 'spec_helper'
 module Cuporter
   module Node
     describe NodeBase do
-      let(:doc) {Nokogiri::XML::Document.new}
+      let(:doc) {Cuporter::Document.new_xml}
       context 'new node' do
         let(:node) {NodeBase.new("name", doc)}
         it 'has a name' do
