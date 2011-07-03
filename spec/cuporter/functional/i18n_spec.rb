@@ -40,13 +40,13 @@ EOF
         it "returns a Norwegian tag report" do
           report = one_feature("fixtures/i18n/no.feature")
           report.should == <<EOF
-@i18n
-  Egenskap: Summering
-    Scenario: to tall
-    Scenario: tre tall
-@wip
-  Egenskap: Summering
-    Scenario: tre tall
+  @i18n
+    Egenskap: Summering
+      Scenario: to tall
+      Scenario: tre tall
+  @wip
+    Egenskap: Summering
+      Scenario: tre tall
 EOF
         end
       end

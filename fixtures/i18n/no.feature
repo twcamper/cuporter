@@ -10,10 +10,10 @@ Egenskap: Summering
     Når jeg summerer
     Så skal resultatet være 12
 
+  @wip
   Scenario: tre tall
     Gitt at jeg har tastet inn 5
     Og at jeg har tastet inn 7
     Og at jeg har tastet inn 1
     Når jeg summerer
     Så skal resultatet være 13
-
