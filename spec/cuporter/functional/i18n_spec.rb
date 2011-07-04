@@ -5,6 +5,15 @@ module Cuporter
     let(:file)  {"file.feature"}
     let(:doc)   {Cuporter::Document.new_xml}
 
+    context "installed gherkin" do
+      it "language line pattern matches all iso codes from gherkin" do
+        require 'gherkin/i18n'
+        installed_iso_codes = Gherkin::I18n::LANGUAGES.keys
+        installed_iso_codes.each do |iso_code|
+          Cuporter::FeatureParser::Language::LANGUAGE_LINE.should =~ "# language: #{iso_code}"
+        end
+      end
+    end
     context "Specify an iso-code in a language header" do
 
       context "en" do
@@ -25,12 +34,7 @@ EOF
         end
         it "does not raise an error" do
           expect do
-            begin
-            feature = FeatureParser.node(file, doc, Filter.new, '.')
-            rescue Exception => ex
-              puts ex.backtrace
-              raise ex
-            end
+              FeatureParser.node(file, doc, Filter.new, '.')
             end.to_not raise_error
         end
       end
@@ -42,8 +46,22 @@ EOF
           report.should == <<EOF
   @i18n
     Egenskap: Summering
+      Abstrakt Scenario: eep oop ap
+        Eksempler:  wee wee wee
+          | oop | nerf |
+          | nnn | mmm  |
+          | lok | frey |
+          | drf | mmm  |
       Scenario: to tall
       Scenario: tre tall
+  @troll
+    Egenskap: Summering
+      Abstrakt Scenario: eep oop ap
+        Eksempler:  wee wee wee
+          | oop | nerf |
+          | nnn | mmm  |
+          | lok | frey |
+          | drf | mmm  |
   @wip
     Egenskap: Summering
       Scenario: tre tall
