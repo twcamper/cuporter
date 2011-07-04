@@ -9,30 +9,31 @@ module Cuporter
       end
 
       def feature_pattern
-        pattern('feature')
+        @feature_pattern ||= pattern_for('feature')
       end
       alias :feature_line :feature_pattern
 
       def scenario_pattern
-        pattern('scenario')
+        @scenario_pattern ||= pattern_for('scenario')
       end
       alias :scenario_line :scenario_pattern
 
       def scenario_outline_pattern
-        pattern('scenario_outline')
+        @scenario_outline_pattern ||= pattern_for('scenario_outline')
       end
       alias :scenario_outline_line :scenario_outline_pattern
 
       def examples_pattern
-        pattern('examples')
+        @examples_pattern ||= pattern_for('examples')
       end
       alias :examples_line :examples_pattern
 
+
       private
-      def pattern(keyword)
+
+      def pattern_for(keyword)
         /^\s*((#{Gherkin::I18n::LANGUAGES[@iso_code][keyword]}):[^#]*)/u
       end
-
       
       LANGUAGE_LINE = /^\s*#\s*language:\s*([\w-]+)/u
     end
