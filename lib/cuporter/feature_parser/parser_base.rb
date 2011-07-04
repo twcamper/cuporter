@@ -11,7 +11,7 @@ module Cuporter
         @file = file
         @current_tags = []
         @lines = File.read(@file).split(/\n/)
-        @lang  = Language.new(@lines.first)# =~ LANGUAGE_LINE ? $1 : 'en'
+        @lang  = Language.new(@lines.first)
       end
       attr_reader :lang
       attr_writer :root
