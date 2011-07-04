@@ -1,4 +1,4 @@
-Feature: Depth of Four (I am down here!)
+Feature: Depth of Four (I am DOWN here!)
 
   Scenario: testing this
     Given oh

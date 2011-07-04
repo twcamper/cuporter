@@ -3,7 +3,7 @@
       TWO
         THREE
           DEPTH_OF_FOUR.FEATURE
-            Feature: Depth of Four (I am down here!)
+            Feature: Depth of Four (I am DOWN here!)
               Scenario: testing that
               Scenario: testing the other
               Scenario: testing this
