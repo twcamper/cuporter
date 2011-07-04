@@ -28,9 +28,9 @@ h3. 4 Output Formats
 Splitting the output among multiple formats is supported, so you could run a single report and write it 
 to an html file, a csv file, and show the xml or text on @stdout@ in the terminal.
 
-h3. Dozens of Languages
+h3. i18n: Dozens of Languages
 
-Whatever spoken language your installed of version "Gherkin":http://github.com/cucumber/gherkin supports.  @gherkin/i18n.yml@ currently lists about 45.  As in Cucumber itself, @en@ is the default, overridden in the presence of @#language: <iso-code>@ on line 1 of the feature file.
+Internationalization through the "gherkin":http://github.com/cucumber/gherkin lanugage file (@i18n.yml@).  Following "cucumber's":http://github.com/cucumber/cucumber/wiki/Spoken-languages rules, non-English keywords will be used for any feature file with a '@# language: <iso-code>@' header on line 1,
 
 h3. A Bunch of Configuration Options
 
