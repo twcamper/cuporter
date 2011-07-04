@@ -158,6 +158,11 @@ h4. help
                                          file name in "--output-file"
 
                                          Default: ""
+
+        --log-dir PATH               Home directory for the error log 'cuporter_errors.log'.
+
+                                         Default: "." if no report output file is specified, else same as output file dir.
+
             
     -o, --output-file FILE           Output file path, like 'tmp/cucumber/tag_report.html'.
             

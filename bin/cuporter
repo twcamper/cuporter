@@ -42,6 +42,8 @@ module Cuporter
         next
       end
 
+      Cuporter::Logging.output_home = options[:log_dir]
+
       report = Cuporter::ReportBase.create(options).build
 
       options[:format].each do |format|

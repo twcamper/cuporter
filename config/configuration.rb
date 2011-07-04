@@ -21,6 +21,7 @@ module Cuporter
                  :input_dir                => "features",
                  :output_file              => [],
                  :output_home              => "",
+                 :log_dir                  => ".",
                  :tags                     => [],
                  :link_assets              => false,
                  :copy_public_assets       => false,

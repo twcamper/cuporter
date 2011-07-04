@@ -1,10 +1,10 @@
 # Copyright 2011 ThoughtWorks, Inc. Licensed under the MIT License
-require 'lib/cuporter/node/sorting'
-require 'lib/cuporter/node/totalling'
-require 'lib/cuporter/node/numbering'
-require 'lib/cuporter/node/node_base'
-require 'lib/cuporter/node/tagged_node'
+require 'cuporter/node/sorting'
+require 'cuporter/node/totalling'
+require 'cuporter/node/numbering'
+require 'cuporter/node/node_base'
+require 'cuporter/node/tagged_node'
 
 require 'rubygems'
 require 'nokogiri'
-require 'lib/cuporter/node/types'
+require 'cuporter/node/types'

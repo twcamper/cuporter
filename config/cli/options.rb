@@ -67,6 +67,13 @@ module Cuporter
               @options[:output_home] = h
             end
 
+            opts.on("--log-dir PATH", %Q{Root directory for the error log 'cuporter_errors.log'.
+
+                                         Default: "." if no report output file is specified, else same as output file dir.
+            }) do |d|
+              @options[:log_dir] = d
+            end
+
             opts.on("-o", "--output-file FILE", %Q{Output file path, like 'tmp/cucumber/tag_report.html'.
             }) do |o|
               @options[:output_file] = [] unless @options[:output_file]

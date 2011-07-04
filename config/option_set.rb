@@ -50,6 +50,9 @@ module Cuporter
           options[:copy_public_assets] = options[:use_copied_public_assets] = false
         end
 
+        unless options[:output_file].empty?
+          options[:log_dir] = File.dirname(options[:output_file].first)
+        end
         options
       end
 

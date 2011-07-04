@@ -21,9 +21,22 @@ module Cuporter
       end
    
       def parse_feature
+        begin
+          handle_lines
+        rescue Exception => ex
+           Cuporter.log_error(ex, "Error parsing file", "at line #{@line_no}:", @file, 
+                             %Q{\n\tIf this file can be run by Cucumber with no Gherkin lexing or parsing errors,
+           please submit a bug ticket @ github including: 1) this feature file or its contents, and 2) this stack trace.
+                             })
+        end
+        return @feature
+      end
+
+      def handle_lines
         @open_comment_block = false
    
-        @lines.each do |line|
+        @lines.each_with_index do |line, i|
+          @line_no = i + 1
           next if @open_comment_block && line !~ PY_STRING_LINE
    
           case line
@@ -61,7 +74,6 @@ module Cuporter
    
         # EOF is the final way that we know we are finished with a "Scenario Outline"
         close_scenario_outline
-        return @feature
       end
    
       def clean_cuke_line(sub_expression)

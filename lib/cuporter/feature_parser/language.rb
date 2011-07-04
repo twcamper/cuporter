@@ -8,7 +8,7 @@ rescue LoadError => ex
          "#{ex.class}: #{ex.message}"
          "#{ex.backtrace.join("\n\t\t")}"
   }
-  require 'lib/cuporter/feature_parser/old_gherkin_yaml/i18n'
+  require 'cuporter/feature_parser/old_gherkin_yaml/i18n'
 end
 
 module Cuporter
