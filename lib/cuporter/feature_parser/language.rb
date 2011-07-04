@@ -4,30 +4,15 @@ module Cuporter
   module FeatureParser
     class Language
 
+      attr_reader :feature_line, :scenario_line, :scenario_outline_line, :examples_line
+
       def initialize(line_1)
         @iso_code = line_1.to_s =~ LANGUAGE_LINE ? $1 : 'en'
+        @feature_line          = pattern_for('feature')
+        @scenario_line         = pattern_for('scenario')
+        @scenario_outline_line = pattern_for('scenario_outline')
+        @examples_line         = pattern_for('examples')
       end
-
-      def feature_pattern
-        @feature_pattern ||= pattern_for('feature')
-      end
-      alias :feature_line :feature_pattern
-
-      def scenario_pattern
-        @scenario_pattern ||= pattern_for('scenario')
-      end
-      alias :scenario_line :scenario_pattern
-
-      def scenario_outline_pattern
-        @scenario_outline_pattern ||= pattern_for('scenario_outline')
-      end
-      alias :scenario_outline_line :scenario_outline_pattern
-
-      def examples_pattern
-        @examples_pattern ||= pattern_for('examples')
-      end
-      alias :examples_line :examples_pattern
-
 
       private
 
