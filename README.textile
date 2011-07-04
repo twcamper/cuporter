@@ -1,6 +1,6 @@
 h1. Cuporter
 
-h3. A Cucumber Reporter
+h3. A "Cucumber":http://github.com/cucumber/cucumber Reporter
 
 Scrapes your feature files to show test counts and tag relationships.
 
@@ -28,9 +28,13 @@ h3. 4 Output Formats
 Splitting the output among multiple formats is supported, so you could run a single report and write it 
 to an html file, a csv file, and show the xml or text on @stdout@ in the terminal.
 
-h3. A bunch of configuration options
+h3. Dozens of Languages
 
-See the help output below for all of the options, which can be supplied in to ways:
+Whatever spoken language your installed of version "Gherkin":http://github.com/cucumber/gherkin supports.  @gherkin/i18n.yml@ currently lists about 45.  As in Cucumber itself, @en@ is the default, overridden in the presence of @#language: <iso-code>@ on line 1 of the feature file.
+
+h3. A Bunch of Configuration Options
+
+See the help output below for all of the options, which can be supplied in two ways:
 
 # Command Line
 # Yaml File
@@ -238,6 +242,8 @@ h3. Dependencies
 can at times present installation difficulties in the form of clashes with already-installed C resources.  It has to do with very specific
 lib versioning and installation order issues.  It's not always the same problem,
 so there's no prescription for it but Google, unfortunately.
+# Gherkin 1.0.0 or above
+** For looking up keywords @Feature@, @Scenario@, @Scenario Outline@, and @Examples@ by ISO language code.
 # jQuery and jQueryTreeview
 ** packaged with the gem
 ** jquery.treeview relies on image files, so our tree view requires the HTML to link to its resources rather than copying them to the &lt;head&gt;.

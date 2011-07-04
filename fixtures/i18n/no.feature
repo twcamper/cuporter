@@ -10,6 +10,18 @@ Egenskap: Summering
     Når jeg summerer
     Så skal resultatet være 12
 
+  @troll
+  Abstrakt Scenario: eep oop ap
+    Gitt at <oop> har tastet in <nerf>
+    Og at jeg har tastet inn 7
+    Når jeg summerer
+    
+    Eksempler:  wee wee wee
+      | oop | nerf |
+      | nnn | mmm  |
+      | lok | frey |
+      | drf | mmm  |
+
   @wip
   Scenario: tre tall
     Gitt at jeg har tastet inn 5
