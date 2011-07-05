@@ -22,7 +22,7 @@ module Cuporter
     end
 
     def error_log_file
-      File.open(File.join(output_home, 'cuporter_errors.log'), 'a')
+      File.open(File.join(output_home || '.', 'cuporter_errors.log'), 'a')
     end
 
     extend(Cuporter::Logging)

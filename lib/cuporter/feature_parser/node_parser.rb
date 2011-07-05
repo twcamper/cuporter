@@ -53,6 +53,11 @@ module Cuporter
         end
       end
 
+      def handle_eof
+        # EOF is the final way that we know we are finished with a "Scenario Outline"
+        close_scenario_outline
+      end
+
       def initialize(file, doc, filter)
         super(file)
         @filter = filter

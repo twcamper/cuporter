@@ -43,6 +43,22 @@ module Cuporter
         end
       end
 
+
+      def handle_eof
+        # EOF is the final way that we know we are finished with a "Scenario Outline"
+        close_scenario_outline
+        handle_tagless_feature if @filter.empty?
+      end
+
+      def handle_tagless_feature
+        if @feature && !@report.feature_node(@feature)
+          unless ( t = @report.tag_node('@TAGLESS'))
+            t = @report.add_child(Node.new_node(:tag, @doc, 'cuke_name' => '@TAGLESS'))
+          end
+          t.add_child(Node.new_node(:Feature, @doc, @feature))
+        end
+      end
+
       def close_scenario_outline
         if @scenario_outline
           if @example_set

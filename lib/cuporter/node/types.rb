@@ -3,7 +3,16 @@ module Cuporter
   module Node
     NodeBase = Nokogiri::XML::Node
     module Types
+
+      module FeatureNodeFinder
+        def feature_node(feature)
+          at("feature[cuke_name='#{feature[:cuke_name]}'][file_path='#{feature[:file_path]}']")
+        end
+      end
+
       class Report < NodeBase
+        include FeatureNodeFinder
+
         def tag_node(tag)
           at("tag[cuke_name='#{tag}']")
         end
@@ -20,6 +29,11 @@ module Cuporter
 
         def remove_tags!
           search("*[@tags]").each {|e| e.delete('tags') }
+        end
+
+        def move_tagless_node_to_bottom
+          tagless = at("tag[cuke_name='@TAGLESS']")
+          add_child(tagless.remove) if tagless
         end
       end
 
@@ -70,9 +84,7 @@ module Cuporter
       end
 
       class Tag < NodeBase
-        def feature_node(feature)
-          at("feature[cuke_name='#{feature[:cuke_name]}'][file_path='#{feature[:file_path]}']")
-        end
+        include FeatureNodeFinder
       end
 
       class ScenarioOutline < NodeBase

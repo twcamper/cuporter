@@ -2,6 +2,10 @@
 module Cuporter
   class TagReport < ReportBase
 
+    def tagless_node
+      @tagless_node ||= Node.new_node(:tag, doc, 'cuke_name' => 'TAGLESS')
+    end
+
     def build_report_node
       files.each do |file|
         FeatureParser.tag_nodes(file, report, @filter, root_dir)
@@ -26,6 +30,7 @@ module Cuporter
       report.sort_all_descendants!                             if sort?
       report.search(:tag).each {|f| f.number_all_descendants } if number?
       report.total                                             if total?
+      report.move_tagless_node_to_bottom
       report.defoliate!                                        if no_leaves?
       report.remove_files!                                     unless show_files?
       report.remove_tags!                                      unless show_tags?

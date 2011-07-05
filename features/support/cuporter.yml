@@ -1,0 +1,7 @@
+---
+defaults:
+  number: false
+  total: false
+  show_files: false
+  show_tags: false
+  input_dir: fixtures/self_test

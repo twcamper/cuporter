@@ -10,3 +10,6 @@
         DEPTH_OF_THREE.FEATURE
           Feature: Depth of Three
             Scenario: I am in two
+      TAGGED.FEATURE
+        Feature: Depth of Not Much
+          Scenario: I am in one

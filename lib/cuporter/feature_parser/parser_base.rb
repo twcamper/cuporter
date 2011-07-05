@@ -71,9 +71,9 @@ module Cuporter
             new_example_line(clean_cuke_line($1))
           end
         end
-   
+        
         # EOF is the final way that we know we are finished with a "Scenario Outline"
-        close_scenario_outline
+        handle_eof
       end
    
       def clean_cuke_line(sub_expression)
