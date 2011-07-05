@@ -52,8 +52,8 @@ module Cuporter
 
       def handle_tagless_feature
         if @feature && !@report.feature_node(@feature)
-          unless ( t = @report.tag_node('@TAGLESS'))
-            t = @report.add_child(Node.new_node(:tag, @doc, 'cuke_name' => '@TAGLESS'))
+          unless ( t = @report.tag_node(@report.class::TAGLESS))
+            t = @report.add_child(Node.new_node(:tag, @doc, 'cuke_name' => @report.class::TAGLESS))
           end
           t.add_child(Node.new_node(:Feature, @doc, @feature))
         end

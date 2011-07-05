@@ -31,8 +31,10 @@ module Cuporter
           search("*[@tags]").each {|e| e.delete('tags') }
         end
 
+        TAGLESS = "Untagged Features"
+
         def move_tagless_node_to_bottom
-          tagless = at("tag[cuke_name='@TAGLESS']")
+          tagless = at("tag[cuke_name='#{TAGLESS}']")
           add_child(tagless.remove) if tagless
         end
       end

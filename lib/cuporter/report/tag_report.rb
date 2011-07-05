@@ -2,10 +2,6 @@
 module Cuporter
   class TagReport < ReportBase
 
-    def tagless_node
-      @tagless_node ||= Node.new_node(:tag, doc, 'cuke_name' => 'TAGLESS')
-    end
-
     def build_report_node
       files.each do |file|
         FeatureParser.tag_nodes(file, report, @filter, root_dir)
