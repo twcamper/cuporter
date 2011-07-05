@@ -1,4 +1,4 @@
-# Copyright 2010 ThoughtWorks, Inc. Licensed under the MIT License
+# Copyright 2011 ThoughtWorks, Inc. Licensed under the MIT License
 
 module Cuporter
   module FeatureParser
@@ -24,7 +24,8 @@ module Cuporter
         begin
           handle_lines
         rescue Exception => ex
-           Cuporter.log_error(ex, "Error parsing file", "at line #{@line_no}:", @file, 
+          raise if ENV['CUPORTER_MODE'] =~ /^test$/i
+          Cuporter.log_error(ex, "Error parsing file", "at line #{@line_no}:", @file, 
                              %Q{\n\tIf this file can be run by Cucumber with no Gherkin lexing or parsing errors,
            please submit a bug ticket @ github including: 1) this feature file or its contents, and 2) this stack trace.
                              })
