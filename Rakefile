@@ -65,7 +65,7 @@ namespace :cuporter do
 
   spec = Gem::Specification.new do |s|
     s.name = 'cuporter'
-    s.version = '0.3.13'
+    s.version = '0.3.14'
     s.rubyforge_project = s.name
 
     s.platform = Gem::Platform::RUBY
@@ -80,8 +80,7 @@ namespace :cuporter do
     s.required_ruby_version = '>= 1.8.6'
     s.add_dependency('nokogiri', '>= 1.4.1')
     s.add_dependency('gherkin', '>= 1.0.0')
-    s.default_executable = "cuporter"
-    s.executables = [s.default_executable]
+    s.executables = ["cuporter"]
 
     s.files =  %w(LICENSE README.textile Rakefile) + 
       FileList["config/**/*", "lib/**/*.{rb,xslt}", "bin/*", "public/**/*.{css,js,gif}"].to_a

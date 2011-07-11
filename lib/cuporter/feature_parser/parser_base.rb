@@ -10,11 +10,12 @@ module Cuporter
       def initialize(file)
         @file = file
         @current_tags = []
-        @lines = File.read(@file).split(/\n/)
+        @lines = File.without_byte_order_mark(@file).split(/\n/)
         @lang  = Language.new(@lines.first)
       end
       attr_reader :lang
       attr_writer :root
+
 
       def file_relative_path
         @file_relative_path ||= @file.sub(/^.*#{@root}\//,"#{@root}/")
